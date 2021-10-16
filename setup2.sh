@@ -1,3 +1,10 @@
+# https://github.com/CarlFK/pici/blob/main/setup2.sh
+
+# shuffle the files, start the services
+
+set -ex
+
+mkdir boot root
 
 kpartx -av 2020-05-27-raspios-buster-lite-armhf.img
 mount /dev/mapper/loop0p1 boot
@@ -22,5 +29,6 @@ systemctl restart rpcbind
 systemctl enable nfs-kernel-server
 systemctl restart nfs-kernel-server
 
-# reboot
+# Some networking stuff isn't setup right, reboot fixes it :/
+reboot
 
