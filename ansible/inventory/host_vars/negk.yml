@@ -1,0 +1,10 @@
+eth_uplink_mac_address: 00:26:9e:03:9d:e5 # onboard/black/ps1
+eth_uplink_static: false
+eth_uplink_dns_server: 10.10.0.31
+
+eth_local_mac_address: c8:d3:a3:03:15:a2
+eth_local_address: 10.21.0.1
+eth_local_netmask: 24
+dhcp_range: 10.21.0.128,10.21.0.254,6h
+
+firewall_internal_networks: [10.21.0]

@@ -1,0 +1,2 @@
+# /srv/tftp/e0c074cd/cmdline.txt
+root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/root,vers=4.1,proto=tcp rw ip=dhcp rootwait elevator=deadline consoleblank=0
