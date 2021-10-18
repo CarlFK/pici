@@ -45,3 +45,20 @@ Boot Pi!  You should see activity:
 ```
 sudo tail -F /var/log/daemon.log
 ```
+
+## Step 4
+Tweeks
+
+```
+# set the keybarod to US
+sudo mv keyboard /srv/nfs/rpi/root/etc
+
+# show IP and other stuff on console
+sudo mv issue /srv/nfs/rpi/root/etc
+
+# use  local .deb cache:
+sudo mv 30autoproxy /srv/nfs/rpi/root/etc/apt/apt.conf.d
+
+# enable ssh, cp keys from local user
+sudo touch /srv/tftp/e0c074cd/ssh
+```

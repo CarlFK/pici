@@ -1,1 +1,2 @@
 /srv/nfs/rpi/root *(rw,sync,no_subtree_check,no_root_squash)
+/srv/tftp/e0c074cd *(ro,sync,no_subtree_check,no_root_squash)

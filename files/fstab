@@ -1,1 +1,3 @@
 proc            /proc           proc    defaults          0       0
+10.21.0.1:/srv/tftp/e0c074cd /boot nfs defaults,vers=4.1,proto=tcp 0 0
+
