@@ -27,17 +27,14 @@ Or setup Dnsmasq on a Debian box however you want.
 ## Step 1
 get fies needed:
 ```
-rsync -ax setup2.sh files juser@negk:
-ssh juser@negk
-# local caching proxy is kinda nice:
-export http_proxy=http://pc8:8000
-cd files
-wget http://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip
-wget http://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2020-05-28/2020-05-27-raspios-buster-lite-armhf.zip
+rsync -axv setup2.sh files juser@negk:
 ```
 ## Step 2
 shuffle the files around
 ```
+ssh juser@negk
+# local caching proxy is kinda nice:
+export http_proxy=http://pc8:8000
 sudo ./setup2.sh
 ```
 
