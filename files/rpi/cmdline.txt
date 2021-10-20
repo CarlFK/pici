@@ -1,0 +1,2 @@
+# /boot/cmdline.txt
+root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/buster/root/merged,vers=4.1,proto=tcp ro ip=dhcp rootwait elevator=deadline consoleblank=0

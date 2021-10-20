@@ -4,26 +4,55 @@
 
 set -ex
 
-mkdir boot root
+# where the extra files landed
+fdir=${1:-/home/juser/files}
 
-kpartx -av 2020-05-27-raspios-buster-lite-armhf.img
-mount /dev/mapper/loop0p1 boot
-mount /dev/mapper/loop0p2 root
-
-mkdir -p /srv/tftp/e0c074cd /srv/nfs/rpi/root
-
-cp boot/bootcode.bin /srv/tftp
-cp boot/* /srv/tftp/e0c074cd
-cp -R root/* /srv/nfs/rpi/root/
-
-mv cmdline.txt /srv/tftp/e0c074cd
-mv fstab /srv/nfs/rpi/root/etc/
-mv rpi.conf /etc/dnsmasq.d
-mv exports /etc
-
+cp ${fdir}/pxe/rpi.conf /etc/dnsmasq.d
 chown root: /etc/dnsmasq.d/rpi.conf
-systemctl restart dnsmasq.service
 
+cat ${fdir}/pxe/fstab >>/etc/fstab
+cp ${fdir}/pxe/exports /etc
+
+mkdir -p /srv/nfs/rpi/buster
+cd /srv/nfs/rpi/buster
+unzip ${fdir}/2021-05-07-raspios-buster-armhf-lite.zip
+kpartx -av 2021-05-07-raspios-buster-armhf-lite.img
+
+
+# what the pi will boot
+mkdir boot
+cd boot
+mkdir img lower upper work merged
+mount /dev/mapper/loop0p1 img
+cp img/bootcode.bin /srv/tftp
+rsync -xa --progress img/ lower/
+umount img
+cp ${fdir}/rpi/cmdline.txt upper/
+cp ${fdir}/rpi/ssh upper/
+# mount -o ro -t overlay overlay -olowerdir=lower,upperdir=upper,workdir=work merged
+mount /srv/nfs/rpi/buster/boot/merged
+cd ..
+
+# one link for each pi
+ln -s /srv/nfs/rpi/buster/boot/merged/ /srv/tftp/f1b7bb5a
+ln -s /srv/nfs/rpi/buster/boot/merged/ /srv/tftp/e0c074cd
+
+# pi's root fs
+mkdir root
+cd root
+mkdir img lower upper work merged
+mount /dev/mapper/loop0p2 img
+rsync -xa --progress img/ lower/
+umount img
+mkdir upper/etc
+cp ${fdir}/rpi/fstab /srv/nfs/rpi/buster/root/upper/etc/
+cp ${fdir}/rpi/issue /srv/nfs/rpi/buster/root/upper/etc/
+cp ${fdir}/rpi/keyboard /srv/nfs/rpi/buster/root/upper/etc/
+# mount -o ro -t overlay overlay -olowerdir=img,upperdir=upper,workdir=work merged
+mount /srv/nfs/rpi/buster/root/merged
+cd
+
+systemctl restart dnsmasq.service
 systemctl enable rpcbind
 systemctl restart rpcbind
 systemctl enable nfs-kernel-server

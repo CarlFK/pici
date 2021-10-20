@@ -27,12 +27,13 @@ Or setup Dnsmasq on a Debian box however you want.
 ## Step 1
 get fies needed:
 ```
-scp setup2.sh files/* juser@negk:
+rsync -ax setup2.sh files juser@negk:
 ssh juser@negk
 # local caching proxy is kinda nice:
 export http_proxy=http://pc8:8000
+cd files
+wget http://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip
 wget http://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2020-05-28/2020-05-27-raspios-buster-lite-armhf.zip
-unzip 2020-05-27-raspios-buster-lite-armhf.zip
 ```
 ## Step 2
 shuffle the files around
@@ -46,19 +47,6 @@ Boot Pi!  You should see activity:
 sudo tail -F /var/log/daemon.log
 ```
 
-## Step 4
-Tweeks
-
-```
-# set the keybarod to US
-sudo mv keyboard /srv/nfs/rpi/root/etc
-
-# show IP and other stuff on console
-sudo mv issue /srv/nfs/rpi/root/etc
-
-# use  local .deb cache:
-sudo mv 30autoproxy /srv/nfs/rpi/root/etc/apt/apt.conf.d
-
-# enable ssh, cp keys from local user
-sudo touch /srv/tftp/e0c074cd/ssh
+# 30 min of updates:
+sudo apt-get update --allow-releaseinfo-change
 ```

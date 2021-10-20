@@ -1,3 +1,0 @@
-# Acquire::http::ProxyAutoDetect "/usr/share/squid-deb-proxy-client/apt-avahi-discover";
-Acquire::http::Proxy "http://pc8:8000/";
-
