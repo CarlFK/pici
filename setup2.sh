@@ -59,10 +59,10 @@ mkdir img base setup updates work merged
 mount /dev/mapper/loop0p2 img
 rsync -xa --progress img/ base
 umount img
-mkdir setup/etc
+mkdir -p setup/etc/default
 cp ${fdir}/rpi/fstab /srv/nfs/rpi/buster/root/setup/etc/
 cp ${fdir}/rpi/issue /srv/nfs/rpi/buster/root/setup/etc/
-cp ${fdir}/rpi/keyboard /srv/nfs/rpi/buster/root/setup/etc/
+cp ${fdir}/rpi/keyboard /srv/nfs/rpi/buster/root/setup/etc/default/
 mount /srv/nfs/rpi/buster/root/merged
 cd
 
