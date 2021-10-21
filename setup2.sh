@@ -69,12 +69,12 @@ cd
 cp ${fdir}/pxe/rpi.conf /etc/dnsmasq.d
 chown root: /etc/dnsmasq.d/rpi.conf
 
-systemctl restart dnsmasq.service
 systemctl enable rpcbind
 systemctl restart rpcbind
 systemctl enable nfs-kernel-server
 systemctl restart nfs-kernel-server
 
+systemctl restart dnsmasq.service
 # Some networking stuff doesn't restart right, reboot fixes it :/
 reboot
 
