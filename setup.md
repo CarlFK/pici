@@ -4,7 +4,9 @@ The installer will prompt you for a few values:
 ```
 hostname: voctotest
 ```
-We don't want a video mixer, so set hostname to `bare`.
+We don't want a video mixer, so set hostname to `bare`.  This gives you a simple debian box.
+
+Once the install is done, change the hostname to negk (negk is a tribute to the PS1 member that gave me the laptop I am using to develop this.)
 
 ## Step 0.1
 Prep for Ansible - put your public key into the user and root:
@@ -17,6 +19,7 @@ sudo ssh-import-id lp:carlfk
 
 ## Step 0.2
 Use DC Video Team playbook to setup a pxe server:
+ - put your machine's 2 MACs into ansible/inventory/host_vars/negk.yml
 ```
 git clone https://salsa.debian.org/debconf-video-team/ansible ansible/dc
 ansible-playbook ansible/dc/site.yml --inventory-file ansible/inventory/hosts --user root \
