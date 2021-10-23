@@ -1,5 +1,5 @@
 ## Summary:
- 0. make box with dnsmasq 
+ 0. make box with dnsmasq
  1. put setup2.sh and conf files on it
  2. run setup2.sh
  3. boot pi
@@ -20,23 +20,27 @@ Prep for Ansible - put your public key into the user and root:
 ```
 ssh-copy-id juser@negk
 ssh juser@negk
-sudo apt install ssh-import-id unzip kpartx nfs-kernel-server
-sudo ssh-import-id lp:carlfk
+sudo apt install ssh-import-id
+sudo ssh-import-id lp:carlfk # give root your own public key
 ```
 
 ## Step 0.2
 Use DC Video Team playbook to setup a pxe server:
  - put your machine's 2 MACs into ansible/inventory/host_vars/negk.yml
+ - your admin user in ansible/inventory/group_vars/all/all.yml
+
+Clone this repo and the dc-video team ansible next to each other:
 ```
-git clone https://salsa.debian.org/debconf-video-team/ansible ansible/dc
-ansible-playbook ansible/dc/site.yml --inventory-file ansible/inventory/hosts --user root \
- --extra-vars="{ 'ansible_python_interpreter': '/usr/bin/python3'}"
+git clone https://github.com/CarlFK/pici
+git clone https://salsa.debian.org/debconf-video-team/ansible dc_a
+ansible-playbook dc_a/site.yml --inventory-file pici/ansible/inventory/hosts --user root
 ```
-Or setup Dnsmasq on a Debian box however you want.
+Now you should have a dhcp/dns/tftp server on the local nic.
 
 ## Step 1
 get fies needed:
 ```
+cd pici
 rsync -axv setup2.sh files juser@negk:
 ```
 ## Step 2
