@@ -38,7 +38,7 @@ mount /dev/mapper/loop0p1 img
 rsync -xa --progress img/ base
 umount img
 cp ${fdir}/rpi/cmdline.txt setup
-cp ${fdir}/rpi/ssh setup
+touch setup/ssh
 mount /srv/nfs/rpi/buster/boot/merged
 cd ..
 
@@ -63,6 +63,18 @@ mkdir -p setup/etc/default
 cp ${fdir}/rpi/fstab /srv/nfs/rpi/buster/root/setup/etc/
 cp ${fdir}/rpi/issue /srv/nfs/rpi/buster/root/setup/etc/
 cp ${fdir}/rpi/keyboard /srv/nfs/rpi/buster/root/setup/etc/default/
+
+ssh-keygen -A -f setup/root/etc/ssh
+ssh-keygen -A -f setup/root/.ssh/id_rsa -P score
+ssh-keygen -A -f setup/home/pi/.ssh/id_rsa -P score
+
+# not sure how to do the right.
+# sudo cp config/ssh/authorized_keys /media/rootfs/root/.ssh/authorized_keys
+# sudo cp config/ssh/authorized_keys /media/rootfs/home/${user}/.ssh/authorized_keys
+
+sudo chown -R --reference=base/home/pi setup/home/pi/.ssh
+
+
 mount /srv/nfs/rpi/buster/root/merged
 cd
 
