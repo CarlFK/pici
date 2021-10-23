@@ -15,9 +15,9 @@
 set -ex
 
 # where the files landed
-fdir=${1:-/home/juser/files}
+fdir=${1:-$PWD/files}
 
-apt install unzip kpartx nfs-kernel-server
+apt install unzip kpartx nfs-kernel-server iptables
 
 cd ${fdir}
 wget -N http://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip
