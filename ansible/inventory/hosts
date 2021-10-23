@@ -1,2 +1,2 @@
 [pxe]
-negk
+negk # ansible_host=10.100.3.27

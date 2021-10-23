@@ -25,14 +25,18 @@ sudo ssh-import-id lp:carlfk # give root your own public key
 ```
 
 ## Step 0.2
-Use DC Video Team playbook to setup a pxe server:
- - put your machine's 2 MACs into ansible/inventory/host_vars/negk.yml
- - your admin user in ansible/inventory/group_vars/all/all.yml
+Use your inventory parameters and the DC Video Team playbook to setup a pxe server:
 
 Clone this repo and the dc-video team ansible next to each other:
 ```
 git clone https://github.com/CarlFK/pici
 git clone https://salsa.debian.org/debconf-video-team/ansible dc_a
+```
+ - put your machine's 2 MACs into ansible/inventory/host_vars/negk.yml
+ - your admin user in ansible/inventory/group_vars/all/all.yml
+ - maybe put your box's IP to ansible/inventory/hosts
+
+```
 ansible-playbook dc_a/site.yml --inventory-file pici/ansible/inventory/hosts --user root
 ```
 Now you should have a dhcp/dns/tftp server on the local nic.
