@@ -1,3 +1,10 @@
+## Summary:
+ 0. make box with dnsmasq 
+ 1. put setup2.sh and conf files on it
+ 2. run setup2.sh
+ 3. boot pi
+
+
 ## Step 0.0
 https://github.com/CarlFK/veyepar/wiki/System-Stack#what-to-do-first
 The installer will prompt you for a few values:
