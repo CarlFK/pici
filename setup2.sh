@@ -59,14 +59,21 @@ mkdir img base setup updates work merged
 mount /dev/mapper/loop0p2 img
 rsync -xa --progress img/ base
 umount img
-mkdir -p setup/etc/default
-cp ${fdir}/rpi/fstab /srv/nfs/rpi/buster/root/setup/etc/
-cp ${fdir}/rpi/issue /srv/nfs/rpi/buster/root/setup/etc/
-cp ${fdir}/rpi/keyboard /srv/nfs/rpi/buster/root/setup/etc/default/
 
-ssh-keygen -A -f setup/root/etc/ssh
-ssh-keygen -A -f setup/root/.ssh/id_rsa -P score
-ssh-keygen -A -f setup/home/pi/.ssh/id_rsa -P score
+cd setup
+
+cp ${fdir}/rpi/fstab etc/
+cp ${fdir}/rpi/issue etc/
+
+mkdir -p etc/default
+cp ${fdir}/rpi/keyboard default/
+
+mkdir -p etc/ssh
+ssh-keygen -A -f $PWD
+mkdir -p root/.ssh
+ssh-keygen -f root/.ssh/id_rsa -P score
+mkdir -p home/pi/.ssh
+ssh-keygen -f home/pi/.ssh/id_rsa -P score
 
 # not sure how to do the right.
 # sudo cp config/ssh/authorized_keys /media/rootfs/root/.ssh/authorized_keys
