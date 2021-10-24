@@ -62,25 +62,30 @@ umount img
 
 cd setup
 
+mkdir etc
 cp ${fdir}/rpi/fstab etc/
 cp ${fdir}/rpi/issue etc/
 
-mkdir -p etc/default
-cp ${fdir}/rpi/keyboard default/
+mkdir etc/default
+cp ${fdir}/rpi/keyboard etc/default/
 
-mkdir -p etc/ssh
+mkdir etc/ssh
 ssh-keygen -A -f $PWD
 mkdir -p root/.ssh
 ssh-keygen -f root/.ssh/id_rsa -P score
 mkdir -p home/pi/.ssh
 ssh-keygen -f home/pi/.ssh/id_rsa -P score
 
+# enable the service
+mkdir -p etc/systemd/system
+ln -s /lib/systemd/system/ssh.service etc/systemd/system/sshd.service
+
 # not sure how to do the right.
 # sudo cp config/ssh/authorized_keys /media/rootfs/root/.ssh/authorized_keys
 # sudo cp config/ssh/authorized_keys /media/rootfs/home/${user}/.ssh/authorized_keys
 
+cd ..
 sudo chown -R --reference=base/home/pi setup/home/pi/.ssh
-
 
 mount /srv/nfs/rpi/buster/root/merged
 cd
