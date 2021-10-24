@@ -51,17 +51,13 @@ rsync -axv setup2.sh files juser@negk:
 shuffle the files around
 ```
 ssh juser@negk
-# local caching proxy is kinda nice:
-export http_proxy=http://pc8:8000
 sudo ./setup2.sh
 ```
-
 ## Step 3
 Boot Pi!  You should see activity:
 ```
 sudo tail -F /var/log/daemon.log
 ```
-
 # 30 min of updates:
 sudo apt-get update --allow-releaseinfo-change
 ```

@@ -17,9 +17,10 @@ set -ex
 # where the files landed
 fdir=${1:-$PWD/files}
 
-apt install unzip kpartx nfs-kernel-server iptables
+apt install unzip kpartx nfs-kernel-server iptables squid-deb-proxy-client
 
 cd ${fdir}
+http_proxy=$(/usr/share/squid-deb-proxy-client/apt-avahi-discover)
 wget -N http://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip
 unzip ${fdir}/2021-05-07-raspios-buster-armhf-lite.zip
 kpartx -av 2021-05-07-raspios-buster-armhf-lite.img
