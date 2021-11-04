@@ -20,7 +20,7 @@ fdir=${1:-$PWD/files}
 apt install unzip kpartx nfs-kernel-server iptables squid-deb-proxy-client
 
 cd ${fdir}
-http_proxy=$(/usr/share/squid-deb-proxy-client/apt-avahi-discover)
+export http_proxy=$(/usr/share/squid-deb-proxy-client/apt-avahi-discover)
 wget -N http://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip
 unzip ${fdir}/2021-05-07-raspios-buster-armhf-lite.zip
 kpartx -av 2021-05-07-raspios-buster-armhf-lite.img
@@ -34,7 +34,7 @@ cd /srv/nfs/rpi/buster
 # pi boot
 mkdir boot
 cd boot
-mkdir img base setup updates work merged
+mkdir img base setup updates play work merged
 mount /dev/mapper/loop0p1 img
 rsync -xa --progress img/ base
 umount img
@@ -56,7 +56,7 @@ ln -s /srv/nfs/rpi/buster/boot/merged/ /srv/tftp/e0c074cd
 # pi root fs
 mkdir root
 cd root
-mkdir img base setup updates work merged
+mkdir img base setup updates play work merged
 mount /dev/mapper/loop0p2 img
 rsync -xa --progress img/ base
 umount img
