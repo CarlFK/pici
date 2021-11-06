@@ -3,10 +3,14 @@ exec tail -n +3 $0
 # Be careful not to change
 # the 'exec tail' line above.
 
-menuentry 'local boot nfs root' {
-    search --no-floppy --fs-uuid --set=root d2283bf9-8356-4edc-996c-9cdfe8988308
-    linux   /vmlinuz-5.10.0-9-amd64 root=/dev/nfs nfsroot=192.168.1.121:/srv/nfs/x86/be rw lockfs
+menuentry 'debian local boot nfs root' {
+    search --no-floppy --fs-uuid --set=root 0722c19e-77b3-4cee-83b6-d17a7aa2bf3f
+    linux   /vmlinuz-5.10.0-9-amd64 root=/dev/nfs nfsroot=192.168.1.121:/srv/nfs/x86/bullseye rw lockfs
     initrd  /initrd.img-5.10.0-9-amd64
 }
 
-
+menuentry 'ubuntu local boot nfs root' {
+    search --no-floppy --fs-uuid --set=root 0722c19e-77b3-4cee-83b6-d17a7aa2bf3f
+    linux   /vmlinuz-5.4.0-89-generic root=/dev/nfs nfsroot=192.168.1.121:/srv/nfs/x86/focal rw lockfs
+    initrd  /initrd.img-5.4.0-89-generic
+}
