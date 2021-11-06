@@ -9,20 +9,24 @@ apt install nfs-kernel-server
 # etc/exports:
 # /srv/nfs/x86/bullseye *(ro,sync,no_subtree_check,no_root_squash,fsid=3)
 # /srv/nfs/x86/focal *(ro,sync,no_subtree_check,no_root_squash,fsid=4)
-
-mkdir -p /srv/nfs/x86/
-cd /srv/nfs/x86
-mkdir bullseye
-debootstrap stable bullseye
-mkdir focal
-debootstrap focal focal http://archive.ubuntu.com/ubuntu/
-
 systemctl enable nfs-kernel-server
 systemctl restart nfs-kernel-server
 
+mkdir -p /srv/nfs/x86/
+cd /srv/nfs/x86
+
+mkdir bullseye
+debootstrap stable bullseye
+
+mkdir focal
+debootstrap focal focal http://archive.ubuntu.com/ubuntu/
+
 rsync -rtvP 40_custom bulseye focal juser@gator:
 ssh juser@gator
+# on gator:
+# put ubuntu kerneles in /boot
 sudo cp focal/* /boot/
+# add debian and ubuntu on nfs to grub
 sudo cp 40_custom /etc/grub.d/;sudo update-grub;sudo reboot
 
 # boot client, make sure the 2 local/nfs items don't kernel panic.
