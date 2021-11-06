@@ -5,26 +5,29 @@
 # negk=nfs server
 # gator: local boot, nfs client
 
+# You will need to find these, put them in focal/
+# I got them from a Ubuntu install.
+# vmlinuz-5.4.0-89-generic
+# initrd.img-5.4.0-89-generic
+
+# on Server:
 apt install nfs-kernel-server
+mkdir -p /srv/nfs/x86/bullseye /srv/nfs/x86/focal
 # etc/exports:
 # /srv/nfs/x86/bullseye *(ro,sync,no_subtree_check,no_root_squash,fsid=3)
 # /srv/nfs/x86/focal *(ro,sync,no_subtree_check,no_root_squash,fsid=4)
 systemctl enable nfs-kernel-server
 systemctl restart nfs-kernel-server
 
-mkdir -p /srv/nfs/x86/
 cd /srv/nfs/x86
-
-mkdir bullseye
 debootstrap stable bullseye
-
-mkdir focal
 debootstrap focal focal http://archive.ubuntu.com/ubuntu/
 
+# server done.  Config client to use it:
 rsync -rtvP 40_custom bulseye focal juser@gator:
 ssh juser@gator
 # on gator:
-# put ubuntu kerneles in /boot
+# put Ubuntu kernele in /boot
 sudo cp focal/* /boot/
 # add debian and ubuntu on nfs to grub
 sudo cp 40_custom /etc/grub.d/;sudo update-grub;sudo reboot
@@ -39,7 +42,7 @@ chroot focal passwd
 
 # bilibop-rules bilibop-rules/on-live-system boolean true
 chroot bullseye apt install bilibop
-# lockfs is already in place:
+# lockfs is already in place (see 40_custom)
 
 chroot focal apt install overlayroot
 cp overlayroot.conf /srv/nfs/x86/focal/etc
