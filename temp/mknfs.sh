@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-# set up client and server to demo overlayroo and bilibop
+# set up client and server to demo overlayroot and bilibop
 # client is a debian or ubuntu box with grub and /boot/ to boot a kernel
 # kernel mounts nfs on /
 
