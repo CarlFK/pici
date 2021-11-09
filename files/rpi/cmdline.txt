@@ -1,7 +1,2 @@
 # /boot/cmdline.txt
-root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/buster/root/merged,vers=4.1,proto=tcp rw ip=dhcp rootwait elevator=deadline consoleblank=0
-
-# above works untill initramfs initrd,
-# for some reason it doesn't like vers or proto
-# so delete them.
-# root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/buster/root/merged rw ip=dhcp rootwait elevator=deadline consoleblank=0
+root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/buster/root/merged,vers=4.1 rw ip=dhcp rootwait elevator=deadline consoleblank=0

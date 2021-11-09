@@ -1,2 +1,2 @@
-/srv/nfs/rpi/buster/boot/merged *(ro,sync,no_subtree_check,no_root_squash,fsid=1)
-/srv/nfs/rpi/buster/root/merged *(ro,sync,no_subtree_check,no_root_squash,fsid=2)
+/srv/nfs/rpi/buster/boot/merged *(rw,sync,no_subtree_check,no_root_squash,fsid=1)
+/srv/nfs/rpi/buster/root/merged *(rw,sync,no_subtree_check,no_root_squash,fsid=2)
