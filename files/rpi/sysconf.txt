@@ -1,0 +1,36 @@
+# This file will be automatically evaluated and installed at next boot
+# time, and regenerated (to avoid leaking passwords and such information).
+#
+# To force it to be evaluated immediately, you can run (as root):
+#
+#     /usr/sbin/rpi-set-sysconf
+#
+# You can disable the file evaluation by disabling the rpi-set-sysconf
+# service in systemd:
+#
+#     systemctl disable rpi-set-sysconf
+#
+# Comments (all portions of a line following a '#' character) are
+# ignored. This file is read line by line. Valid
+# configuration lines are of the form 'key=value'. Whitespace around
+# 'key' and 'value' is ignored. This file will be _regenerated_ every
+# time it is evaluated.
+#
+# We follow the convention to indent with one space comments, and
+# leave no space to indicate the line is an example that could be
+# uncommented.
+
+# root_pw - Set a password for the root user (by default, it allows
+# for a passwordless login)
+root_pw=fp
+
+# root_authorized_key - Set an authorized key for a root ssh login
+root_authorized_key=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC2DtSRAEjLDfb7ew/Rh3q/GzVedHsUpDU630qHtUFh8y56j5VZPxiC51W4huKWIi6dRGwoOZG0ojSZQFNdwBSZ9A4FCA+v3bl1+mkNxfRfpHTV/YVnRfTWf4Oa/V4eL6x1nnEzOaDZqMdJW/qvrP9F4sWtc7Giyc+DhJxpjefChTlbjqcMyj0UkdyIcJPmFuhX2PaJbN4s1ucfWt3noqkmfNrWRfaYmUMaSisnMqppsXAd8UfvbhyLXu6T9CYKjvy35q57SyE8LoHKK5sjjM+M835C+R5sD86khr5GV2lC6foQxvua97/5iSWdJwI+XV5elPZkEOjdqBJ1ITqRJpZuYX6AtYz4G6eNg1UZTr0BNcimt5PgaRBWQjLKpSZgrM8+GcVzfe1+QyrHaHtxaQ8JEuNjkOHJfs8+5oEPwMEJeuSNOqoOKM5KH8cZRZ0CCtylTwYUe1erpuujHwix3TM+8Ya/eh3IvviK9kITcdY5jGmcpKIEaED9md85HnNQgM0= juser@negk
+# root_authorized_key=ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAqtgmp7GiXFgKW2+Yib+uyWZuD/cQsus8eqgavCSR+WGZlMrUldTLKYhzj71Ym6jupo0R/nr0mHlJ9mPVFr9KOJkUXb9n5/J4sYEpMKunv8i8Peu0ld7nmZRFUVSUlbMfPF4DKZ6marjuNloKbVlKF8nZGgjUuqBzRcKH90XubYJ5tpjbdyBlwoSEXLEqWrcpwBYgfg8z7P2qA/uoywki0tzrMz15M9iSD8pJ0MeKZg1xJznnkEY9ebMcTbxACCcAqH9qLIPoGoeNkUJnikkulBla4KsTB7uEO5rcrHkM65avVUocm0W6b2xOJn2GVIxBNGNC8sSbyDLAm9avJrfRUw== carl@dc10
+
+# hostname - Set the system hostname.
+hostname=debpi
+
+# We found the following unhandled keys - That means, the
+# configuration script does not know how to handle them. Please
+# double-check them!

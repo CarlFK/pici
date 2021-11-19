@@ -1,0 +1,13 @@
+# Switch the CPU from ARMv7 into ARMv8 (aarch64) mode
+arm_64bit=1
+
+dtoverlay=pi3-disable-bt
+enable_uart=1
+upstream_kernel=1
+# core_freq=250
+# gpu_freq=350
+
+# For details on the initramfs directive, see
+# https://www.raspberrypi.org/forums/viewtopic.php?f=63&t=10532
+# kernel=vmlinuz-5.10.0-9-arm64
+# initramfs initrd.img-5.10.0-9-arm64
