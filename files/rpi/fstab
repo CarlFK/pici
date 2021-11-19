@@ -1,3 +1,6 @@
 # proc            /proc           proc    defaults          0       0
-10.21.0.1:/srv/nfs/rpi/buster/boot/merged /boot nfs defaults,auto,rw,vers=4.1,proto=tcp 0 0
+10.21.0.1:/srv/nfs/rpi/bullseye/boot/merged /boot nfs defaults,auto,rw 0 0
+10.21.0.1:/srv/nfs/rpi/bullseye/root/merged / nfs defaults,auto,rw 0 0
+# debian daily:
+# 10.21.0.1:/srv/nfs/rpi/bullseye/boot/merged /boot/firmware nfs defaults,auto,rw,vers=4.1,proto=tcp 0 0
 

@@ -1,2 +1,11 @@
 # /boot/cmdline.txt
-root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/buster/root/merged,vers=4.1 rw ip=dhcp rootwait elevator=deadline consoleblank=0
+console=serial0,115200 console=serial0 root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/bullseye/root/merged,vers=4.1,proto=tcp ro ip=dhcp rootwait consoleblank=0
+
+# debian daily
+# root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/bullseye/root/merged rw ip=dhcp rootwait consoleblank=0 console=ttyS1,115200 console=ttyS1 module_blacklist=hci_uart,btsdio,bluetooth
+
+# init=/bin/sh
+# ,nfsv3
+# root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/bullseye/root/merged rw ip=dhcp rootwait consoleblank=0 initcall_debug ignore_loglevel bluetooth.blacklist=yes
+~
+

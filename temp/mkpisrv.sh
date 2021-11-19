@@ -8,8 +8,13 @@ ip r>> cmdline.txt
 
 apt install nfs-kernel-server unzip kpartx dcfldd
 
-img_host=http://raspi.debian.net/daily
-base_name=raspi_4_bullseye
+# https://raspi.debian.net/tested/20210823_raspi_4_bullseye.img.xz
+img_host=http://raspi.debian.net/tested
+base_name=20210823_raspi_4_bullseye
+
+# img_host=http://raspi.debian.net/daily
+# base_name=raspi_4_bullseye
+
 zip_name=${base_name}.img.xz
 img_name=${base_name}.img
 
