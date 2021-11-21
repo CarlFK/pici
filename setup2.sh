@@ -139,6 +139,7 @@ cp ${fdir}/rpi/issue etc/
 cp ${fdir}/rpi/30autoproxy etc/apt/apt.conf.d/
 rm etc/rc3.d/S01resize2fs_once
 rm etc/init.d/resize2fs_once
+rm etc/systemd/system/multi-user.target.wants/dphys-swapfile.service
 
 # Raspi is UK, Ubuntu and Debian are US
 cp ${fdir}/rpi/keyboard etc/default/
@@ -153,8 +154,13 @@ echo "root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/bullseye/root/merged" > etc/d
 # rm etc/systemd/system/basic.target.requires/rpi-set-sysconf.service
 rm etc/systemd/system/multi-user.target.wants/console-setup.service
 
-# cp ${fdir}/rpi/setup3.sh root
-# cp ${fdir}/overlayroot_0.47ubuntu1_all.deb root
+cp ${fdir}/rpi/setup3.sh root
+cp ${fdir}/overlayroot_0.47ubuntu1_all.deb root
+
+echo >>home/pi/.bashrc <<EOT
+cat /proc/cmdline
+findmnt /
+EOT
 
 # mkdir etc/ssh
 # ssh-keygen -A -f $PWD
