@@ -2,7 +2,7 @@
 
 # edit cmdline.txt, replace my IP with your IP, put it in your pi's boot.
 cat <<EOT >> cmdline.txt
-root=/dev/nfs nfsroot=192.168.1.119:/srv/nfs/pi/root,vers=4.1 rw ip=dhcp rootwait elevator=deadline consoleblank=0 overlayroot=tmpfs,debug=1
+root=/dev/nfs nfsroot=192.168.1.119:/srv/nfs/pi/root,vers=4.1 rw ip=dhcp rootwait
 EOT
 ip r>> cmdline.txt
 
