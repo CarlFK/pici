@@ -20,7 +20,7 @@ sudo cp vmlinuz* initrd* /boot/
 # add debian and ubuntu on nfs to grub
 sudo cp 40_custom /etc/grub.d/;sudo update-grub;sudo reboot
 
-# At this poing the local install should still work,
+# At this point the local install should still work,
 # the 2 new options should kernel panic.
 
 # Set up the server
