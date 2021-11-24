@@ -7,6 +7,8 @@ apt update --allow-releaseinfo-change
 apt upgrade --assume-yes
 
 apt install ssh-import-id
+
+wget -N http://launchpadlibrarian.net/493868580/overlayroot_0.47ubuntu1_all.deb
 apt install --assume-yes ./overlayroot_0.47ubuntu1_all.deb
 
 KERN=$(uname -r)

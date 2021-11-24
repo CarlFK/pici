@@ -19,56 +19,27 @@ set -ex
 # where the files landed
 fdir=${1:-$PWD/files}
 
-dist=bullseye
-
 img_host=http://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-11-08/
 base_name=2021-10-30-raspios-bullseye-armhf-lite
 zip_name=${base_name}.zip
 img_name=${base_name}.img
 user=pi
 
-# img_host=http://raspi.debian.net/daily
-# base_name=raspi_4_bullseye
+export http_proxy=http://pc8:8000/
 
-# img_host=http://raspi.debian.net/tested
-# base_name=20210823_raspi_4_bullseye
-
-# zip_name=${base_name}.img.xz
-# img_name=${base_name}.img
-# user=pi
-
-# img_host=http://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28
-# base_name=2021-05-07-raspios-buster-armhf-lite
-# zip_name=${base_name}.zip
-# img_name=${base_name}.img
-# user=pi
-
-# dist=impish
-# img_host=http://cdimage.ubuntu.com/releases/21.10/release
-# img_name=ubuntu-21.10-preinstalled-server-armhf+raspi.img
-# zip_name=${img_name}.xz
-# user=ubuntu
+# trunk of nfs things
+d=/srv/nfs/rpi
 
 apt install unzip kpartx nfs-kernel-server iptables
 
-# get the image file:
 cd ${fdir}
 
-export http_proxy=http://pc8:8000/
-wget -N http://launchpadlibrarian.net/493868580/overlayroot_0.47ubuntu1_all.deb
+# get the image file:
 wget -N ${img_host}/${zip_name}
-
-# if zip is newer, decompress
-# -ot True if file1 is older than file2, or if file2 exists and file1 does not.
-if [[ ${img_name} -ot ${zip_name} ]]; then
-    # unzip -u ${zip_name}
-    xz --keep -vv --decompress --force ${zip_name}
-fi
+unzip -u ${zip_name}
 kpartx -av ${img_name}
 
-# move files from image to server's fs
-# trunk of nfs things
-d=/srv/nfs/rpi/${dist}
+# extract files from image to server's fs
 mkdir -p ${d}
 (cd ${d}
 
@@ -103,10 +74,9 @@ umount merged
 # Putting all the files in the tftp root is messy,
 # so put them all under nfs and create links to them
 
-# ln -s /srv/nfs/rpi/buster/boot/merged/bootcode.bin /srv/tftp/bootcode.bin
-# ln -s /srv/nfs/rpi/impish/boot/merged/boot.scr boot.scr.uimg
+# ln -s /srv/nfs/rpi/boot/merged/bootcode.bin /srv/tftp/bootcode.bin
 
-# pi serial numbers we are booting:
+# pi serial numbers:
 for id in f1b7bb5a e0c074cd; do
     ln -sf ${d}/boot/merged/ /srv/tftp/${id}
 done
@@ -130,58 +100,23 @@ workdir=${p}/work \
 
 (cd merged
 
-# because debian can't nfs mount boot/firmware/
-# cp ${fdir}/rpi/sysconf.txt boot/firmware/
-# cp ${fdir}/rpi/blacklist.conf etc/modprobe.d/
-
+# tell pi where boot is (does it need to know?)
 cp ${fdir}/rpi/fstab etc/
+
+# show IP and other useful stuff on console before login
 cp ${fdir}/rpi/issue etc/
-cp ${fdir}/rpi/30autoproxy etc/apt/apt.conf.d/
-rm etc/rc3.d/S01resize2fs_once
-rm etc/init.d/resize2fs_once
+
+# skip trying to resize the root fs
+rm etc/rc3.d/S01resize2fs_once etc/init.d/resize2fs_once
+
+# don't try to manage a swap file
 rm etc/systemd/system/multi-user.target.wants/dphys-swapfile.service
 
 # Raspi is UK, Ubuntu and Debian are US
 cp ${fdir}/rpi/keyboard etc/default/
 
-# cmdline_custom="/etc/default/raspi-extra-cmdline"
-echo "root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/bullseye/root/merged" > etc/default/raspi-extra-cmdline
-
-# prevent /boot/firmware/sysconf.txt from being re-written
-# unlink requires etc/systemd/system/basic.target.requires/rpi-set-sysconf.service
-# rm etc/systemd/system/sysinit.target.requires/rpi-reconfigure-raspi-firmware.service
-# rm etc/systemd/system/multi-user.target.requires/rpi-reconfigure-raspi-firmware.service
-# rm etc/systemd/system/basic.target.requires/rpi-set-sysconf.service
-rm etc/systemd/system/multi-user.target.wants/console-setup.service
-
+# things that maybe could be done here but it is easer to run them on the pi
 cp ${fdir}/rpi/setup3.sh root
-cp ${fdir}/overlayroot_0.47ubuntu1_all.deb root
-
-echo >>home/pi/.bashrc <<EOT
-cat /proc/cmdline
-findmnt /
-EOT
-
-# mkdir etc/ssh
-# ssh-keygen -A -f $PWD
-# mkdir -p root/.ssh
-# ssh-keygen -f root/.ssh/id_rsa -P score
-
-# enable the service
-# mkdir -p etc/systemd/system
-# ln -s /lib/systemd/system/ssh.service etc/systemd/system/sshd.service
-
-# not sure how to do this right.
-# cp config/ssh/authorized_keys /media/rootfs/root/.ssh/authorized_keys
-# cp config/ssh/authorized_keys /media/rootfs/home/${user}/.ssh/authorized_keys
-# cd ..
-# cp ~/.ssh/id_rsa.pub setup/home/${user}/.ssh/authorized_keys
-
-# mkdir -p home/${user}/.ssh
-# ssh-keygen -f home/${user}/.ssh/id_rsa -P score
-# cd ..
-# chown -R --reference=base/home/${user} setup/home/${user}
-
 )
 umount merged
 )
