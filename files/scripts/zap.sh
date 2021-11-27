@@ -1,6 +1,5 @@
 #!/bin/bash -x
 
-# dist=buster
 dist=bullseye
 systemctl stop nfs-server.service
 umount /srv/nfs/rpi/${dist}/boot/merged

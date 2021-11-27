@@ -1,6 +1,8 @@
 [pxe]
 negk # ansible_host=10.100.3.27
+rpi-6d-27-f6 ansible_host=10.1.10.246
 
 [users]
 negk
 gator
+rpi-6d-27-f6 ansible_host=10.1.10.246

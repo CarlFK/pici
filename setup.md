@@ -22,6 +22,7 @@ ssh-copy-id juser@negk
 ssh juser@negk
 sudo apt install ssh-import-id
 sudo ssh-import-id lp:carlfk # give root your own public key
+sudo apt-get update --allow-releaseinfo-change; sudo apt-upgrade
 ```
 
 ## Step 0.2
@@ -32,6 +33,7 @@ Clone this repo and the dc-video team ansible next to each other:
 git clone https://github.com/CarlFK/pici
 git clone https://salsa.debian.org/debconf-video-team/ansible dc_a
 ```
+ - put your machine's hostname (negk) in ansible/inventory/hosts under [pxe] and [users]
  - put your machine's 2 MACs into ansible/inventory/host_vars/negk.yml
  - your admin user in ansible/inventory/group_vars/all/all.yml
  - maybe put your box's IP to ansible/inventory/hosts
@@ -42,22 +44,32 @@ ansible-playbook dc_a/site.yml --inventory-file pici/ansible/inventory/hosts --u
 Now you should have a dhcp/dns/tftp server on the local nic.
 
 ## Step 1
-get fies needed:
+push files to server:
 ```
 cd pici
-rsync -axv setup2.sh files juser@negk:
+rsync -axv setup2.sh files root@negk:
 ```
 ## Step 2
-shuffle the files around
+Get and tweek files and configs to netboot
 ```
-ssh juser@negk
-sudo ./setup2.sh
+ssh root@negk
+./setup2.sh
 ```
 ## Step 3
-Boot Pi!  You should see activity:
+Boot netboot a Pi, you should see activity on server:
 ```
-sudo tail -F /var/log/daemon.log
+tail -F /var/log/daemon.log
 ```
-# 30 min of updates:
-sudo apt-get update --allow-releaseinfo-change
+# update packages, install overlayroot (mount / on tmpfs over nfs)
+Log into pi as root
 ```
+./setup3.sh
+poweroff
+```
+## Step 4
+Server to production (nfs is ro, enable overlayroot on pi)
+```
+files/scripts/normal.sh
+```
+## Step 5
+Turn on all the pi's

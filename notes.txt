@@ -21,7 +21,8 @@ real	12m50.374s
 user	2m11.070s
 sys	1m26.465s
 
-
+export http_proxy=http://192.168.86.70:8000/
+export http_proxy=http://10.1.10.148:8000/
 
 To keep net boot server negk laptop on when lid closed
 /etc/systemd/logind.conf
@@ -34,4 +35,12 @@ sudo systemctl restart systemd-logind.service
 # invoke-rc.d keyboard-setup start
 # setsid sh -c 'exec setupcon -k --force <> /dev/tty1 >&0 2>&1'
 # udevadm trigger --subsystem-match=input --action=change
+
+serial number things
+https://forums.raspberrypi.com/viewtopic.php?f=29&t=253314
+
+cat /sys/firmware/devicetree/base/model
+printf "\n\nSerial Number:"
+cut -c "9-" /sys/firmware/devicetree/base/serial-number
+if vcgencmd otp_dump | grep 17:3020000a; then echo this pi set to NetBoot; fi
 

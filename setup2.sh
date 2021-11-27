@@ -24,20 +24,21 @@ base_name=2021-10-30-raspios-bullseye-armhf-lite
 zip_name=${base_name}.zip
 img_name=${base_name}.img
 user=pi
-
-export http_proxy=http://pc8:8000/
+dist=bullseye
 
 # trunk of nfs things
-d=/srv/nfs/rpi
+d=/srv/nfs/rpi/${dist}
 
-apt install unzip kpartx nfs-kernel-server iptables
+apt install unzip nfs-kernel-server iptables
 
 cd ${fdir}
 
 # get the image file:
 wget -N ${img_host}/${zip_name}
 unzip -u ${zip_name}
-kpartx -av ${img_name}
+# kpartx -av ${img_name}
+losetup -P /dev/loop5 ${img_name}
+partprobe
 
 # extract files from image to server's fs
 mkdir -p ${d}
@@ -47,7 +48,7 @@ mkdir -p ${d}
 mkdir boot
 (cd boot
 mkdir img base setup updates play work merged
-mount /dev/mapper/loop0p1 img
+mount /dev/loop5p1 img
 rsync -xa --progress img/ base
 umount img
 
@@ -74,10 +75,10 @@ umount merged
 # Putting all the files in the tftp root is messy,
 # so put them all under nfs and create links to them
 
-# ln -s /srv/nfs/rpi/boot/merged/bootcode.bin /srv/tftp/bootcode.bin
+ln -s ${p}/boot/merged/bootcode.bin /srv/tftp/bootcode.bin
 
 # pi serial numbers:
-for id in f1b7bb5a e0c074cd; do
+for id in f1b7bb5a e0c074cd 6807ce11 d2cb1ff7; do
     ln -sf ${d}/boot/merged/ /srv/tftp/${id}
 done
 
@@ -86,10 +87,9 @@ mkdir root
 (cd root
 mkdir img base setup updates play work merged
 
-mount /dev/mapper/loop0p2 img
+mount /dev/loop5p2 img
 rsync -xa --progress img/ base
 umount img
-kpartx -d ${fdir}/${img_name}
 
 p=${d}/root
 mount -t overlay overlay -o \
@@ -100,7 +100,7 @@ workdir=${p}/work \
 
 (cd merged
 
-# tell pi where boot is (does it need to know?)
+# tell pi where boot is (needed to build overlayroot's initrd)
 cp ${fdir}/rpi/fstab etc/
 
 # show IP and other useful stuff on console before login
@@ -121,6 +121,8 @@ cp ${fdir}/rpi/setup3.sh root
 umount merged
 )
 )
+
+losetup -d /dev/loop5
 
 cat ${fdir}/pxe/fstab >>/etc/fstab
 cp ${fdir}/pxe/exports /etc

@@ -4,13 +4,15 @@ set -ex
 # normal.sh
 # nfs ro, overlay tmpfs pi, don't mount boot
 
-dist=buster
-root=/srv/nfs/rpi/${dist}/root/merged
+dist=bullseye
+p=/srv/nfs/rpi/${dist}
+boot=${p}/boot/merged
+root=${p}/root/merged
 
 # turn on overlayroot
-sed -i "/^overlayroot=.*/s/^.*$/overlayroot=\"tmpfs\"/" ${root}/etc/overlayroot.conf
+sed -i "/.*/s/overlayroot= /overlayroot=tmpfs/" ${boot}/cmdline.txt
 
-# don'tautomount /boot
+# don't automount pi's /boot
 sed -i "/.boot nfs*/s/,auto,/,noauto,/" ${root}/etc/fstab
 
 # make the nfs shares ro
