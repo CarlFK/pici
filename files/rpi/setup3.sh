@@ -3,6 +3,9 @@
 # setup3.sh
 # run on the pi
 
+mount -o remount,rw /
+mount -o remount,rw /boot
+
 apt update --allow-releaseinfo-change
 apt upgrade --assume-yes
 

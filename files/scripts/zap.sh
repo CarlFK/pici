@@ -1,11 +1,17 @@
 #!/bin/bash -x
 
 dist=bullseye
-systemctl stop nfs-server.service
-umount /srv/nfs/rpi/${dist}/boot/merged
-umount /srv/nfs/rpi/${dist}/root/merged
+p=/srv/nfs/rpi/${dist}
 
-rm /srv/tftp/f1b7bb5a
-rm /srv/tftp/e0c074cd
-rm -rf /srv/nfs/rpi/${dist}
+systemctl stop nfs-server.service
+
+umount ${p}/boot/merged
+umount ${p}/root/merged
+
+find /srv/tftp -type l -delete
+rm -rf ${p}
+
+# remove our overlay lines from fstab
+sed -i "\@overlay\s*${p}/[br]oot/merged@d" /etc/fstab
+
 

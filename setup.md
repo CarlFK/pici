@@ -60,16 +60,24 @@ Boot netboot a Pi, you should see activity on server:
 ```
 tail -F /var/log/daemon.log
 ```
-# update packages, install overlayroot (mount / on tmpfs over nfs)
+# Step 3.1
+Put the system into maintance mode (pi can update the server)
+update packages, install overlayroot (mount / on tmpfs over nfs)
+(this could be done with qemu on the server...)
+```
+files/scripts/maintenance.sh
+```
+reboot the pi,
 Log into pi as root
 ```
 ./setup3.sh
 poweroff
 ```
 ## Step 4
-Server to production (nfs is ro, enable overlayroot on pi)
+Put the system into production mode (nfs is ro, enable overlayroot on pi)
 ```
 files/scripts/normal.sh
 ```
 ## Step 5
 Turn on all the pi's
+
