@@ -60,7 +60,7 @@ Boot netboot a Pi, you should see activity on server:
 ```
 tail -F /var/log/daemon.log
 ```
-# Step 3.1
+### Step 3.1
 Put the system into maintance mode (pi can update the server)
 update packages, install overlayroot (mount / on tmpfs over nfs)
 (this could be done with qemu on the server...)
@@ -68,6 +68,7 @@ update packages, install overlayroot (mount / on tmpfs over nfs)
 files/scripts/updates_on.sh
 files/scripts/maintenance.sh
 ```
+### Step 3.2
 reboot the pi,
 Log into pi as root
 ```
