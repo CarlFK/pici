@@ -1,12 +1,17 @@
 ## Summary:
  0. make box with dnsmasq
- 1. put setup2.sh and conf files on it
+ 1. push setup2.sh and conf files to it
  2. run setup2.sh
- 3. boot pi
-
+ 3. boot pi, run setup3.sh
+ 4. put server into production mode
+ 5. boot lots of pi'
 
 ## Step 0.0
+# build a dnsmasq server.
+
+Here is how I do it:
 https://github.com/CarlFK/veyepar/wiki/System-Stack#what-to-do-first
+don't do this:
 The installer will prompt you for a few values:
 ```
 hostname: voctotest
