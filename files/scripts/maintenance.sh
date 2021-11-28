@@ -9,13 +9,14 @@ p=/srv/nfs/rpi/${dist}
 boot=${p}/boot/merged
 root=${p}/root/merged
 
-# turnoff overlayroot
+# pi overlayroot off
 sed -i "/.*/s/overlayroot=tmpfs/overlayroot=/" ${boot}/cmdline.txt
 
-# automount /boot
-sed -i "/.boot nfs*/s/,noauto,/,auto,/" ${root}/etc/fstab
+# pi fstab: automount,rw / and /boot
+sed -i "\@${p}.*\snfs\s@s@\bnoauto\b@auto@" ${root}/etc/fstab
+sed -i "\@${p}.*\snfs\s@s@\bro\b@rw@" ${root}/etc/fstab
 
-# make the nfs shares rw
+# server nfs shares rw
 sed -i "/.*/s/ro,/rw,/" /etc/exports
 systemctl restart nfs-server.service
 

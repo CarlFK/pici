@@ -10,7 +10,7 @@ boot=${p}/boot/merged
 root=${p}/root/merged
 
 # turn on overlayroot
-sed -i "/.*/s/overlayroot= /overlayroot=tmpfs/" ${boot}/cmdline.txt
+sed -i "/.*/s/overlayroot=/overlayroot=tmpfs/" ${boot}/cmdline.txt
 
 # don't automount pi's /boot
 sed -i "/.boot nfs*/s/,auto,/,noauto,/" ${root}/etc/fstab

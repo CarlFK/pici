@@ -44,3 +44,11 @@ printf "\n\nSerial Number:"
 cut -c "9-" /sys/firmware/devicetree/base/serial-number
 if vcgencmd otp_dump | grep 17:3020000a; then echo this pi set to NetBoot; fi
 
+# because we now have an initrd, and:
+# initramfs-tools: NFSv4 not supported for root fs
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=409271
+# remove vers=4 and proto from cmdline.txt
+# sed -i "/nfsroot/s/,nfsvers=.*proto=tcp//" /boot/cmdline.txt
+# #ed out becuase we always boot with vers=3 from the start
+
+

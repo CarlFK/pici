@@ -65,6 +65,7 @@ Put the system into maintance mode (pi can update the server)
 update packages, install overlayroot (mount / on tmpfs over nfs)
 (this could be done with qemu on the server...)
 ```
+files/scripts/updates_on.sh
 files/scripts/maintenance.sh
 ```
 reboot the pi,

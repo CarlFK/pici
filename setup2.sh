@@ -75,7 +75,7 @@ umount merged
 # Putting all the files in the tftp root is messy,
 # so put them all under nfs and create links to them
 
-ln -s ${p}/boot/merged/bootcode.bin /srv/tftp/bootcode.bin
+ln -s ${d}/boot/merged/bootcode.bin /srv/tftp/bootcode.bin
 
 # pi serial numbers:
 for id in f1b7bb5a e0c074cd 6807ce11 d2cb1ff7; do
@@ -112,6 +112,9 @@ rm etc/rc3.d/S01resize2fs_once etc/init.d/resize2fs_once
 # don't try to manage a swap file
 rm etc/systemd/system/multi-user.target.wants/dphys-swapfile.service
 
+# avoid this error: [FAILED] Failed to start Set console font and keymap.
+rm etc/systemd/system/multi-user.target.wants/console-setup.service
+
 # Raspi is UK, Ubuntu and Debian are US
 cp ${fdir}/rpi/keyboard etc/default/
 
@@ -125,6 +128,7 @@ umount merged
 losetup -d /dev/loop5
 
 cat ${fdir}/pxe/fstab >>/etc/fstab
+
 cp ${fdir}/pxe/exports /etc
 
 cp ${fdir}/pxe/rpi.conf /etc/dnsmasq.d
@@ -140,4 +144,4 @@ systemctl restart dnsmasq.service
 
 # Some networking stuff doesn't restart right, reboot fixes it :/
 echo sudo reboot
-echo sudo files/scripts/updates_on.sh
+echo sudo files/scripts/updates_on.sh; sudo files/scripts/maintenance.sh
