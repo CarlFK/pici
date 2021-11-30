@@ -1,4 +1,4 @@
-overlay   /srv/nfs/rpi/bullseye/boot/merged    overlay   auto,defaults,rw,lowerdir=/srv/nfs/rpi/bullseye/boot/updates:/srv/nfs/rpi/bullseye/boot/setup:/srv/nfs/rpi/bullseye/boot/base,upperdir=/srv/nfs/rpi/bullseye/boot/play,workdir=/srv/nfs/rpi/bullseye/boot/work,nfs_export=on    0   2
+overlay   /srv/nfs/rpi/bullseye/boot/merged    overlay   auto,defaults,rw,lowerdir=/srv/nfs/rpi/bullseye/boot/updates:/srv/nfs/rpi/bullseye/boot/setup:/srv/nfs/rpi/bullseye/boot/base,upperdir=/srv/nfs/rpi/bullseye/boot/play,workdir=/srv/nfs/rpi/bullseye/boot/work,nfs_export=on    0   0
 
-overlay   /srv/nfs/rpi/bullseye/root/merged    overlay   auto,defaults,rw,lowerdir=/srv/nfs/rpi/bullseye/root/updates:/srv/nfs/rpi/bullseye/root/setup:/srv/nfs/rpi/bullseye/root/base,upperdir=/srv/nfs/rpi/bullseye/root/play,workdir=/srv/nfs/rpi/bullseye/root/work,nfs_export=on    0   2
+overlay   /srv/nfs/rpi/bullseye/root/merged    overlay   auto,defaults,rw,lowerdir=/srv/nfs/rpi/bullseye/root/updates:/srv/nfs/rpi/bullseye/root/setup:/srv/nfs/rpi/bullseye/root/base,upperdir=/srv/nfs/rpi/bullseye/root/play,workdir=/srv/nfs/rpi/bullseye/root/work,nfs_export=on    0   0
 
