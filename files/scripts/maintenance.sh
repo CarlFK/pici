@@ -9,6 +9,9 @@ p=/srv/nfs/rpi/${dist}
 boot=${p}/boot/merged
 root=${p}/root/merged
 
+# server's fstab: don't automount
+sed -i "\@overlay\s*${p}/[br]oot/merged@s@\bauto\b@noauto@" /etc/fstab
+
 # pi overlayroot off
 sed -i "/.*/s/overlayroot=tmpfs/overlayroot=/" ${boot}/cmdline.txt
 

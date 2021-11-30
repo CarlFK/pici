@@ -52,7 +52,7 @@ Now you should have a dhcp/dns/tftp server on the local nic.
 push files to server:
 ```
 cd pici
-rsync -axv setup2.sh files root@negk:
+rsync -axv --copy-links setup2.sh files root@negk:
 ```
 ## Step 2
 Get and tweek files and configs to netboot

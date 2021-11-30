@@ -19,5 +19,8 @@ sed -i "/.boot nfs*/s/,auto,/,noauto,/" ${root}/etc/fstab
 sed -i "/.*/s/rw,/ro,/" /etc/exports
 systemctl restart nfs-server.service
 
+# server enable automount the stack of pi files
+sed -i "\@overlay\s*${p}/[br]oot/merged@s@\bnoauto\b@auto@" /etc/fstab
+
 echo "reboot pi"
 

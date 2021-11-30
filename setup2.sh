@@ -78,8 +78,8 @@ umount merged
 ln -s ${d}/boot/merged/bootcode.bin /srv/tftp/bootcode.bin
 
 # pi serial numbers:
-for id in f1b7bb5a e0c074cd 6807ce11 d2cb1ff7; do
-    ln -sf ${d}/boot/merged/ /srv/tftp/${id}
+for id in f1b7bb5a e0c074cd 6807ce11 d2cb1ff7 7a6d27f6; do
+    ln -s ${d}/boot/merged/ /srv/tftp/${id}
 done
 
 # pi root fs
@@ -144,4 +144,4 @@ systemctl restart dnsmasq.service
 
 # Some networking stuff doesn't restart right, reboot fixes it :/
 echo sudo reboot
-echo sudo files/scripts/updates_on.sh; sudo files/scripts/maintenance.sh
+echo "sudo files/scripts/updates_on.sh; sudo files/scripts/maintenance.sh"
