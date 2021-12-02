@@ -29,6 +29,10 @@ To keep net boot server negk laptop on when lid closed
 HandleLidSwitch=ignore
 sudo systemctl restart systemd-logind.service
 
+# [FAILED] Failed to start Set console font and keymap.
+systemctl disable console-setup.service
+
+
 # setsid sh -c 'exec setupcon -k --force <> /dev/tty1 >&0 2>&1'o
 # dpkg-reconfigure keyboard-configuration
 # dpkg-reconfigure -f noninteractive keyboard-configuration
@@ -37,6 +41,9 @@ sudo systemctl restart systemd-logind.service
 # udevadm trigger --subsystem-match=input --action=change
 
 serial number things
+https://forums.raspberrypi.com/viewtopic.php?f=29&t=8985
+https://raspberrypi.stackexchange.com/questions/2086/how-do-i-get-the-serial-number
+netboot things
 https://forums.raspberrypi.com/viewtopic.php?f=29&t=253314
 
 cat /sys/firmware/devicetree/base/model
@@ -51,6 +58,7 @@ if vcgencmd otp_dump | grep 17:3020000a; then echo this pi set to NetBoot; fi
 # sed -i "/nfsroot/s/,nfsvers=.*proto=tcp//" /boot/cmdline.txt
 # #ed out becuase we always boot with vers=3 from the start
 
-
+# ufw
+https://gist.github.com/kimus/9315140
 https://help.ubuntu.com/community/Router#Enable_IP_forwarding_and_Masquerading
 

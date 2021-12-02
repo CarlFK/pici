@@ -115,6 +115,9 @@ rm etc/systemd/system/multi-user.target.wants/dphys-swapfile.service
 # avoid this error: [FAILED] Failed to start Set console font and keymap.
 rm etc/systemd/system/multi-user.target.wants/console-setup.service
 
+# [FAILED] Failed to start Hostname Service.
+# See 'systemctl status systemd-hostnamed.service' for details.
+
 # Raspi is UK, Ubuntu and Debian are US
 cp ${fdir}/rpi/keyboard etc/default/
 
