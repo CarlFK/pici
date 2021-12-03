@@ -1,7 +1,9 @@
 ---
-# user_name: juser
-ssh_password_auth: true
 ansible_python_interpreter: /usr/bin/python3
+
+domain: mithis.com
+
+ssh_password_auth: false
 
 ssh_public_keys:
     - keys:

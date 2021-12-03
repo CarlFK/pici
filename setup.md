@@ -50,9 +50,10 @@ Now you should have a dhcp/dns/tftp server on the local nic.
 
 ## Step 1
 push files to server:
+tip: save time later with a symlink to 2021-10-30-raspios-bullseye-armhf-lite.zip
 ```
 cd pici
-rsync -axv --copy-links setup2.sh files root@negk:
+rsync -axvP --copy-links setup2.sh files root@negk:
 ```
 ## Step 2
 Get and tweek files and configs to netboot
