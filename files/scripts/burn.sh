@@ -18,4 +18,7 @@ rm -rf ${p}
 sed -i "\@overlay\s*${p}/[br]oot/merged@d" /etc/fstab
 sed -i "\@^${p}/[br]oot/merged@d" /etc/exports
 
+# remove the host= line (leave the [nfsd], seems better?
+# printf "\n[nfsd]\nhost=10.21.0.1\n" >> /etc/default/nfs-kernel-server
+sed -i "\@^host=10.21.0.1@d" /etc/default/nfs-kernel-server
 

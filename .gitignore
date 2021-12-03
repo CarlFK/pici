@@ -1,5 +1,8 @@
 temp/*
 *.swp
+*.zip
+*.img
+archive/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

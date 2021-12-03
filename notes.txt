@@ -58,7 +58,9 @@ if vcgencmd otp_dump | grep 17:3020000a; then echo this pi set to NetBoot; fi
 # sed -i "/nfsroot/s/,nfsvers=.*proto=tcp//" /boot/cmdline.txt
 # #ed out becuase we always boot with vers=3 from the start
 
-# ufw
+https://wiki.archlinux.org/title/NFS
+
+# ufw (not used, now using firewall role in dc-v ansible)
 https://gist.github.com/kimus/9315140
 https://help.ubuntu.com/community/Router#Enable_IP_forwarding_and_Masquerading
 

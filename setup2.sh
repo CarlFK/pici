@@ -31,7 +31,7 @@ d=/srv/nfs/rpi/${dist}
 
 apt install unzip nfs-kernel-server iptables snmp
 
-printf "\n[nfsd]\nhost=10.21.0.1" >> /etc/default/nfs-kernel-server
+printf "\n[nfsd]\nhost=10.21.0.1\n" >> /etc/default/nfs-kernel-server
 
 cd ${fdir}
 
@@ -146,7 +146,6 @@ systemctl enable nfs-kernel-server
 systemctl restart nfs-kernel-server
 
 systemctl restart dnsmasq.service
-
 # Some networking stuff doesn't restart right, reboot fixes it :/
-echo sudo reboot
+
 echo "files/scripts/updates_on.sh;files/scripts/maintenance.sh"
