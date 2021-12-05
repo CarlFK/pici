@@ -9,6 +9,8 @@ p=/srv/nfs/rpi/${dist}
 boot=${p}/boot/merged
 root=${p}/root/merged
 
+systemctl stop nfs-server.service
+
 umount ${p}/boot/merged || true
 umount ${p}/root/merged || true
 
@@ -19,7 +21,8 @@ mount -o rw ${p}/boot/merged
 mount -o rw ${p}/root/merged
 
 # turn on overlayroot
-sed -i "/.*/s/overlayroot=/overlayroot=tmpfs/" ${boot}/cmdline.txt
+sed -i "/.*/s/overlayroot=(tmpfs)?/overlayroot=tmpfs/" ${boot}/cmdline.txt
+cat ${boot}/cmdline.txt
 
 # don't automount pi's /boot
 sed -i "/.boot nfs*/s/,auto,/,noauto,/" ${root}/etc/fstab
@@ -30,7 +33,7 @@ mount -o remount,ro ${p}/root/merged
 
 # make the nfs shares ro
 sed -i "/.*/s/rw,/ro,/" /etc/exports
-systemctl restart nfs-server.service
+systemctl start nfs-server.service
 
 # server enable automount the stack of pi files
 # (this risks bricking the server with:
