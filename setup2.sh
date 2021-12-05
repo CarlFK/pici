@@ -80,7 +80,7 @@ umount merged
 ln -s ${d}/boot/merged/bootcode.bin /srv/tftp/bootcode.bin
 
 # pi serial numbers:
-for id in f1b7bb5a e0c074cd 6807ce11 d2cb1ff7 7a6d27f6; do
+for id in f1b7bb5a e0c074cd 6807ce11 d2cb1ff7 7a6d27f6 80863963; do
     ln -s ${d}/boot/merged/ /srv/tftp/${id}
 done
 
