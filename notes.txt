@@ -64,3 +64,5 @@ https://wiki.archlinux.org/title/NFS
 https://gist.github.com/kimus/9315140
 https://help.ubuntu.com/community/Router#Enable_IP_forwarding_and_Masquerading
 
+# enable rescue mode
+https://lists.debian.org/debian-user/2017/09/msg00813.html
