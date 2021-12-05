@@ -1,0 +1,11 @@
+
+node:
+show serial no
+take a picture
+
+server:
+show /srv/... root
+
+show status of normal or update mode
+grep /srv/ /etc/ecports fstab findmnt
+cat rpi's cmdline.txt, fstab

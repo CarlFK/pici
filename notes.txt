@@ -66,3 +66,8 @@ https://help.ubuntu.com/community/Router#Enable_IP_forwarding_and_Masquerading
 
 # enable rescue mode
 https://lists.debian.org/debian-user/2017/09/msg00813.html
+
+https://www.raspberrypi-spy.co.uk/2014/04/how-to-change-the-command-line-font-size/
+/etc/default/console-setup
+FONTFACE="Terminus"
+FONTSIZE="16x32"
