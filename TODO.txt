@@ -1,5 +1,6 @@
 
 node:
+change default pw
 show serial no
 take a picture
 

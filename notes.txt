@@ -71,3 +71,12 @@ https://www.raspberrypi-spy.co.uk/2014/04/how-to-change-the-command-line-font-si
 /etc/default/console-setup
 FONTFACE="Terminus"
 FONTSIZE="16x32"
+
+Netgear S3300-52X-PoE+
+Sytem, SNMP, Community Configuration,
+Management Station IP: 10.21.0.1 (server's eth-local IP)
+Management Station IP Mask: 255.255.255.255 (only the server)
+Community String: pib (used in netgear/poe.sh)
+Access Mode: ReadWrite
+Status: Enable
+(Add)
