@@ -29,7 +29,7 @@ dist=bullseye
 # trunk of nfs things
 d=/srv/nfs/rpi/${dist}
 
-apt install unzip nfs-kernel-server iptables snmp
+apt install unzip nfs-kernel-server iptables pwgen whois snmp
 
 printf "\n[nfsd]\nhost=10.21.0.1\n" >> /etc/default/nfs-kernel-server
 
@@ -108,6 +108,14 @@ cp ${fdir}/rpi/fstab etc/
 # show IP and other useful stuff on console before login
 cp ${fdir}/rpi/issue etc/
 
+# generate a random password for pi user
+pass=$(pwgen)
+printf "%s\n" ${pass} >>  etc/issue
+printf "%s\n" ${pass} > etc/ssh/password.txt
+printf "Banner=/etc/ssh/password.txt" > /etc/ssh/sshd_config.d/password.conf
+crypt_pass=$(mkpasswd ${pass})
+usermod --root  --password ${crypt_pass} pi
+
 # skip trying to resize the root fs
 rm etc/rc3.d/S01resize2fs_once etc/init.d/resize2fs_once
 
@@ -122,6 +130,11 @@ rm etc/systemd/system/multi-user.target.wants/console-setup.service
 
 # Raspi is UK, Ubuntu and Debian are US
 cp ${fdir}/rpi/keyboard etc/default/
+
+echo <<EOT >/etc/profile.d/show_pidirs.sh
+echo ${d}/boot
+echo ${d}/root
+EOT
 
 # things that maybe could be done here but it is easer to run them on the pi
 cp ${fdir}/rpi/setup3.sh root
