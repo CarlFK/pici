@@ -112,9 +112,9 @@ cp ${fdir}/rpi/issue etc/
 pass=$(pwgen)
 printf "%s\n" ${pass} >>  etc/issue
 printf "%s\n" ${pass} > etc/ssh/password.txt
-printf "Banner=/etc/ssh/password.txt" > /etc/ssh/sshd_config.d/password.conf
+printf "Banner=/etc/ssh/password.txt" > etc/ssh/sshd_config.d/password.conf
 crypt_pass=$(mkpasswd ${pass})
-usermod --root  --password ${crypt_pass} pi
+usermod --root $PWD --password ${crypt_pass} pi
 
 # skip trying to resize the root fs
 rm etc/rc3.d/S01resize2fs_once etc/init.d/resize2fs_once

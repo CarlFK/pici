@@ -21,9 +21,8 @@ mount -o rw ${p}/boot/merged
 mount -o rw ${p}/root/merged
 
 # turn on overlayroot
-# sed -iE "/.*/s/overlayroot=(tmpfs)?/overlayroot=tmpfs/" ${boot}/cmdline.txt
-sed -iE 's/([[:blank:]]|^)overlayroot=[^[:blank:]]*/\1overlayroot=tmpfs/' \
-    ${boot}/cmdline.txt
+sed -i -E "/.*/s/overlayroot=(tmpfs)?/overlayroot=tmpfs/" ${boot}/cmdline.txt
+# sed -i E 's/([[:blank:]]|^)overlayroot=[^[:blank:]]*/\1overlayroot=tmpfs/'  ${boot}/cmdline.txt
 
 cat ${boot}/cmdline.txt
 
