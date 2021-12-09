@@ -80,7 +80,7 @@ umount merged
 ln -s ${d}/boot/merged/bootcode.bin /srv/tftp/bootcode.bin
 
 # pi serial numbers:
-for id in f1b7bb5a e0c074cd 6807ce11 d2cb1ff7 7a6d27f6 80863963; do
+for id in f1b7bb5a e0c074cd 6807ce11 d2cb1ff7 7a6d27f6 80863963 329205c6; do
     ln -s ${d}/boot/merged/ /srv/tftp/${id}
 done
 
@@ -112,7 +112,7 @@ cp ${fdir}/rpi/issue etc/
 pass=$(pwgen)
 printf "%s\n" ${pass} >>  etc/issue
 printf "%s\n" ${pass} > etc/ssh/password.txt
-printf "Banner=/etc/ssh/password.txt" > etc/ssh/sshd_config.d/password.conf
+cp ${fdir}/rpi/password.conf etc/ssh/sshd_config.d/
 crypt_pass=$(mkpasswd ${pass})
 usermod --root $PWD --password ${crypt_pass} pi
 
@@ -125,16 +125,16 @@ rm etc/systemd/system/multi-user.target.wants/dphys-swapfile.service
 # avoid this error: [FAILED] Failed to start Set console font and keymap.
 rm etc/systemd/system/multi-user.target.wants/console-setup.service
 
+# get rid of: Wi-Fi is currently blocked by rfkill.
+rm etc/profile.d/wifi-check.sh
+
 # [FAILED] Failed to start Hostname Service.
 # See 'systemctl status systemd-hostnamed.service' for details.
 
 # Raspi is UK, Ubuntu and Debian are US
 cp ${fdir}/rpi/keyboard etc/default/
 
-echo <<EOT >/etc/profile.d/show_pidirs.sh
-echo ${d}/boot
-echo ${d}/root
-EOT
+cp ${fdir}/rpi/show_info.sh rpi/show_info.sh etc/profile.d/show_pidirs.sh
 
 # things that maybe could be done here but it is easer to run them on the pi
 cp ${fdir}/rpi/setup3.sh root
@@ -142,6 +142,13 @@ cp ${fdir}/rpi/setup3.sh root
 umount merged
 )
 )
+
+# show on server where the stuff is
+echo <<EOT >/etc/profile.d/show_pidirs.sh
+echo ${d}/boot
+echo ${d}/root
+EOT
+
 
 losetup -d /dev/loop5
 
