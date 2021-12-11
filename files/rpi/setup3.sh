@@ -15,12 +15,7 @@ apt install --assume-yes ssh-import-id vim tmux \
 # flcli=makestuff/apps/flcli/lin.x64/rel/flcli
 # fx2loader=makestuff/apps/fx2loader/lin.x64/rel/fx2loader
 
-# dont do this, it makes the nfs server mad.
-# apt autoremove --assume-yes
-# if you do anyway, here is how you fix on the server:
-# chroot /srv/nfs/rpi/bullseye/root/merged
-# dpkg --configure -a
-# apt install
+apt autoremove --assume-yes
 
 wget -N http://launchpadlibrarian.net/493868580/overlayroot_0.47ubuntu1_all.deb
 apt install --assume-yes ./overlayroot_0.47ubuntu1_all.deb

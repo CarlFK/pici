@@ -5,4 +5,4 @@ id=$1
 dist=bullseye
 d=/srv/nfs/rpi/${dist}
 
-ln -s ${d}/boot/merged/ /srv/tftp/${id}
+ln -s ${d}/boot /srv/tftp/${id}

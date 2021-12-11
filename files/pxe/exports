@@ -1,2 +1,2 @@
-/srv/nfs/rpi/bullseye/boot/merged *(ro,no_subtree_check,no_root_squash,fsid=1)
-/srv/nfs/rpi/bullseye/root/merged *(ro,no_subtree_check,no_root_squash,fsid=2)
+/srv/nfs/rpi/bullseye/boot *(ro,no_subtree_check,no_root_squash)
+/srv/nfs/rpi/bullseye/root *(ro,no_subtree_check,no_root_squash)
