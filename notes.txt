@@ -80,3 +80,5 @@ Community String: pib (used in netgear/poe.sh)
 Access Mode: ReadWrite
 Status: Enable
 (Add)
+
+raspivid -md 4 -t 0 -l -o tcp://10.21.0.226:22681 --vflip --hflip

@@ -29,9 +29,9 @@ dist=bullseye
 # trunk of nfs things
 d=/srv/nfs/rpi/${dist}
 
-apt install unzip nfs-kernel-server iptables pwgen whois snmp
+apt install -y unzip nfs-kernel-server iptables pwgen whois snmp
 
-printf "\n[nfsd]\nhost=10.21.0.1\n" >> /etc/default/nfs-kernel-server
+printf "\nhost=10.21.0.1\n" >> /etc/default/nfs-kernel-server
 
 cd ${fdir}
 
@@ -134,7 +134,7 @@ rm etc/profile.d/wifi-check.sh
 # Raspi is UK, Ubuntu and Debian are US
 cp ${fdir}/rpi/keyboard etc/default/
 
-cp ${fdir}/rpi/show_info.sh rpi/show_info.sh etc/profile.d/show_pidirs.sh
+cp ${fdir}/rpi/show_info.sh etc/profile.d/
 
 # things that maybe could be done here but it is easer to run them on the pi
 cp ${fdir}/rpi/setup3.sh root

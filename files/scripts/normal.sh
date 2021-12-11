@@ -34,7 +34,7 @@ mount -o remount,ro ${p}/boot/merged
 mount -o remount,ro ${p}/root/merged
 
 # make the nfs shares ro
-sed -i "/.*/s/rw,/ro,/" /etc/exports
+sed -i "s/rw,/ro,/" /etc/exports
 systemctl start nfs-server.service
 
 # server enable automount the stack of pi files
@@ -42,3 +42,8 @@ systemctl start nfs-server.service
 #  overlayfs: failed to verify index dir 'upper' xattr
 # sed -i "\@overlay\s*${p}/[br]oot/merged@s@\bnoauto\b@auto@" /etc/fstab
 
+cat ${boot}/cmdline.txt
+cat ${root}/etc/fstab
+cat /etc/exports
+grep ${boot} /etc/fstab
+findmnt ${boot}

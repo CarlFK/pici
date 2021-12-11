@@ -4,10 +4,9 @@
 # run on the pi
 
 apt update --allow-releaseinfo-change
-apt install eatmydata
-eatmydata apt upgrade --assume-yes
+apt upgrade --assume-yes
 
-eatmydata apt install --assume-yes ssh-import-id vim tmux \
+apt install --assume-yes ssh-import-id vim tmux \
     git etckeeper sshfs tio rsync openocd fxload
 
 # E: Package 'sftp' has no installation candidate
