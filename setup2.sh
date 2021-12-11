@@ -89,7 +89,7 @@ printf "%s\n" ${pass} >>  root/etc/issue
 printf "%s\n" ${pass} > root/etc/ssh/password.txt
 cp ${fdir}/rpi/password.conf root/etc/ssh/sshd_config.d/
 crypt_pass=$(mkpasswd ${pass})
-usermod --root $PWD/root/ --password ${crypt_pass} pi
+usermod --root $PWD/root/ --password ${crypt_pass} ${user}
 
 # skip trying to resize the root fs
 rm root/etc/rc3.d/S01resize2fs_once root/etc/init.d/resize2fs_once
@@ -114,6 +114,10 @@ cp ${fdir}/rpi/show_info.sh root/etc/profile.d/
 
 # things that maybe could be done here but it is easer to run them on the pi
 cp ${fdir}/rpi/setup3.sh root/root
+
+mkdir root/home/${user}/bin/
+# script to stream the cam
+cp ${fdir}/rpi/cam root/home/${user}/bin/
 
 )
 
