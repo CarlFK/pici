@@ -82,3 +82,15 @@ Status: Enable
 (Add)
 
 raspivid -md 4 -t 0 -l -o tcp://10.21.0.226:22681 --vflip --hflip
+
+1. acrylic, black wire
+Camera Name ov5647
+
+2. acrylic, rotate
+Camera Name ov5647
+
+3. fish eye
+Camera Name ov5647
+
+pi 4
+ov5647

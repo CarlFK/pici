@@ -1,8 +1,12 @@
 #!/bin/bash -x
 
-eth=${1:-eth0}
+if [ $# -eq 0 ]; then
+    ip=$(host $(hostname) |cut -d" " -f 4)
+else
+    eth=${1}
+    ip=$(ip addr show ${eth} | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
+fi
 
-ip=$(ip addr show ${eth} | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
 echo $ip
 
 while true; do
