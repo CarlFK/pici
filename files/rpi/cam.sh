@@ -1,6 +1,8 @@
 #!/bin/bash -x
 
-ip=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
+eth=${1:-eth0}
+
+ip=$(ip addr show ${eth} | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
 echo $ip
 
 while true; do

@@ -27,7 +27,7 @@ ssh-copy-id juser@negk
 ssh juser@negk
 sudo apt install ssh-import-id
 sudo ssh-import-id lp:carlfk # give root your own public key
-sudo apt-get update --allow-releaseinfo-change; sudo apt-upgrade
+sudo apt-get update --allow-releaseinfo-change; sudo apt upgrade
 ```
 
 ## Step 0.2
@@ -71,7 +71,6 @@ Put the system into maintance mode (pi can update the server)
 update packages, install overlayroot (mount / on tmpfs over nfs)
 (this could be done with qemu on the server...)
 ```
-files/scripts/updates_on.sh
 files/scripts/maintenance.sh
 ```
 ### Step 3.2
@@ -79,7 +78,6 @@ reboot the pi,
 Log into pi as root
 ```
 ./setup3.sh
-poweroff
 ```
 ## Step 4
 Put the system into production mode (nfs is ro, enable overlayroot on pi)
