@@ -2,6 +2,7 @@
 ansible_python_interpreter: /usr/bin/python3
 
 domain: mithis.com
+user_name: juser
 
 ssh_password_auth: false
 

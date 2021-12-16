@@ -1,11 +1,11 @@
 #!/bin/bash -x
 
 if [ $# -eq 0 ]; then
-    ip=$(host $(hostname) |cut -d" " -f 4)
+    eth=$(route -n|grep 10.21.0.1|awk '{print $8}')
 else
     eth=${1}
-    ip=$(ip addr show ${eth} | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
 fi
+ip=$(ip addr show ${eth} | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
 
 echo $ip
 
