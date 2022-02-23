@@ -38,10 +38,10 @@ Clone this repo and the dc-video team ansible next to each other:
 git clone https://github.com/CarlFK/pici
 git clone https://salsa.debian.org/debconf-video-team/ansible dc_a
 ```
- - put your machine's hostname (negk) in ansible/inventory/hosts under [pxe] and [users]
- - put your machine's 2 MACs into ansible/inventory/host_vars/negk.yml
- - your admin user in ansible/inventory/group_vars/all/all.yml
- - maybe put your box's IP to ansible/inventory/hosts
+ - put your machine's hostname (negk) in dc_a/inventory/hosts under [pxe] and [users]
+ - put your machine's 2 MACs into dc_a/inventory/host_vars/negk.yml
+ - your admin user in dc_a/inventory/group_vars/all/all.yml
+ - maybe put your box's IP to dc_a/inventory/hosts
 
 ```
 ansible-playbook dc_a/site.yml --inventory-file pici/ansible/inventory/hosts --user root
