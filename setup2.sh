@@ -24,7 +24,7 @@ dist=bullseye
 # trunk of nfs things
 d=/srv/nfs/rpi/${dist}
 
-apt install -y unzip nfs-kernel-server nftables iptables pwgen whois snmp
+apt install -y unzip nfs-kernel-server nftables iptables pwgen whois snmp parted
 
 cp ${fdir}/pxe/nftables.conf /etc
 systemctl restart nftables.service
