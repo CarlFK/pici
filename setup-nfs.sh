@@ -5,13 +5,19 @@ set -ex
 # where the files landed
 fdir=${1:-$PWD/files}
 
+img_host=http://downloads.raspberrypi.org
+img_path=raspios_lite_armhf/images/raspios_lite_armhf-2022-04-07
+base_name=2022-04-04-raspios-bullseye-armhf-lite.img
+
+zip_name=${base_name}.xz
+
 apt install unzip kpartx nfs-kernel-server
 
 cp ${fdir}/pxe/exports /etc
 
 cd ${fdir}
-wget -N http://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip
-unzip ${fdir}/2021-05-07-raspios-buster-armhf-lite.zip
+wget -N ${img_host}/${img_path}/${zip_name}
+xz --decompress ${fdir}/${zip_name}
 kpartx -av 2021-05-07-raspios-buster-armhf-lite.img
 
 mkdir -p /srv/nfs/rpi/buster/

@@ -14,9 +14,10 @@ set -ex
 fdir=${1:-$PWD/files}
 
 # where to get an img file:
-img_host=http://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-11-08/
-base_name=2021-10-30-raspios-bullseye-armhf-lite
-zip_name=${base_name}.zip
+img_host=http://downloads.raspberrypi.org
+img_path=raspios_lite_armhf/images/raspios_lite_armhf-2022-04-07
+base_name=2022-04-04-raspios-bullseye-armhf-lite
+zip_name=${base_name}.img.xz
 img_name=${base_name}.img
 user=pi
 dist=bullseye
@@ -34,8 +35,9 @@ printf "\nhost=10.21.0.1\n" >> /etc/default/nfs-kernel-server
 cd ${fdir}
 
 # get the image file:
-wget -N ${img_host}/${zip_name}
-unzip -u ${zip_name}
+wget -N ${img_host}/${img_path}/${zip_name}
+# unzip -u ${zip_name# }
+xz --keep --decompress ${zip_name} | true
 # kpartx -av ${img_name}
 losetup -P /dev/loop5 ${img_name}
 partprobe
@@ -51,8 +53,13 @@ mount /dev/loop5p1 /tmp/img
 rsync -xa --progress /tmp/img/ boot
 umount /tmp/img
 
+# enable sshd
 touch boot/ssh
+
+cp boot/cmdline.txt boot/cmdline.org
 cp ${fdir}/rpi/cmdline.txt boot/
+
+cp boot/config.txt boot/config.org
 cp ${fdir}/rpi/config.txt boot/
 
 # pi3 netboot is hardcoded to:
@@ -63,8 +70,8 @@ cp ${fdir}/rpi/config.txt boot/
 
 ln -s ${d}/boot/bootcode.bin /srv/tftp/bootcode.bin
 
-# pi serial numbers:
-for id in f1b7bb5a e0c074cd 6807ce11 d2cb1ff7 7a6d27f6 80863963 329205c6; do
+# some pi serial numbers:
+for id in e897e1d3 f1b7bb5a e0c074cd 6807ce11 d2cb1ff7 7a6d27f6 80863963 329205c6; do
     ln -s ${d}/boot/ /srv/tftp/${id}
 done
 
@@ -88,8 +95,13 @@ pass=$(pwgen)
 printf "%s\n" ${pass} >>  root/etc/issue
 printf "%s\n" ${pass} > root/etc/ssh/password.txt
 cp ${fdir}/rpi/password.conf root/etc/ssh/sshd_config.d/
-crypt_pass=$(mkpasswd ${pass})
-usermod --root $PWD/root/ --password ${crypt_pass} ${user}
+# crypt_pass=$(mkpasswd ${pass})
+# usermod --root $PWD/root/ --password ${crypt_pass} ${user}
+# useradd --root $PWD/root/ --password ${crypt_pass} ${user}
+
+# echo 'mypassword' | openssl passwd -6 -stdin
+crypt_pas=$(openssl passwd -6 env:pass)
+printf "%s:%s" ${user} ${crypt_pas} > boot/userconf.txt
 
 # skip trying to resize the root fs
 rm root/etc/rc3.d/S01resize2fs_once root/etc/init.d/resize2fs_once
@@ -117,7 +129,7 @@ cp ${fdir}/rpi/setup3.sh root/root
 
 mkdir root/home/${user}/bin/
 # script to stream the cam
-cp ${fdir}/rpi/cam root/home/${user}/bin/
+cp ${fdir}/rpi/cam.sh root/home/${user}/bin/
 
 )
 

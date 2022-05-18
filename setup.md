@@ -50,7 +50,7 @@ Now you should have a dhcp/dns/tftp server on the local nic.
 
 ## Step 1
 push files to server:
-tip: save time later with a symlink to 2021-10-30-raspios-bullseye-armhf-lite.zip
+tip: save time later with a symlink to 2022-xx-yy-raspios-bullseye-armhf-lite.img.xz
 ```
 cd pici
 rsync -axvP --copy-links setup2.sh files root@negk:
