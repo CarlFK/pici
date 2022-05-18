@@ -4,7 +4,6 @@
 set -ex
 
 img_name=/var/cache/pib/2022-04-04-raspios-bullseye-armhf-lite.img
-img_name=/var/cache/pib/2021-10-30-raspios-bullseye-armhf-lite.img
 dist=bullseye
 
 # trunk of nfs things, destination for files
