@@ -7,6 +7,7 @@ zip_name=/var/cache/pib/2022-04-04-raspios-bullseye-armhf-lite.img.xz
 img_name=/var/cache/pib/2022-04-04-raspios-bullseye-armhf-lite.img
 dist=bullseye
 
+mkdir -p /var/cache/pib/
 cd /var/cache/pib/
 xz --keep --decompress ${zip_name} | true
 

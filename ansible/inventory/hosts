@@ -15,4 +15,6 @@ val2
 rpi-cb-1f-f7
 
 [img]
-negk
+negk ansible_ssh_port=5855
+# ansible_host=45.20.162.5
+

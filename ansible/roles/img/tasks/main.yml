@@ -4,10 +4,15 @@
     name:
       - unzip
       - parted
+      - rsync
     install_recommends: yes
   tags:
     - img
 
+- name: create veyepar conf dir
+  file:
+    path: "/var/cache/pib"
+    state: directory
 
 # - name: Download pi sd card img file
 #  unarchive:
