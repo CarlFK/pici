@@ -1,0 +1,32 @@
+---
+- name: Install packages
+  apt:
+    name:
+      - unzip
+      - parted
+    install_recommends: yes
+  tags:
+    - img
+
+
+# - name: Download pi sd card img file
+#  unarchive:
+#    src: "{{ img_host }}/{{ img_path }}/{{ zip_name }}"
+#    dest: /var/cache/pib
+#    remote_src: yes
+#    mode: '0440'
+
+
+- name: Download pi sd card img file
+  get_url:
+    url: "{{ img_host }}/{{ img_path }}/{{ zip_name }}"
+    dest: /var/cache/pib
+
+# /var/cache/pib/{{ img_name }}
+
+- name: extract files from raspios.img.xz
+  script: files/img2files.sh
+  args:
+    creates: "/srv/nfs/rpi/{{ dist }}"
+
+
