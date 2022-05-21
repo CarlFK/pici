@@ -141,6 +141,7 @@ EOT
 
 
 cp ${fdir}/pxe/exports /etc
+
 systemctl enable rpcbind
 systemctl restart rpcbind
 systemctl enable nfs-kernel-server

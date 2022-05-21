@@ -9,7 +9,7 @@
   tags:
     - img
 
-- name: create veyepar conf dir
+- name: create pib cache dir
   file:
     path: "/var/cache/pib"
     state: directory
@@ -20,7 +20,6 @@
 #    dest: /var/cache/pib
 #    remote_src: yes
 #    mode: '0440'
-
 
 - name: Download pi sd card img file
   get_url:

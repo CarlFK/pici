@@ -45,6 +45,8 @@ git clone https://salsa.debian.org/debconf-video-team/ansible dc_a
 
 ```
 ansible-playbook dc_a/site.yml --inventory-file pici/ansible/inventory/hosts --user root
+Work In Progress: ansilbe the whole thing
+ansible-playbook ansible/site.yml --inventory-file ansible/inventory/hosts --user root --limit negk
 ```
 Now you should have a dhcp/dns/tftp server on the local nic.
 
