@@ -7,14 +7,6 @@
   tags:
     - img
 
-- name: create some dirs
-  file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - "/var/cache/pib"
-    - "/srv/nfs"
-    - "/srv/tftp"
 
 - name: root the tftp so dumb pi can find bootcode.bin
   file:

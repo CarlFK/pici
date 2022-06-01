@@ -1,0 +1,52 @@
+#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet filter {
+
+  chain input {
+    type filter hook input priority 0;
+    iif "lo" accept;
+          tcp dport ssh counter accept;
+              meta l4proto {icmp, icmpv6} counter accept;
+              udp dport { 67, 68, 546, 547 } counter accept;
+        jump internal_networks;
+    jump custom_rules;
+    ct state invalid,new,untracked counter drop;
+  }
+
+  chain internal_networks {
+          ip saddr {{ eth_local_address }}/{{ eth_local_netmask }} counter accept;
+      }
+
+  chain custom_rules {
+      }
+
+  chain forward {
+    type filter hook forward priority 0; policy accept;
+        # tcp dport { 1234, 4321 } log prefix "forward " accept;
+  }
+
+  chain output {
+    type filter hook output priority 0;
+  }
+
+}
+
+table ip nat {
+        chain postrouting {
+                type nat hook postrouting priority 100; policy accept;
+                masquerade
+        }
+
+        chain prerouting {
+                type nat hook prerouting priority -100; policy accept;
+# pattern:  x.y.z.o port p: op
+# # 10.21.0.171:80 gets 171 80
+                ip daddr 198.0.220.197 tcp dport { 17180 } dnat to 10.21.0.171:80
+
+                ip daddr 198.0.220.197 tcp dport { 14322 } dnat to 10.21.0.143:22
+                ip daddr 198.0.220.197 tcp dport { 16222 } dnat to 10.21.0.162:22
+                ip daddr 198.0.220.197 tcp dport { 22622 } dnat to 10.21.0.226:22
+        }
+}

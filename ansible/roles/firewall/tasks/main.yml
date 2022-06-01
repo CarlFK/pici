@@ -1,0 +1,16 @@
+---
+- name: Install nftables
+  apt:
+    name: nftables
+
+- name: Write nftables rules
+  template:
+    src: templates/nftables.conf.j2
+    dest: /etc/nftables.conf
+    mode: 0755
+  notify: reload nftables
+
+- name: Enable nftables service
+  systemd:
+    service: nftables.service
+    enabled: yes
