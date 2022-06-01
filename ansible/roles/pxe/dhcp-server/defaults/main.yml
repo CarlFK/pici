@@ -1,0 +1,27 @@
+---
+eth_local_address: 10.20.0.1
+eth_local_netmask: 24
+eth_local_gateway:
+
+eth_local_extra_config:
+  - "pre-up ethtool -K $IFACE gso off gro off tso off || true"
+
+eth_local_mac_address: 00:00:00:00:00:01
+#eth_uplink_mac_address: 00:00:00:00:00:02
+
+eth_uplink_static: false
+eth_uplink_static_address: 192.0.2.10
+eth_uplink_static_gateway: 192.0.2.1
+
+eth_uplink_extra_config:
+  - "pre-up ethtool -K $IFACE gso off gro off tso off || true"
+
+dhcp_range: 10.20.0.128,10.20.0.254,6h
+domain: video.debconf.org
+
+default_install_disk: /dev/sda
+
+staticips:
+  write_interfaces: false
+  write_hosts: false
+  hosts: []

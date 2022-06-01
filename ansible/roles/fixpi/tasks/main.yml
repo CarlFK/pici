@@ -2,9 +2,6 @@
 - name: Install packages
   apt:
     name:
-      - unzip
-      - parted
-      - rsync
       - pwgen
     install_recommends: yes
   tags:
@@ -55,16 +52,15 @@
     src: "files/etc/fstab"
     dest: "{{ nfs_root }}/root/etc/fstab"
 
-- name: pi etc hacks
-  copy:
-    src: "files/etc/{{ item }}"
-    dest: "{{ nfs_root }}/root/etc/{{ item }}"
-  with_items:
-    - fstab
-    - issue
-    - keyboard
-    - show_info.sh
-    - ssh/sshd_config.d/password.conf
+- name: don't resize the root fs
+  file:
+    path: "{{ nfs_root }}/root/etc/init.d/resize2fs_once"
+    state: absent
+
+- name: don't manage a swap file
+  file:
+    path: "{{ nfs_root }}/etc/systemd/system/multi-user.target.wants/dphys-swapfile.service"
+    state: absent
 
 - name: display IP, pw and things on console
   copy:
@@ -77,15 +73,10 @@
     chdir: "{{nfs_root}}"
     creates: "{{nfs_root}}/root/etc/ssh/password.txt"
 
-- name: don't resize the root fs
+- name: enable sshd
   file:
-    path: "{{ nfs_root }}/root/etc/init.d/resize2fs_once"
-    state: absent
-
-- name: don't manage a swap file
-  file:
-    path: "{{ nfs_root }}/etc/systemd/system/multi-user.target.wants/dphys-swapfile.service"
-    state: absent
+    path: "{{ nfs_root }}/boot/ssh"
+    state: touch
 
 - name: avoid [FAILED] Failed to start Set console font and keymap.
   file:
@@ -119,17 +110,4 @@
   copy:
     src: "files/etc/ssh/sshd_config.d/password.conf"
     dest: "{{ nfs_root }}/root/etc/ssh/sshd_config.d/password.conf"
-
-
-- name: enable and start server service rpcbind
-  ansible.builtin.systemd:
-    name: rpcbind
-    enabled: yes
-    state: started
-
-- name: enable and start server service nfs-kernel-server
-  ansible.builtin.systemd:
-    name: nfs-kernel-server
-    enabled: yes
-    state: started
 

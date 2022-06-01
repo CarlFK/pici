@@ -1,11 +1,12 @@
 [pxe]
 # negk # ansible_host=10.100.3.27
+negk ansible_host=10.20.2.11
 rpi-6d-27-f6 ansible_host=10.1.10.246
 rpi-cb-1f-f7
 val2
 
 [users]
-negk
+# negk ansible_host=10.20.2.11
 gator
 rpi-6d-27-f6 ansible_host=10.1.10.246
 rpi-cb-1f-f7
@@ -16,9 +17,12 @@ rpi-cb-1f-f7
 
 # [img]
 # negk ansible_ssh_port=5855
+# negk ansible_host=10.20.2.11
 
 [fixpi]
-negk ansible_ssh_port=5855
+# negk ansible_host=10.20.2.11
+# ansible_ssh_port=5855
 # ansible_host=45.20.162.5
 
-
+[onpi]
+raspberrypi ansible_host=fpga-gw.mithis.com ansible_port=14322

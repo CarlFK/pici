@@ -1,0 +1,67 @@
+---
+- name: install the dhcp server
+  apt:
+    name: dnsmasq
+
+- name: set udev rule to name the network interfaces
+  template:
+    src: templates/76-netnames.rules.j2
+    dest: /etc/udev/rules.d/76-netnames.rules
+  notify:
+    - reboot
+    - wait for reboot
+  tags:
+    - staticips
+
+- name: Install WiFi client (wpasupplicant)
+  apt:
+    name: wpasupplicant
+  when: eth_local_wifi_ssid is defined
+
+- name: configure network interfaces (static)
+  template:
+    src: templates/interfaces-static.j2
+    dest: /etc/network/interfaces
+  when: eth_uplink_static
+  notify: restart networking
+  tags:
+    - staticips
+
+- name: configure network interfaces (dhcp)
+  template:
+    src: templates/interfaces-dhcp.j2
+    dest: /etc/network/interfaces
+  when: not eth_uplink_static
+  notify: restart networking
+  tags:
+    - staticips
+
+- name: ensure network-manager doesn't run its own dnsmasq
+  lineinfile:
+    dest: /etc/NetworkManager/NetworkManager.conf
+    regexp: "^#?dns=dnsmasq$"
+    line: "#dns=dnsmasq"
+  notify: restart network-manager
+  ignore_errors: yes
+
+- name: create the TFTP root directory
+  file:
+    path: /srv/tftp
+    state: directory
+    mode: '0755'
+
+- name: configure the dhcp server
+  template:
+    src: templates/local.conf.j2
+    dest: /etc/dnsmasq.d/local.conf
+  notify: restart dnsmasq
+  tags:
+    - staticips
+
+- name: configure static hosts
+  template:
+    src: templates/machines.conf.j2
+    dest: /etc/dnsmasq.d/machines.conf
+  notify: restart dnsmasq
+  tags:
+    - staticips
