@@ -1,0 +1,11 @@
+---
+img_host: http://downloads.raspberrypi.org
+img_path: raspios_lite_armhf/images/raspios_lite_armhf-2022-04-07
+base_name: 2022-04-04-raspios-bullseye-armhf-lite
+zip_name: "{{base_name}}.img.xz"
+img_name: "{{base_name}}.img"
+user: pi
+dist: bullseye
+
+nfs_root: "/srv/nfs/rpi/{{ dist }}"
+
