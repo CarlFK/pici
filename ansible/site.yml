@@ -1,0 +1,20 @@
+---
+- hosts: negk
+  roles:
+  - user
+  - firewall
+  - sshd
+  - img
+  - fixpi
+  - pxe
+  - nfs
+
+- hosts: raspberrypi
+  roles:
+  - onpi
+
+- hosts: pib
+  roles:
+  - motd
+  - cam
+
