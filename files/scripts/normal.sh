@@ -2,7 +2,14 @@
 set -ex
 
 # normal.sh
-# nfs ro, overlay tmpfs pi, don't mount boot
+# normal / production mode.
+# use to get out of maintenance mode.
+
+# things it does:
+# nfs exports set to ro,
+# pi overlay tmpfs,
+# pi fstab: don't mount boot
+# pi fstab: don't mount boot
 
 dist=bullseye
 p=/srv/nfs/rpi/${dist}

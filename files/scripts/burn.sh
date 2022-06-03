@@ -1,7 +1,12 @@
 #!/bin/bash -x
 
-# burn down the server
-# rebuild with setup2.sh
+# burn down the pi boot files
+# rebuild with:
+#  ansible
+#  maintenance.sh
+#  boot a pi, run setup3.sh
+# then
+#  normal.sh
 
 dist=bullseye
 p=/srv/nfs/rpi/${dist}
