@@ -1,0 +1,12 @@
+---
+- name: restart dnsmasq
+  systemd:
+    name: dnsmasq
+    state: restarted
+  when: not skip_unit_test
+
+- name: reload nginx
+  systemd:
+    name: nginx
+    state: reloaded
+  when: not skip_unit_test

@@ -1,0 +1,66 @@
+# /srv/tftp/grub/grub.cfg
+
+# {{ ansible_managed }}
+
+timeout={{ pxe_timeout }}
+
+# get extra appends from dhcp
+# allows per host config options
+net_get_dhcp_option appends ${net_default_interface} 209 string
+net_get_dhcp_option dhcp_hostname ${net_default_interface} 12 string
+net_get_dhcp_option pxeflags ${net_default_interface} 224 string
+
+autoinstall=
+if [ "${pxeflags}" == "force-autoinstall" ]; then
+  autoinstall=1
+fi
+
+tftp=${pxe_default_server}
+
+append="--- auto=true url=${tftp} DEBCONF_DEBUG=5 domain={{ domain }} ${appends} interface=${net_default_mac} hw-detect/load_firmware=false rescue/enable=false"
+
+if [ -n "${autoinstall}" ]; then
+# force unattended install
+	timeout=1
+else
+
+# Default pxe item
+menuentry "Boot hd0" {
+  insmod biosdisk
+  set root=hd0
+  chainloader +1
+}
+fi
+
+{% for suite in debian_suites + ubuntu_suites %}
+{% for arch in archs %}
+{% if suite in debian_suites %}
+{% set distro='debian' %}
+{% else %}
+{% set distro='ubuntu' %}
+{% endif %}
+if [ -n "${dhcp_hostname}" ]; then
+  menuentry "{{ suite }} h:${dhcp_hostname} ${appends}" {
+    linux /{{ distro }}/{{ suite }}/{{ arch }}/linux hostname=${dhcp_hostname} ${append}
+    initrd /{{ distro }}/{{ suite }}/{{ arch }}/initrd.gz
+  }
+else
+  menuentry "{{ suite }} HOSTNAME PROMPT ${appends}" {
+    linux /{{ distro }}/{{ suite }}/{{ arch }}/linux ${append}
+    initrd /{{ distro }}/{{ suite }}/{{ arch }}/initrd.gz
+  }
+fi
+{% endfor %}
+{% endfor %}
+
+menuentry "ipxe" {
+   linux16 ipxe/ipxe.lkrn
+}
+
+menuentry "exit" {
+  exit
+}
+
+menuentry "reboot" {
+  reboot
+}

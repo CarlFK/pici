@@ -1,0 +1,20 @@
+# {{ ansible_managed }}
+
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	root /srv/pxe;
+
+	server_name {{ ansible_fqdn }};
+
+	location / {
+		fancyindex on;
+
+		# D-I requests may come through squid-deb-proxy
+		add_header Cache-Control no-cache;
+	}
+
+	access_log /var/log/nginx/pxe-access.log;
+	error_log /var/log/nginx/pxe-error.log;
+}

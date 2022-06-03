@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+
+playbook_repo={{ playbook_repo }}
+playbook_branch={{ playbook_branch }}
+inventory_repo={{ inventory_repo }}
+inventory_repo_dir={{ inventory_repo_dir }}
+{# the format is a workaround for https://github.com/ansible/ansible/issues/24425 #}
+vault_pw={{ '%s'|format(vault_pw)|b64encode }}

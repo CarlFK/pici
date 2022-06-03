@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+d-i mirror/http/hostname string {{ item.value }}
+d-i passwd/username string {{ user_name }}
+d-i passwd/user-password-crypted password {{ user_password | string | password_hash('sha512') }}
+d-i time/zone string {{ time_zone }}
+{% if apt_proxy %}
+d-i mirror/http/proxy string http://{{ inventory_hostname }}:8000/
+{% else %}
+d-i mirror/http/proxy string
+{% endif %}
+d-i anna/choose_modules string network-console
+d-i network-console/authorized_keys_url string http://{{ inventory_hostname }}/scripts/authorized_keys
+#d-i network-console/password password r00tme
+#d-i network-console/password-again password r00tme
+# suppress dialog
+d-i network-console/start true
