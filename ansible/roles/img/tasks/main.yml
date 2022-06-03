@@ -21,6 +21,6 @@
 
 - name: extract files from raspios.img.xz
   script: files/img2files.sh
-  args:
-    creates: "{{ nfs_root }}"
+  # args:
+  #  creates: "{{ nfs_root }}"
 

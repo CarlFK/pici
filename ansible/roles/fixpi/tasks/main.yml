@@ -7,7 +7,6 @@
   tags:
     - img
 
-
 - name: root the tftp so dumb pi can find bootcode.bin
   file:
     src: "{{ nfs_root }}/boot/bootcode.bin"
@@ -90,7 +89,7 @@
 - name: set US keyboard
   copy:
     src: "files/etc/keyboard"
-    dest: "{{ nfs_root }}/root/etc/keyboard"
+    dest: "{{ nfs_root }}/root/etc/default/"
 
 - name: login spam
   copy:
