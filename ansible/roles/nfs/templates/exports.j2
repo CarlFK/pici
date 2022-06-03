@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+#
+{{ nfs_root }}/boot {{ eth_local_address }}/{{ eth_local_netmask }}(ro,sync,no_subtree_check,no_root_squash)
+{{ nfs_root }}/root {{ eth_local_address }}/{{ eth_local_netmask }}(ro,sync,no_subtree_check,no_root_squash)
+

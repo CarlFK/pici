@@ -1,0 +1,38 @@
+---
+- name: Install packages
+  apt:
+    name:
+      - nfs-kernel-server
+    install_recommends: yes
+  tags:
+    - nfs
+
+- name: create some dirs
+  file:
+    path: "{{ nfs_root }}"
+    state: directory
+
+- name: nfs only on internal nic
+  lineinfile:
+    path: /etc/default/nfs-kernel-server
+    regexp: '^host='
+    line: "host={{ eth_local_address }}"
+
+- name: write etc/exports
+  template:
+    src: templates/exports.j2
+    dest: /etc/exports
+  notify: exportfs
+
+- name: enable and start server service rpcbind
+  systemd:
+    name: rpcbind
+    enabled: yes
+    state: started
+
+- name: enable and start server service nfs-kernel-server
+  systemd:
+    name: nfs-kernel-server
+    enabled: yes
+    state: started
+
