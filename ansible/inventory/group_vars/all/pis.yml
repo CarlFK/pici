@@ -1,0 +1,21 @@
+nos:
+ # - { port:  , mac: , sno:  }
+ # - { port:  , mac: , sno: e897e1d3 }
+ # - { port:  , mac:  , sno: e0c074cd }
+ #   - { port:  , mac: , sno: 6807ce11 }
+ #   - { port:  , mac: , sno: d2cb1ff7 }
+ #   - { port:  , mac: , sno: 7a6d27f6 }
+ #   - { port:  , mac: , sno: 80863963 }
+ #   - { port:  , mac: , sno: 329205c6 }
+    - { port:  2, mac: b8:27:eb:2f:5d:08, sn: 042f5d08 }
+    - { port:  3, mac: b8:27:eb:d4:f1:74, sn: 9ed4f174 }
+    - { port:  5, mac: b8:27:eb:33:51:27, sn: 48335127 }
+    - { port:  7, mac: b8:27:eb:a3:51:b4, sn: 8da351b4 }
+    - { port:  9, mac: b8:27:eb:51:01:df, sn: 265101df }
+    - { port: 11, mac: b8:27:eb:68:fc:e7, sn: f168fce7 }
+    - { port: 13, mac: dc:a6:32:05:32:45, sn: f1b7bb5a }
+    - { port: 19, mac: b8:27:eb:5a:26:5b, sn: 035a265b }
+    - { port: 20, mac: b8:27:eb:0c:f8:43, sn: 9b0cf843 }
+    - { port: 22, mac: b8:27:eb:5f:de:85, sn: 7d5fde85 }
+    - { port: 24, mac: b8:27:eb:69:79:a0, sn: 426979a0 }
+
