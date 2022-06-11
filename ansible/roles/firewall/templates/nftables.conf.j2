@@ -43,10 +43,13 @@ table ip nat {
                 type nat hook prerouting priority -100; policy accept;
 # pattern:  x.y.z.o port p: op
 # # 10.21.0.171:80 gets 171 80
-                ip daddr 198.0.220.197 tcp dport { 17180 } dnat to 10.21.0.171:80
 
-                ip daddr 198.0.220.197 tcp dport { 14322 } dnat to 10.21.0.143:22
-                ip daddr 198.0.220.197 tcp dport { 16222 } dnat to 10.21.0.162:22
-                ip daddr 198.0.220.197 tcp dport { 22622 } dnat to 10.21.0.226:22
+{% for pi in nos %}
+                ip daddr {{ eth_uplink_static_address }} tcp dport { {{ 100+pi.port}}22 } dnat to {{ pib_network }}.{{ 100+pi.port}}:22
+                ip daddr {{ eth_uplink_static_address }} tcp dport { {{ 100+pi.port}}44 } dnat to {{ pib_network }}.{{ 100+pi.port}}:4444
+
+{% endfor %}
+
+                # ip daddr 198.0.220.197 tcp dport { 22622 } dnat to 10.21.0.226:22
         }
 }
