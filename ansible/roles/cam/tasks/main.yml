@@ -1,0 +1,23 @@
+---
+- name: cam script
+  copy:
+    src: files/gst-libcam.sh
+    dest: /usr/local/bin/gst-libcam.sh
+    mode: u+x
+  tags:
+    cam
+
+- name: systemd cam.service
+  copy:
+    src: files/cam.service
+    dest: /etc/systemd/system/cam.service
+  notify: reload-systemd
+  tags:
+    cam
+
+- name: enable cam.service
+  systemd:
+    name: cam.service
+    enabled: yes
+  tags:
+    cam

@@ -1,0 +1,11 @@
+# Ansible Managed
+
+[Unit]
+Description=stream video to nginx-rtmp
+After=network.target
+StartLimitInterval=0
+
+[Service]
+ExecStart=/usr/local/bin/gst-libcam.sh
+Restart=always
+RestartSec=1
