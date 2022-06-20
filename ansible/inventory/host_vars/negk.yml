@@ -10,4 +10,5 @@ dhcp_range: 10.21.0.128,10.21.0.254,6h
 
 firewall_internal_networks: [10.21.0]
 
-pinos: e897e1d3 f1b7bb5a e0c074cd 6807ce11 d2cb1ff7 7a6d27f6 80863963 329205c6
+pib_network: 10.21.0
+

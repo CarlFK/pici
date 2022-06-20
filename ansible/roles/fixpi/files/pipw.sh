@@ -3,10 +3,14 @@
 
 # pass in the username
 
-user=$1
+user=${1:-pi}
 
-# generate a password
-pass=$(pwgen)
+if [ "$#" -eq 2 ]; then
+    pass=$2
+else
+    # generate a password
+    pass=$(pwgen)
+fi
 
 # save it in the clear so everyone can see it when they want to root the box
 printf "%s\n" ${pass} > root/etc/ssh/password.txt

@@ -1,6 +1,7 @@
 ---
-- hosts: negk
+- hosts: val2
   roles:
+  - pxe/dhcp-server
   - user
   - firewall
   - sshd
@@ -12,9 +13,9 @@
 - hosts: raspberrypi
   roles:
   - onpi
+  - cam
 
 - hosts: pib
   roles:
   - motd
-  - cam
 

@@ -9,6 +9,8 @@
     dest: /etc/nftables.conf
     mode: 0755
   notify: reload nftables
+  tags:
+    nftables
 
 - name: Enable nftables service
   systemd:
