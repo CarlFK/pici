@@ -91,6 +91,12 @@
     src: "files/etc/keyboard"
     dest: "{{ nfs_root }}/root/etc/default/"
 
+- name: unset hostname
+  lineinfile:
+    dest: "{{ nfs_root }}/root/etc/hostname"
+    regexp: "^#?dns=dnsmasq$"
+    line: "localhost"
+
 - name: login spam
   copy:
     src: "files/etc/show_info.sh"
