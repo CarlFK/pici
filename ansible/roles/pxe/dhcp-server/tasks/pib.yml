@@ -1,0 +1,9 @@
+---
+- name: create dnsmasq.d pib.conf
+  template:
+    src: templates/pibs.conf.j2
+    dest: /etc/dnsmasq.d/pibs.conf
+  notify: restart dnsmasq
+  tags:
+    - pib
+
