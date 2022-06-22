@@ -5,7 +5,8 @@ WantedBy=multi-user.target
 
 [Unit]
 Description=stream video to nginx-rtmp
-After=network.target
+After=network-online.target
+Wants=network-online.target
 StartLimitInterval=0
 
 [Service]
