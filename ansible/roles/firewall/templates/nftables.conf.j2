@@ -7,6 +7,8 @@ table inet filter {
   chain input {
     type filter hook input priority 0;
     iif "lo" accept;
+          tcp dport http counter accept;
+          tcp dport https counter accept;
           tcp dport ssh counter accept;
               meta l4proto {icmp, icmpv6} counter accept;
               udp dport { 67, 68, 546, 547 } counter accept;

@@ -1,5 +1,8 @@
 # Ansible Managed
 
+[Install]
+WantedBy=multi-user.target
+
 [Unit]
 Description=stream video to nginx-rtmp
 After=network.target

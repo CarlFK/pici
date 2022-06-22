@@ -1,21 +1,29 @@
 ---
-- hosts: val2
+- hosts: pib
   roles:
   - pxe/dhcp-server
   - user
   - firewall
   - sshd
+  - motd
   - img
   - fixpi
   - pxe
   - nfs
 
-- hosts: raspberrypi
+- hosts: onpi
   roles:
-  - onpi
-  - cam
+  # - onpi
+  - cam/pi
 
-- hosts: pib
+- hosts: streaming-backends
   roles:
-  - motd
+  - cam/srv/base
+  - cam/srv/backend
+
+- hosts: streaming-frontends
+  roles:
+  - cam/srv/base
+  - cam/srv/frontend
+
 

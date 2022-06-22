@@ -5,7 +5,7 @@ val2
 negk ansible_ssh_port=5855 ansible_host=45.20.162.5
 
 [users]
-gator
+# gator
 rpi-6d-27-f6 ansible_host=10.1.10.246
 rpi-cb-1f-f7
 val2
@@ -26,4 +26,14 @@ negk ansible_ssh_port=5855 ansible_host=45.20.162.5
 # ansible_ssh_port=5855
 
 [onpi]
-raspberrypi ansible_host=fpga-gw-ps1.mithis.com ansible_port=11322
+pi13 ansible_host=fpga-gw-ps1.mithis.com ansible_port=11322
+
+[cam]
+# gator ansible_host=192.168.1.119
+
+[streaming-backends]
+gator ansible_host=192.168.1.119
+# fpga-gw-ps1.mithis.com
+
+[streaming-frontends]
+fpga-gw-ps1.mithis.com

@@ -1,4 +1,16 @@
 ---
+- name: install gst packages
+  apt:
+    name:
+      - gstreamer1.0-tools
+      - gstreamer1.0-plugins-base
+      - gstreamer1.0-plugins-good
+      - gstreamer1.0-plugins-bad
+      - gstreamer1.0-plugins-ugly
+  notify: restart nginx
+  tags:
+    - streaming
+
 - name: cam script
   copy:
     src: files/gst-libcam.sh
