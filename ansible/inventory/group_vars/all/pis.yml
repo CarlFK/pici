@@ -1,12 +1,4 @@
 nos:
- # - { port:  , mac: , sno:  }
- # - { port:  , mac: , sno: e897e1d3 }
- # - { port:  , mac:  , sno: e0c074cd }
- #   - { port:  , mac: , sno: 6807ce11 }
- #   - { port:  , mac: , sno: d2cb1ff7 }
- #   - { port:  , mac: , sno: 7a6d27f6 }
- #   - { port:  , mac: , sno: 80863963 }
- #   - { port:  , mac: , sno: 329205c6 }
     - { port:  2, mac: b8:27:eb:2f:5d:08, sn: 042f5d08 }
     - { port:  3, mac: b8:27:eb:d4:f1:74, sn: 9ed4f174 }
     - { port:  5, mac: b8:27:eb:33:51:27, sn: 48335127 }
