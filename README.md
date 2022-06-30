@@ -24,3 +24,5 @@ ssh client in the browser: https://github.com/eevelweezel/pibsite  which is an i
 browser UI to the SNMP controled PoE to turn the pis off and on again.
 
 Wondering what this is all about?  Start here https://f4pga.org
+
+Want to get started: https://workshop.fomu.im
