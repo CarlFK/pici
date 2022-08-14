@@ -91,11 +91,10 @@
     src: "files/etc/keyboard"
     dest: "{{ nfs_root }}/root/etc/default/"
 
-- name: unset hostname
-  lineinfile:
+- name: set hostname to localhost (dhclient will get hostname from server)
+  copy:
+    src: "files/etc/hostname"
     dest: "{{ nfs_root }}/root/etc/hostname"
-    regexp: "^#?dns=dnsmasq$"
-    line: "localhost"
 
 - name: login spam
   copy:
