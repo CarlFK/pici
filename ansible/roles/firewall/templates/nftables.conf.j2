@@ -43,6 +43,10 @@ table ip nat {
 
         chain prerouting {
                 type nat hook prerouting priority -100; policy accept;
+
+                # Netgear PoE switch:
+                ip daddr {{ eth_uplink_static_address }} tcp dport { 20080 } dnat to {{ pib_network }}.200:80
+
 # pattern:  x.y.z.o port p: op
 # # 10.21.0.171:80 gets 171 80
 
