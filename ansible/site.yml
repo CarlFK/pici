@@ -11,6 +11,10 @@
   - pxe
   - nfs
 
+- hosts: wssh
+  roles:
+  - wssh
+
 - hosts: onpi
   roles:
   # - onpi
