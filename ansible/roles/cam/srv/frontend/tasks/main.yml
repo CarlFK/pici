@@ -1,0 +1,15 @@
+---
+- name: page of video players
+  template:
+    src: templates/index.html.j2
+    dest: /srv/streaming/www/index.html
+  tags:
+    cam
+
+- name: js video player
+  file:
+    src: templates/index.html.j2
+    dest: /srv/streaming/www/index.html
+  tags:
+    cam
+

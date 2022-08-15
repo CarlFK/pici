@@ -1,0 +1,17 @@
+---
+- name: mount all
+  command: mount -a
+  args:
+    warn: no
+
+- name: reload nginx
+  systemd:
+    name: nginx
+    state: reloaded
+  when: not skip_unit_test
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+  when: not skip_unit_test

@@ -1,0 +1,77 @@
+---
+- name: install nginx packages
+  apt:
+    name:
+      - nginx-extras
+      - libnginx-mod-rtmp
+      - libnginx-mod-http-fancyindex
+  notify: restart nginx
+  tags:
+    - streaming
+
+- name: install ffmpeg
+  apt:
+    name: ffmpeg
+  tags:
+    - streaming
+
+- name: create nginx rtmp socket directory
+  file:
+    path: /var/lib/nginx/rtmp
+    state: directory
+    owner: www-data
+    group: root
+    mode: 0700
+  tags:
+    - streaming
+
+- name: remove default html directory
+  file:
+    path: /var/www/html
+    state: absent
+  tags:
+    - streaming
+
+- name: disable nginx default configuration
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: reload nginx
+  tags:
+    - streaming
+
+- name: create nginx rtmp config directory
+  file:
+    path: /etc/nginx/rtmp
+    state: directory
+    mode: 0775
+  tags:
+    - streaming
+
+- name: install basic nginx rtmp configuration
+  template:
+    src: nginx/nginx-rtmp.conf.j2
+    dest: /etc/nginx/nginx-rtmp.conf
+  notify: reload nginx
+  tags:
+    - streaming
+
+- name: patch nginx.conf to include the rtmp configuration
+  lineinfile:
+    dest: /etc/nginx/nginx.conf
+    line: "include /etc/nginx/nginx-rtmp.conf;"
+    state: present
+  notify: reload nginx
+  tags:
+    - streaming
+
+- name: patch nginx.conf to use 1 worker
+  # https://github.com/arut/nginx-rtmp-module/issues/849
+  lineinfile:
+    dest: /etc/nginx/nginx.conf
+    line: "worker_processes 1;"
+    regexp: "^worker_processes"
+    state: present
+  notify: reload nginx
+  tags:
+    - streaming

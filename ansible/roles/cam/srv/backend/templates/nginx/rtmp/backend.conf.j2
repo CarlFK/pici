@@ -1,0 +1,80 @@
+# {{ ansible_managed }}
+
+application stream {
+  # Only allow publishing from trusted sources
+{% for address in streaming.rtmp_publishers %}
+  allow publish {{ address }};
+{% endfor %}
+  deny publish all;
+  allow play ::1;
+  allow play 127.0.0.1;
+  deny play all;
+
+{% if streaming.dump %}
+  record all;
+
+  record_path {{ streaming.backend.data_root }}/dump;
+  record_suffix /%Y%m%d%H%M%S.flv;
+
+  # Needed in case something goes wrong during the conversion. As long as this
+  # isn't wrapped in a script, ffmpeg will terminate properly without the
+  # default SIGKILL. Otherwise see nginx-rtmp wiki for a clean example.
+  exec_kill_signal term;
+{% endif %}
+
+  exec ffmpeg -i rtmp://localhost/$app/$name -async 1 -vsync -1
+{% for variant_name, variant in streaming.adaptive.variants.items() %}
+    -c:v {{ streaming.adaptive.video_codec }} -c:a {{ streaming.adaptive.audio_codec }} -b:v {{ variant.video_bitrate }} -b:a {{ variant.audio_bitrate }}
+      -vf "scale={{ variant.width }}:trunc(ow/a/2)*2" {{ variant.extra_settings }}
+      -force_key_frames expr:gte(t,n_forced*{{ streaming.hq_config.keyframe_period }}) -f flv
+      rtmp://localhost/show/$name_{{ variant_name }}
+{% endfor %}
+    -c copy -f flv rtmp://localhost/show/$name_src
+{% if streaming.youtube_stream_keys is defined %}
+    -c copy -f flv rtmp://localhost/youtube_push_$name/stream
+{% endif %}
+    ;
+
+  live on;
+
+  hls on;
+  hls_path {{ streaming.backend.data_root }}/hls/source;
+  hls_fragment_naming system;
+
+  drop_idle_publisher 20s;
+}
+
+application show {
+  allow publish ::1;
+  allow publish 127.0.0.1;
+  deny publish all;
+
+{% for uri in streaming.backend.rtmp_push_uris %}
+  push {{ uri }};
+{% endfor %}
+
+  live on;
+
+  hls on;
+  hls_path {{ streaming.backend.data_root }}/hls/multi;
+  hls_fragment_naming system;
+{% for variant_name, variant in streaming.adaptive.variants.items() | sort(attribute='1.hls_bandwidth') %}
+  hls_variant _{{ variant_name }} BANDWIDTH={{ variant.hls_bandwidth }} RESOLUTION={{ variant.width }}x{{ variant.width * 9 // 16}};
+{% endfor %}
+  hls_variant _src BANDWIDTH={{ streaming.hq_config.hls_bandwidth }} RESOLUTION={{ streaming.hq_config.width }}x{{ streaming.hq_config.width * 9 // 16}};
+
+  drop_idle_publisher 20s;
+}
+
+{% if streaming.youtube_stream_keys is defined %}
+{% for room, stream_key in streaming.youtube_stream_keys.items() %}
+application youtube_push_{{ room }} {
+  allow publish ::1;
+  allow publish 127.0.0.1;
+  deny publish all;
+  deny play all;
+  live on;
+  push rtmp://a.rtmp.youtube.com/live2/{{ stream_key|string }};
+}
+{% endfor %}
+{% endif %}

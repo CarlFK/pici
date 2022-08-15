@@ -1,0 +1,26 @@
+---
+- name: generate private key
+  openssl_privatekey:
+    state: present
+    path: "{{ privatekey_path }}"
+  tags:
+    - tls-certificates
+
+- name: generate subjectaltname list
+  set_fact:
+    all_subject_alt_names: "['{{ common_name }}'] + {{ subject_alt_names }}"
+  tags:
+    - tls-certificates
+
+- name: generate certificate signing request
+  openssl_csr:
+    state: present
+    common_name: "{{ common_name }}"
+    subject_alt_name: "{{ all_subject_alt_names \
+                       | map('regex_replace', '^(.*)$', 'DNS:\\1') \
+                       | join(',') }}"
+    path: "{{ csr_path }}"
+    privatekey_path: "{{ privatekey_path }}"
+  register: csr_result
+  tags:
+    - tls-certificates

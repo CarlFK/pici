@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+
+rtmp_auto_push on;
+rtmp_socket_dir /var/lib/nginx/rtmp;
+
+rtmp {
+  deny publish all;
+
+  server {
+    listen [::]:1935;
+
+    include rtmp/*.conf;
+  }
+}
