@@ -5,14 +5,15 @@
 
 apt update --allow-releaseinfo-change
 apt upgrade --assume-yes
+apt autoremove --assume-yes
+
+# dpkg-divert: error: rename involves overwriting '/usr/share/vim/vim82/doc/help.txt.vim-tiny' with different file '/usr/share/vim/vim82/doc/help.txt', not allowed
+# so remove it
+apt remove vim-tiny --assume-yes
 
 apt install --assume-yes ssh-import-id vim tmux \
-    git etckeeper sshfs tio rsync openocd fxload
-
-# trying to install jq as part of the above:
-# dpkg-divert: error: rename involves overwriting '/usr/share/vim/vim82/doc/help.txt.vim-tiny' with different file '/usr/share/vim/vim82/doc/help.txt', not allowed
-# so do it here.
-apt install --assume-yes jq
+    git etckeeper sshfs tio rsync openocd fxload \
+    jq
 
 # E: Package 'sftp' has no installation candidate
 # E: Unable to locate package flterm
@@ -20,9 +21,13 @@ apt install --assume-yes jq
 # flcli=makestuff/apps/flcli/lin.x64/rel/flcli
 # fx2loader=makestuff/apps/fx2loader/lin.x64/rel/fx2loader
 
+apt install --assume-yes \
+    gstreamer1.0-plugins-base-apps
+
 apt autoremove --assume-yes
 
 wget -N http://launchpadlibrarian.net/493868580/overlayroot_0.47ubuntu1_all.deb
+# apt install cryptsetup cryptsetup-bin cryptsetup-initramfs cryptsetup-run
 apt install --assume-yes ./overlayroot_0.47ubuntu1_all.deb
 
 KERN=$(uname -r)
