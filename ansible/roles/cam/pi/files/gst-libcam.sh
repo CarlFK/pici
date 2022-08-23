@@ -9,7 +9,9 @@ echo ${ip}
 RTMP_DEST=rtmp://${ip}/stream/$(/usr/bin/hostname --short)
 
 /usr/bin/gst-launch-1.0 libcamerasrc ! \
-    videoconvert ! x264enc bitrate=1000 tune=zerolatency ! video/x-h264 ! h264parse ! \
-    queue ! flvmux name=mux ! \
+    video/x-raw,colorimetry=bt709,format=NV12,interlace-mode=progressive,framerate=30/1 ! \
+    v4l2h264enc extra-controls=controls,video_bitrate_mode=0,video_bitrate=1000000,repeat_sequence_header=1 ! video/x-h264,profile=high,level=\(string\)4.2 ! \
+    h264parse ! \
+    queue ! flvmux ! \
     rtmpsink location=$RTMP_DEST
 
