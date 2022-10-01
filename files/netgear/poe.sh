@@ -29,16 +29,19 @@
 # They used a draft version of the PoE MIBs, but put it inside some Netgear model-specific OID instead
 # Netgear custom based on a draft of SNMP PoE spec
 
-swichip=192.168.1.163
+# swichip=192.168.1.163
+swichip=10.21.0.182
 oid=iso.3.6.1.4.1.4526.11.16.1.1.1.3.1
+port=$1
 
-if [ $# -eq 0 ]; then
-    # for port in 26 30 36; do
-    for port in 1 2 3 4 5; do
-        snmpget -v1 -c pib ${swichip} ${oid}.$port
-    done
-else
+# show current value
+snmpget -v 3 -u admin -l authPriv -a MD5 -x DES -A wordpass -X wordpass -c pib \
+      ${swichip} "${oid}.$port"
+
+# maybe set new value
+if [ $# -eq 2 ]; then
+    val=$2
     snmpset -v 3 -u admin -l authPriv -a MD5 -x DES -A wordpass -X wordpass -c pib \
-      ${swichip} "${oib}.$1" i "$2"
+      ${swichip} "${oid}.$port" i "$val"
 fi
 
