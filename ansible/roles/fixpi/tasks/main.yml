@@ -92,14 +92,22 @@
     dest: "{{ nfs_root }}/root/etc/default/"
 
 - name: set hostname to localhost (dhclient will get hostname from server)
-  copy:
-    src: "files/etc/hostname"
-    dest: "{{ nfs_root }}/root/etc/hostname"
+  replace:
+    path: "{{ nfs_root }}/root/etc/hostname"
+    regexp: '^.*$'
+    replace: 'localhost'
+  tags:
+  - hostname
 
 - name: login spam
   copy:
     src: "files/etc/show_info.sh"
     dest: "{{ nfs_root }}/root/etc/show_info.sh"
+
+- name: more login spam
+  copy:
+    src: "files/etc/profile.d/"
+    dest: "{{ nfs_root }}/root/etc/"
 
 - name: sshd password settings
   copy:
