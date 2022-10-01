@@ -11,7 +11,9 @@
 {% for pi in nos %}
 
   pi{{pi.port}}<br>
-  ssh -p {{100+pi.port}}22 pi@fpga-gw-ps1.mithis.com
+  ssh -p {{100+pi.port}}22 pi@fpga-gw-ps1.mithis.com<br>
+  mpv rtmp://fpga-gw-ps1.mithis.com/stream/pi{{pi.port}}<br>
+  vlc rtmp://fpga-gw-ps1.mithis.com/stream/pi{{pi.port}}_src<br>
 
   <video
     id="my-video"
@@ -22,6 +24,7 @@
   >
   <source src="/src/pi{{pi.port}}.m3u8" type='application/x-mpegURL' />
   </video>
+  <hr>
 
 {% endfor %}
 

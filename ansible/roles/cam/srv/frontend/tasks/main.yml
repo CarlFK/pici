@@ -4,12 +4,13 @@
     src: templates/index.html.j2
     dest: /srv/streaming/www/index.html
   tags:
-    cam
+    - cam
+    - index.html
 
 - name: js video player
-  file:
-    src: templates/index.html.j2
-    dest: /srv/streaming/www/index.html
+  copy:
+    src: files/videojs-contrib-media-sources.js
+    dest: /srv/streaming/www/videojs-contrib-media-sources.js
   tags:
-    cam
+    - cam
 
