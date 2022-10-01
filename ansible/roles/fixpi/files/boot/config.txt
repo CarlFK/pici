@@ -93,3 +93,5 @@ arm_64bit=1
 
 core_freq=250
 enable_uart=1
+
+# gpu_mem=64
