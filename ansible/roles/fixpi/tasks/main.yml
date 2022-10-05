@@ -92,10 +92,9 @@
     dest: "{{ nfs_root }}/root/etc/default/"
 
 - name: set hostname to localhost (dhclient will get hostname from server)
-  replace:
-    path: "{{ nfs_root }}/root/etc/hostname"
-    regexp: '^.*$'
-    replace: 'localhost'
+  copy:
+    content: 'localhost'
+    dest: "{{ nfs_root }}/root/etc/hostname"
   tags:
   - hostname
 
