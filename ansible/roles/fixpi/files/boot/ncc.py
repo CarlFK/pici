@@ -13,8 +13,6 @@ echo "start" | netcat -q 1 -u $NETCONSLOGR 6666
 sudo modprobe netconsole netconsole="@/,@$NETCONSLOGR/"
 append ... netconsole=@192.156.1.5/eth0,@192.168.1.3/00:08:02:a0:ab:cf
 
-or because this ncc.py isn't working:
-nc -u -l -p 6666
 """
 
 import datetime
@@ -24,7 +22,7 @@ from twisted.internet import reactor
 
 def log(text):
     """ make noise, dispaly the text, append to log file """
-    print( "\x07", text, end="" )
+    print "\x07", text,
     open('ncc.log','a').write(text)
 
 class LogUDP(DatagramProtocol):
@@ -38,18 +36,17 @@ class LogUDP(DatagramProtocol):
             # reset the 'stopwatch'
             self.start_time=this_time
             log("\nstarted: %s\n" % (this_time))
-        else:
+	else:
             if self.start_time:
                 elapsed=this_time-self.start_time
                 log("\nelasped: %s min.\n" % (elapsed.seconds/60.0))
                 # kill the clock, we don't want any more timings
                 self.start_time=None
-            log(str(datagram))
+            log(datagram)
 
 def main():
-    # hp=reactor.listenUDP(6666, LogUDP()).getHost()
-    hp=reactor.listenUDP(6666, LogUDP(), interface="10.21.0.1").getHost()
-    print( f"listening on {hp}" )
+    hp=reactor.listenUDP(6666, LogUDP()).getHost()
+    print "listening on %s" % hp
     log("\nlogger started: %s\n" % datetime.datetime.now())
     reactor.run()
 
