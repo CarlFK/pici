@@ -11,6 +11,8 @@ apt autoremove --assume-yes
 # so remove it
 apt remove vim-tiny --assume-yes
 
+# apt install --assume-yes eatmydata
+
 apt install --assume-yes ssh-import-id vim tmux \
     git etckeeper sshfs tio rsync openocd fxload \
     jq software-properties-common
