@@ -2,10 +2,8 @@
 - hosts: pib
   roles:
   - pxe/dhcp-server
-  - user
   - firewall
   - sshd
-  - motd
   - img
   - fixpi
   - pxe
