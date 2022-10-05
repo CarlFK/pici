@@ -24,3 +24,9 @@
   # args:
   #  creates: "{{ nfs_root }}"
 
+- name: install scripts to manage pi states
+  copy:
+    src: files/files
+    dest: /root
+
+
