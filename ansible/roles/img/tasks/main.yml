@@ -24,9 +24,32 @@
   # args:
   #  creates: "{{ nfs_root }}"
 
+- name: create scripts dir
+  file:
+    path: /root/scripts
+    state: directory
+
 - name: install scripts to manage pi states
   copy:
-    src: files/files
-    dest: /root
+    src: "files/files"
+    dest: "/root"
+    mode: preserve
+  tags:
+    - scripts
+
+- name: install scripts to manage pi states II
+  copy:
+    src: "files/files/{{ item }}"
+    dest: "/root/scripts/{{ item }}"
+    mode: preserve
+  with_items:
+   - scripts/burn.sh
+   - scripts/maintenance.sh
+   - scripts/mktftpln.sh
+   - scripts/normal.sh
+   - netgear/poe.sh
+   - netgear/allpoe.sh
+
+
 
 
