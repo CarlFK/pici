@@ -30,7 +30,6 @@ apt install --assume-yes \
 apt autoremove --assume-yes
 
 wget -N http://launchpadlibrarian.net/493868580/overlayroot_0.47ubuntu1_all.deb
-# apt install cryptsetup cryptsetup-bin cryptsetup-initramfs cryptsetup-run
 apt install --assume-yes ./overlayroot_0.47ubuntu1_all.deb
 
 KERN=$(uname -r)
