@@ -1,7 +1,11 @@
 #!/bin/bash -ex
 
-# setup3.sh
+# uppi1.sh
 # run on the pi
+
+# may install a new kernel.
+# kernel version is needed by KERN=$(uname -r)
+# so reboot an run uppi2.sh
 
 apt update --allow-releaseinfo-change
 apt upgrade --assume-yes
@@ -29,28 +33,8 @@ apt install --assume-yes \
 
 apt autoremove --assume-yes
 
-wget -N http://launchpadlibrarian.net/493868580/overlayroot_0.47ubuntu1_all.deb
-apt install --assume-yes ./overlayroot_0.47ubuntu1_all.deb
-
-KERN=$(uname -r)
-update-initramfs -c -k "${KERN}"
-
-INITRD=initrd.img-"${KERN}"
-sed -i /boot/config.txt -e "/initramfs.*/d"
-echo initramfs "${INITRD}" >> /boot/config.txt
-
-# because we now have an initrd, and:
-# initramfs-tools: NFSv4 not supported for root fs
-# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=409271
-# remove ,nfsvers=4,proto=tcp from cmdline.txt
-# sed -i "/nfsroot/s/,nfsvers=.*proto=tcp//" /boot/cmdline.txt
-sed -i "/nfsroot/s/,nfsvers=4.2//" /boot/cmdline.txt
-
-
 cat <<EOT
-server:
-files/scripts/normal.sh
-
-rpi/setup3.sh says bye bye!
+rebooting....
+ssh in again and run uppi2.sh
 EOT
-poweroff
+reboot
