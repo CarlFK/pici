@@ -11,7 +11,9 @@
 {% for pi in nos %}
 
   pi{{pi.port}}<br>
-  ssh -p {{100+pi.port}}22 pi@fpga-gw-ps1.mithis.com<br>
+  <a href="https://fpga-gw-ps1.mithis.com:4433/?hostname=10.21.0.{{100+pi.port}}&username=pi&password=RWlQbzNhZXg=">
+    ssh -p {{100+pi.port}}22 pi@fpga-gw-ps1.mithis.com<br>
+  </a>
   mpv rtmp://fpga-gw-ps1.mithis.com/stream/pi{{pi.port}}<br>
   vlc rtmp://fpga-gw-ps1.mithis.com/stream/pi{{pi.port}}_src<br>
 
