@@ -105,7 +105,7 @@
 
 - name: more login spam
   copy:
-    src: "files/etc/profile.d/"
+    src: "files/etc/profile.d"
     dest: "{{ nfs_root }}/root/etc/"
 
 - name: sshd password settings
@@ -115,7 +115,11 @@
 
 - name: vanilla pi to fpga pi
   copy:
-    src: "files/uppi.sh"
-    dest: "{{ nfs_root }}/root/root/uppi.sh"
+    src: "files/{{ item }}"
+    dest: "{{ nfs_root }}/root/root/{{ item }}"
     mode: u+x
+  with_items:
+    - uppi1.sh
+    - uppi2.sh
+
 

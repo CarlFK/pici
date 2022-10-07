@@ -1,1 +1,1 @@
-grep -E "(name|MHz)" /proc/cpuinfo
+grep -E "Hardware" /proc/cpuinfo
