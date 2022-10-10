@@ -1,31 +1,18 @@
 ---
 - hosts: pib
   roles:
-  - pxe/dhcp-server
-  - firewall
-  - sshd
-  - img
-  - fixpi
-  - pxe
-  - nfs
+  # - pxe/dhcp-server
+  # - firewall
+  # - sshd
+  # - img
+  # - fixpi
+  # - pxe
+  # - nfs
+  # - wssh
+  - site
 
-- hosts: wssh
+- hosts: pi3
   roles:
-  - wssh
-
-- hosts: onpi
-  roles:
-  # - onpi
   - cam/pi
-
-- hosts: streaming-backends
-  roles:
-  - cam/srv/base
-  - cam/srv/backend
-
-- hosts: streaming-frontends
-  roles:
-  - cam/srv/base
-  - cam/srv/frontend
-
+  - onpi
 
