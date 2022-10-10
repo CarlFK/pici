@@ -1,1 +1,1 @@
-grep -E "Hardware" /proc/cpuinfo
+grep -E "(Hardware|Model)" /proc/cpuinfo
