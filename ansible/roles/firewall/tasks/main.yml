@@ -1,7 +1,9 @@
 ---
 - name: Install nftables
   apt:
-    name: nftables nmap
+    name:
+    - nftables
+    - nmap
 
 - name: Write nftables rules
   template:
