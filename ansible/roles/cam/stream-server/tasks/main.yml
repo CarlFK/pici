@@ -1,16 +1,19 @@
 ---
-- name: install gst packages
-  apt:
-    name:
-      - gstreamer1.0-tools
+- name: remove DCV nginx.confs
+  file:
+    path: /etc/nginx/rtmp/{{ item }}
+    state: absent
+  loop:
+    - backend.conf
+    - frontend.conf
+  notify: reload nginx
   tags:
     - streaming
 
-- name: cam script
-  copy:
-    src: files/frontend.conf
-    dest: /usr/local/bin/gst-libcam.sh
-    mode: u+x
+- name: install tiny rtmp nginx conf
+  template:
+    src: templates/pib.conf.j2
+    dest: /etc/nginx/rtmp/pib.conf
   tags:
-    cam
+    streaming
 

@@ -3,7 +3,8 @@
 application front {
     allow publish 127.0.0.1;
     allow publish ::1;
-    allow publish 10.21.0.102;
+    allow publish {{ eth_local_address }}/{{ eth_local_netmask }};
+
     deny publish all;
     allow play all;
 

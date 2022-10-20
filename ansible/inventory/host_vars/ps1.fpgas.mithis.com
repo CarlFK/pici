@@ -49,7 +49,7 @@ streaming:
     ips:
       - "1.1.1.1"
   rtmp_publishers:
-    - 0.0.0.0/0
+    - 10.21.0.0/24
   method: rtmp
   rooms:
     - minidebconf
