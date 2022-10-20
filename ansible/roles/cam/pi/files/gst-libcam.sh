@@ -4,7 +4,7 @@ hn=$(/usr/bin/hostname --short)
 
 # find the upstream IP
 ip=$(ip -json route show default | jq ".[0].gateway" --raw-output)
-RTMP_DEST=rtmp://${ip}/stream/${hn}
+RTMP_DEST=rtmp://${ip}/pib/${hn}
 
 /usr/bin/gst-launch-1.0 libcamerasrc ! \
     video/x-raw,colorimetry=bt709,format=NV12,interlace-mode=progressive,framerate=6/1 ! \
