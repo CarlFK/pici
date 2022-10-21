@@ -66,6 +66,24 @@ streaming:
     video_codec: libx264
     audio_codec: aac
     variants:
+      high:
+        hls_bandwidth: 1152000
+        video_bitrate: 1024k
+        audio_bitrate: 128k
+        extra_settings: -tune zerolatency -preset veryfast -crf 23
+        width: 900
+      mid:
+        hls_bandwidth: 448000
+        video_bitrate: 768k
+        audio_bitrate: 96k
+        extra_settings: -tune zerolatency -preset veryfast -crf 23
+        width: 720
+      low:
+        hls_bandwidth: 288000
+        video_bitrate: 256k
+        audio_bitrate: 48k
+        extra_settings: -tune zerolatency -preset veryfast -crf 23
+        width: 480
   dump: False
   mix_channels: false
 

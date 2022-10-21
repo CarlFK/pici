@@ -1,11 +1,13 @@
 ---
 - name: remove DCV nginx.confs
   file:
-    path: /etc/nginx/rtmp/{{ item }}
+    path: /etc/nginx/{{ item }}
     state: absent
   loop:
-    - backend.conf
-    - frontend.conf
+    - rtmp/backend.conf
+    - rtmp/frontend.conf
+    - sites-enabled/streaming-backend-http.conf
+    - sites-enabled/streaming-backend-https.conf
   notify: reload nginx
   tags:
     - streaming
@@ -15,5 +17,13 @@
     src: templates/pib.conf.j2
     dest: /etc/nginx/rtmp/pib.conf
   tags:
-    streaming
+    - streaming
+
+- name: pibatize streaming-frontend-https.conf
+  replace:
+    path: /etc/nginx/sites-enabled/streaming-frontend-https.conf
+    regexp: ' *proxy_pass https://backend.ps1.fpgas.mithis.com/live/.*'
+    replace: ' root /srv/streaming-frontend/hls/;'
+  tags:
+    - streaming
 
