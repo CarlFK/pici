@@ -1,5 +1,12 @@
 #!/bin/bash -x
 
+
+while [ "$(/usr/bin/hostname --short)" = "localhost" ]
+do
+    echo waiting for hostname to not be localhost...
+    sleep 5
+done
+
 hn=$(/usr/bin/hostname --short)
 
 # find the upstream IP
