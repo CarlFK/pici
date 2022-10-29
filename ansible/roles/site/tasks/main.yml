@@ -1,0 +1,16 @@
+---
+- name: page of video players
+  template:
+    src: templates/index.html.j2
+    dest: "{{ streaming.frontend.data_root }}/www/index.html"
+  tags:
+    - cam
+    - index.html
+
+- name: js video player
+  copy:
+    src: files/videojs-contrib-media-sources.js
+    dest: "{{ streaming.frontend.data_root }}/www/videojs-contrib-media-sources.js"
+  tags:
+    - cam
+
