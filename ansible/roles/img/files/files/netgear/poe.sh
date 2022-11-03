@@ -44,7 +44,7 @@ if [ $# -eq 2 ]; then
     val=$2
     # snmpset -v 3 -u admin -l authPriv -a MD5 -x DES -A wordpass -X wordpass -c pib \
     #  ${swichip} "${oid}.$port" i "$val"
-    /home/videoteam/snmp/bin/python3 /home/videoteam/snmp/bin/snmpget.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
+    /home/videoteam/snmp/bin/python3 /home/videoteam/snmp/bin/snmpset.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
        ${swichip} "${oid}.$port" i "$val"
 
 fi
