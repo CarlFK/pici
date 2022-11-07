@@ -30,11 +30,10 @@
   </video>
     <!-- <source src="https://backend.ps1.fpgas.mithis.com/live/pi{{pi.port}}_src.m3u8" type='application/x-mpegURL' /> -->
 
-<form method="post" action="umm....">
+<form method="get" action="http://ps1.fpgas.mithis.com:8001/snmp/toggle">
  Turn it off and on again.<br>
- <input type="submit" value="Reset" class=reset_button>
- <input type="hidden" name="portno" value="{{pi.port}}">
- (doesn't work yet.)<br>
+ <input type="submit" value="Reset {{pi.port}}" class=reset_button>
+ <input type="hidden" name="port" value="{{pi.port}}">
 </form>
 
   <hr>
