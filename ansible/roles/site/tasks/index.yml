@@ -1,0 +1,9 @@
+---
+- name: page of everything
+  template:
+    src: templates/index.html.j2
+    dest: "{{ streaming.frontend.data_root }}/www/index.html"
+  tags:
+    - cam
+    - index.html
+

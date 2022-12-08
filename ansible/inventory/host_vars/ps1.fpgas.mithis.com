@@ -28,6 +28,7 @@ letsencrypt_well_known_dir: /var/www/well-known
 
 streaming_frontend_aliases: []
 streaming_frontend_hostname: frontend.ps1.fpgas.mithis.com
+domain_name: "{{ streaming_frontend_hostname}}"
 
 streaming:
   frontend:
@@ -88,3 +89,6 @@ streaming:
   mix_channels: false
 
 skip_unit_test: false
+
+app_dir: /home/videoteam/pib
+django_project_name: pib

@@ -1,0 +1,78 @@
+# install_django.yml
+---
+- name: python and friends
+  apt:
+    name:
+    - python3-venv
+
+# Pull Django project down from GitHub
+# - name: git pull django project from GitHub
+#   git:
+#     repo: "{{ project_repo }}"
+#     dest: "{{ app_dir }}"
+#    force: yes
+
+# Create Virtual Env and install Python packages
+# - name: pip install /my_app/requirements.txt
+#  pip:
+#    requirements: "{{ app_dir }}/requirements.txt"
+#    virtualenv: "{{ app_dir }}/venv"
+
+# You do not have to supply '-e' option in extra_args
+- name: PIP install django site
+  ansible.builtin.pip:
+    name: git+ssh://github.com/CarlFK/pici.git&subdirectory=/ansible/roles/site/files
+#    virtualenv: /my_app/venv
+
+# python -m pip install -e "vcs+protocol://repo_url/#egg=pkg&subdirectory=pkg_dir"
+
+# Copy .env file
+- name: copy .env file to /home/user/appdir/.env
+  template:
+    src: templates/.env.j2
+    dest: "{{ app_dir }}/.env"
+
+# change permissions of whole app_dir
+- name: Recursively change ownership of a directory
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    recurse: yes
+    group: wheel
+    mode: '0775'
+
+# Run Django collectstatic
+- name: Run manage.py collectstatic
+  community.general.django_manage:
+    command: collectstatic
+    app_path: "{{ app_dir }}"
+    virtualenv: "{{ app_dir }}/venv"
+
+# Run Django manage.py makemigrations
+- name: Run manage.py makemigrations
+  community.general.django_manage:
+    command: makemigrations
+    app_path: "{{ app_dir }}"
+    virtualenv: "{{ app_dir }}/venv"
+
+# Run Django manage.py migrate
+- name: Run manage.py migrate
+  community.general.django_manage:
+    command: migrate
+    app_path: "{{ app_dir }}"
+    virtualenv: "{{ app_dir }}/venv"
+
+- name: Load the initial_data fixture into the application
+  community.general.django_manage:
+    command: loaddata
+    app_path: "{{ app_dir }}"
+    fixtures: "{{ fixture_path }}"
+    virtualenv: "{{ app_dir }}/venv"
+
+# Change allowed hosts to include the server IP address
+- name: add server IP address to allowed hosts
+  lineinfile:
+    path: "{{ app_dir }}/{{ django_project_name }}/settings.py"
+    state: present
+    regexp: '^ALLOWED_HOSTS = '
+    line: "ALLOWED_HOSTS = ['{{ eth_uplink_static_address }}','{{ domain_name }}']"
