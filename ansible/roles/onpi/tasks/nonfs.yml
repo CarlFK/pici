@@ -1,0 +1,8 @@
+- name: let kernel figure out nfs ver
+  # (4.x doesn't work with overlayfs)
+  # sed -i "/nfsroot/s/,nfsvers=4.2//" /boot/cmdline.txt
+  replace:
+    path: /boot/cmdline.txt
+    regexp: "nfsvers=4.2"
+    replace: ""
+

@@ -1,0 +1,7 @@
+---
+- name: yoink overlayroot from ubunutu
+  script: files/install_overlayroot.sh
+  args:
+    chdir: /var/cache
+    creates: var/cache/overlayroot
+
