@@ -21,7 +21,7 @@
 # You do not have to supply '-e' option in extra_args
 - name: PIP install django site
   ansible.builtin.pip:
-    name: git+ssh://github.com/CarlFK/pici.git&subdirectory=/ansible/roles/site/files
+    name: git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/
 #    virtualenv: /my_app/venv
 
 # python -m pip install -e "vcs+protocol://repo_url/#egg=pkg&subdirectory=pkg_dir"
