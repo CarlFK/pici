@@ -18,10 +18,16 @@
 #    requirements: "{{ app_dir }}/requirements.txt"
 #    virtualenv: "{{ app_dir }}/venv"
 
-# You do not have to supply '-e' option in extra_args
-- name: PIP install django site
+- name: copy over the pib site
+  copy:
+    src: "files/pib/pib/"
+    dest: "/home/videoteam/pib"
+
+- name: PIP install snmp_switch site app
   ansible.builtin.pip:
-    name: git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/
+    name: "git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch"
+      # pip install git+http://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch/
+
 #    virtualenv: /my_app/venv
 
 # python -m pip install -e "vcs+protocol://repo_url/#egg=pkg&subdirectory=pkg_dir"
