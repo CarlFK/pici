@@ -34,23 +34,8 @@
   when: False
   #  when: not privkey_path.stat.exists and not fullchain_path.stat.exists
 
-# Allow Nginx Full progile through the ufw firewall
-- name: Let the ufw firewall allow the Nginx Full profile through
-  community.general.ufw:
-    rule: allow
-    name: Nginx Full
-  when: False
-
-# Block Nginx http with the ufw firewall
-- name: ufw firewall prevents Nginx HPPT profile through
-  community.general.ufw:
-    rule: deny
-    name: Nginx HTTP
-  when: False
-
 # Run Certbot
 - name: Run certbot on the domain name using provided email address
-  # shell: certbot -d {{ domain_name }} --nginx -n --agree-tos -m {{ letsencrypt_account_email }}
   shell: certbot -d {{ domain_name }} --nginx -n --agree-tos -m {{ letsencrypt_account_email }}
   args:
     executable: /bin/bash
