@@ -33,26 +33,27 @@
 # python -m pip install -e "vcs+protocol://repo_url/#egg=pkg&subdirectory=pkg_dir"
 
 # Copy .env file
-- name: copy .env file to /home/user/appdir/.env
-  template:
-    src: templates/.env.j2
-    dest: "{{ app_dir }}/.env"
+# - name: copy .env file to /home/user/appdir/.env
+#  template:
+#    src: templates/.env.j2
+#    dest: "{{ app_dir }}/.env"
+
 
 # change permissions of whole app_dir
-- name: Recursively change ownership of a directory
-  file:
-    path: "{{ app_dir }}"
-    state: directory
-    recurse: yes
-    group: wheel
-    mode: '0775'
+# - name: Recursively change ownership of a directory
+#   file:
+#     path: "{{ app_dir }}"
+#    state: directory
+#    recurse: yes
+#    group: wheel
+#    mode: '0775'
 
 # Run Django collectstatic
-- name: Run manage.py collectstatic
-  community.general.django_manage:
-    command: collectstatic
-    app_path: "{{ app_dir }}"
-    virtualenv: "{{ app_dir }}/venv"
+# - name: Run manage.py collectstatic
+#   community.general.django_manage:
+#     command: collectstatic
+#     app_path: "{{ app_dir }}"
+#     virtualenv: "{{ app_dir }}/venv"
 
 # Run Django manage.py makemigrations
 - name: Run manage.py makemigrations
@@ -82,3 +83,6 @@
     state: present
     regexp: '^ALLOWED_HOSTS = '
     line: "ALLOWED_HOSTS = ['{{ eth_uplink_static_address }}','{{ domain_name }}']"
+
+
+

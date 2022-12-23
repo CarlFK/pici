@@ -50,7 +50,7 @@
 
 # Run Certbot
 - name: Run certbot on the domain name using provided email address
-  # shell: certbot -d {{ domain_name }} -d www.{{ domain_name }} --nginx -n --agree-tos -m {{ letsencrypt_account_email }}
+  # shell: certbot -d {{ domain_name }} --nginx -n --agree-tos -m {{ letsencrypt_account_email }}
   shell: certbot -d {{ domain_name }} --nginx -n --agree-tos -m {{ letsencrypt_account_email }}
   args:
     executable: /bin/bash
