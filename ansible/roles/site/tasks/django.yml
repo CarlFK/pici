@@ -75,6 +75,7 @@
     app_path: "{{ app_dir }}"
     fixtures: "{{ fixture_path }}"
     virtualenv: "{{ app_dir }}/venv"
+  when: fixture_path is defined
 
 # Change allowed hosts to include the server IP address
 - name: add server IP address to allowed hosts
