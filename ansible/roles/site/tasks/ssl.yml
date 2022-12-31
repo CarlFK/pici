@@ -19,8 +19,8 @@
     - python3-certbot-nginx
     state: present
 
-# Copy nginx config file will ssl included
-- name: copy nginx config file to /etc/nginx/sites-available/mydomain.org
+# Deploy nginx config file with ssl included
+- name: Deploy nginx config file to /etc/nginx/sites-available/mydomain.org
   template:
     src: templates/nginx_ssl.j2
     dest: "/etc/nginx/sites-available/{{ domain_name }}"
@@ -31,8 +31,9 @@
     src: "/etc/nginx/sites-available/{{ domain_name }}"
     dest: /etc/nginx/sites-enabled/default
     state: link
-  when: False
-  #  when: not privkey_path.stat.exists and not fullchain_path.stat.exists
+  # when: False
+  when: True
+  # when: not privkey_path.stat.exists and not fullchain_path.stat.exists
 
 # Run Certbot
 - name: Run certbot on the domain name using provided email address
