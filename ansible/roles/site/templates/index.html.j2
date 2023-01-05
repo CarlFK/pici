@@ -11,10 +11,10 @@
 {% for pi in nos %}
 
   pi{{pi.port}}<br>
-  <a href="https://frontend.ps1.fpgas.mithis.com:4433/?hostname=10.21.0.{{100+pi.port}}&username=pi&password=RWlQbzNhZXg=">
+  <a href="https://ps1.fpgas.mithis.com:4433/?hostname=10.21.0.{{100+pi.port}}&username=pi&password=RWlQbzNhZXg=">
     ssh -p {{100+pi.port}}22 pi@ps1.fpgas.mithis.com<br>
   </a>
-  vlc https://frontend.ps1.fpgas.mithis.com/live/pi{{pi.port}}.m3u8<br>
+  vlc https://ps1.fpgas.mithis.com/live/pi{{pi.port}}.m3u8<br>
 
   <video
     id="my-video"
@@ -24,13 +24,13 @@
     data-setup="{}"
   >
     <source
-        src="https://frontend.ps1.fpgas.mithis.com/live/pi{{pi.port}}.m3u8"
+        src="https://ps1.fpgas.mithis.com/live/pi{{pi.port}}.m3u8"
         type='application/x-mpegURL'
     />
   </video>
     <!-- <source src="https://backend.ps1.fpgas.mithis.com/live/pi{{pi.port}}_src.m3u8" type='application/x-mpegURL' /> -->
 
-<form method="post" action="http://ps1.fpgas.mithis.com:8001/snmp/toggle">
+<form method="post" action="https://ps1.fpgas.mithis.com/snmp/toggle">
  Turn it off and on again.<br>
  <input type="submit" value="Reset {{pi.port}}" class=reset_button>
  <input type="hidden" name="port" value="{{pi.port}}">

@@ -12,7 +12,7 @@
   tags:
     - streaming
 
-- name: install tiny rtmp nginx conf
+- name: install pib rtmp nginx conf
   template:
     src: templates/pib.conf.j2
     dest: /etc/nginx/rtmp/pib.conf
@@ -24,6 +24,7 @@
     path: /etc/nginx/sites-enabled/streaming-frontend-https.conf
     regexp: ' *proxy_pass https://backend.ps1.fpgas.mithis.com/live/.*'
     replace: ' root /srv/streaming-frontend/hls/;'
+  when: False
   tags:
     - streaming
 

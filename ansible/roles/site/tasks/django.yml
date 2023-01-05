@@ -26,7 +26,7 @@
 - name: PIP install snmp_switch site app
   ansible.builtin.pip:
     name: "git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch"
-      # pip install git+http://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch/
+    virtualenv: "{{ app_dir }}/venv"
 
 #    virtualenv: /my_app/venv
 

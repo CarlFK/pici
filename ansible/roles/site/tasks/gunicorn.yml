@@ -3,7 +3,9 @@
 # Ensure gunicorn is installed
 - name: pip install gunicorn
   pip:
-    name: gunicorn
+    name:
+    - gunicorn
+    - uvicorn
     virtualenv: "{{ app_dir }}/venv"
 
 # Copy gunicorn socket file
