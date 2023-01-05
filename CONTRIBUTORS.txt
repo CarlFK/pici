@@ -1,0 +1,27 @@
+﻿Project lead
+Carl Karsten <Carl@NextDayVideo.com>
+
+Inspiration and hardware
+Tim Ansell <me@mith.ro>
+
+CAD and Laser cutting teacher
+Andrew Wingate <andrew@evezor.com>
+
+Web SSH and systemd
+Weezel <eevel.weezel@gmail.com>
+
+SNMP Django views
+Roman Mickiewicz <mickiewicz.roman@gmail.com>
+
+PoE Switch and Internet
+James Lamken <james@usethis.email>
+
+SNMP spelunking
+Michael Farrell <micolous@gmail.com>
+
+Invaluable #Bash help and deserved call out
+greycat @greycat:libera.chat
+
+#raspberrypi net boot mentor
+clever @clever:libera.chat
+
