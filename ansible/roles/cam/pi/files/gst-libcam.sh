@@ -3,8 +3,10 @@
 
 while [ "$(/usr/bin/hostname --short)" = "localhost" ]
 do
-    echo waiting for hostname to not be localhost...
-    sleep 5
+    # this should really be in its own systemd script.
+    # it works around some bug in
+    # https://github.com/isc-projects/dhcp/blob/master/client/scripts/linux#L121
+    reboot
 done
 
 hn=$(/usr/bin/hostname --short)
