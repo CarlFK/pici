@@ -8,6 +8,8 @@
     - rtmp/frontend.conf
     - sites-enabled/streaming-backend-http.conf
     - sites-enabled/streaming-backend-https.conf
+    - sites-enabled/streaming-frontend-http.conf
+    - sites-enabled/streaming-frontend-https.conf
   notify: reload nginx
   tags:
     - streaming

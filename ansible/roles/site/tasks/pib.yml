@@ -1,0 +1,13 @@
+# pib.yml
+#
+- name: Deploy nginx config included pib file
+  template:
+    src: templates/pib.conf.j2
+    dest: "/etc/nginx/sites-enabled/pib.conf"
+  tags: django
+
+# Restart nginx
+- name: Restart the nginx systemd service
+  systemd:
+    state: restarted
+    name: nginx

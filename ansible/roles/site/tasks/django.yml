@@ -18,26 +18,15 @@
 #    requirements: "{{ app_dir }}/requirements.txt"
 #    virtualenv: "{{ app_dir }}/venv"
 
-- name: copy over the pib site
+- name: copy over the core pib site files
   copy:
     src: "files/pib/pib/"
-    dest: "/home/videoteam/pib"
+    dest: "{{ app_dir }}"
 
 - name: PIP install snmp_switch site app
   ansible.builtin.pip:
     name: "git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch"
     virtualenv: "{{ app_dir }}/venv"
-
-#    virtualenv: /my_app/venv
-
-# python -m pip install -e "vcs+protocol://repo_url/#egg=pkg&subdirectory=pkg_dir"
-
-# Copy .env file
-# - name: copy .env file to /home/user/appdir/.env
-#  template:
-#    src: templates/.env.j2
-#    dest: "{{ app_dir }}/.env"
-
 
 # change permissions of whole app_dir
 # - name: Recursively change ownership of a directory
@@ -84,6 +73,4 @@
     state: present
     regexp: '^ALLOWED_HOSTS = '
     line: "ALLOWED_HOSTS = ['{{ eth_uplink_static_address }}','{{ domain_name }}']"
-
-
 
