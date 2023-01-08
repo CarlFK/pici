@@ -55,6 +55,7 @@ def snmp_toggle(host, username, authkey, privkey, oid, port,
             'varBinds2': varBinds2
     }
 
+
 def snmp_status(host, username, authkey, privkey, oid, port,
         authProtocol=usmHMACMD5AuthProtocol, privProtocol=usmDESPrivProtocol):
     connectto = UdpTransportTarget((host, 161))
@@ -87,6 +88,7 @@ def snmp_status(host, username, authkey, privkey, oid, port,
         'errorIndex': errorIndex,
         'varBinds': varBinds
     }
+
 
 def check_iterator(iterator):
     errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
