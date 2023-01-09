@@ -7,7 +7,7 @@ After=network.target
 User={{ user_name }}
 Group=www-data
 # WorkingDirectory={{ app_dir }}
-WorkingDirectory="/home/{{ user_name }}"
+WorkingDirectory=/home/{{ user_name }}
 ExecStart={{ app_dir }}/venv/bin/gunicorn \
           --access-logfile - \
           --workers 3 \

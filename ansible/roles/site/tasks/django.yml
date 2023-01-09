@@ -18,10 +18,22 @@
 #    requirements: "{{ app_dir }}/requirements.txt"
 #    virtualenv: "{{ app_dir }}/venv"
 
-- name: copy over the core pib site files
+- name: copy the core pib site files
   copy:
-    src: "files/pib/pib/"
+    src: "files/pib/pib"
     dest: "{{ app_dir }}"
+
+- name: copy manage.py into site dir
+  copy:
+    src: "files/pib/manage.py"
+    dest: "{{ app_dir }}"
+
+
+- name: chmod u+x manage.py
+  file:
+    path: "{{ app_dir }}/manage.py"
+    mode: 'u+x'
+
 
 - name: PIP install snmp_switch site app
   ansible.builtin.pip:

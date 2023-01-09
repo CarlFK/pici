@@ -6,6 +6,11 @@
     - python3-venv
     - python3-pip
 
+- name: Install virtualenv via pip
+  pip:
+    name: virtualenv
+# executable: pip3
+
 # Ensure gunicorn is installed
 - name: pip install gunicorn
   pip:
