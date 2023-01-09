@@ -8,9 +8,9 @@
   # - fixpi
   # - pxe
   # - nfs
-  # - wssh
-  - site
-  - cam/stream-server
+  - wssh
+  # - site
+  # - cam/stream-server
 
 - hosts: pi3
   roles:
