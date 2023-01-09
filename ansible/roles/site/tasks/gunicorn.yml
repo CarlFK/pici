@@ -1,5 +1,10 @@
 # install_gunicorn.yml
 ---
+- name: python and friends
+  apt:
+    name:
+    - python3-venv
+
 # Ensure gunicorn is installed
 - name: pip install gunicorn
   pip:
