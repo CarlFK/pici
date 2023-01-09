@@ -4,6 +4,7 @@
   apt:
     name:
     - python3-venv
+    - python3-pip
 
 # Ensure gunicorn is installed
 - name: pip install gunicorn
