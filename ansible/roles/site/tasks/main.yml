@@ -2,6 +2,7 @@
 - {include_tasks: nginx.yml, tags: django}
 - {include_tasks: gunicorn.yml, tags: django}
   # - {include_tasks: ssl.yml, tags: certbot}
+- {include_tasks: certbot.yml, tags: certbot}
 - {include_tasks: django.yml, tags: django}
 - {include_tasks: pib.yml, tags: django}
 - {include_tasks: index.yml, tags: django}

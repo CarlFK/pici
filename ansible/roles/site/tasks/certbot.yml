@@ -1,0 +1,9 @@
+---
+- name: Set Letsencrypt Cronjob for Certificate Auto Renewal
+  cron:
+    name: letsencrypt_renewal
+    special_time: monthly
+    job: "/usr/bin/certbot renew"
+  tags:
+    - tls-certificates
+
