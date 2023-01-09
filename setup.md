@@ -1,8 +1,8 @@
 ## Summary:
- 0. make box with dnsmasq
- 1. push setup2.sh and conf files to it
- 2. run setup2.sh
- 3. boot pi, run setup3.sh
+ 0. build bare debian box ready for ansible
+ 1. ansible part 1 - everything needed to netboot a pi, and the public facing server bits
+ 2. put server into update mode (pi has rw access to its files)
+ 3. boot pi, mabye ansible, maybe setup3.sh?
  4. put server into production mode
  5. boot lots of pi'
 
@@ -11,12 +11,8 @@
 
 Here is how I do it:
 https://github.com/CarlFK/veyepar/wiki/System-Stack#what-to-do-first
-don't do this:
-The installer will prompt you for a few values:
-```
-hostname: voctotest
-```
-We don't want a video mixer, so set hostname to `bare`.  This gives you a simple debian box.
+
+Instead of `hostname: voctotest` use `bare` as we don't want a video mixer, we want a simple debian box.
 
 Once the install is done, change the hostname to negk (negk is a tribute to the PS1 member that gave me the laptop I am using to develop this.)
 
