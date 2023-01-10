@@ -13,6 +13,7 @@
   loop:
     - rtmp/backend.conf
     - rtmp/frontend.conf
+    - sites-enabled/pxe
     - sites-enabled/streaming-backend-http.conf
     - sites-enabled/streaming-backend-https.conf
     - sites-enabled/streaming-frontend-http.conf
