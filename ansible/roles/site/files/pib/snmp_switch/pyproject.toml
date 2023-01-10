@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "snmp_switch"
-version = "0.0.9"
+version = "0.0.10"
 authors = [
   { name="Roman M.", email="roman@typethink.com" },
   { name="Carl Karsten", email="carl@NextDayVideo.com" },
