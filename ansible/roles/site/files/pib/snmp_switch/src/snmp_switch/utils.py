@@ -8,8 +8,56 @@ from pysnmp.proto import rfc1902
 
 from time import sleep
 
+def snmp_set_state(host, username, authkey, privkey, oid, port, state):
+        authProtocol=usmHMACMD5AuthProtocol, privProtocol=usmDESPrivProtocol):
+
+    """
+    state:
+    1=on
+    2=off
+    """
+
+    connectto = UdpTransportTarget((host, 161))
+    obj_id = ObjectIdentity(oid + '.' + port)
+
+    obj_state = ObjectType(obj_id, rfc1902.Integer(state))
+
+    auth = UsmUserData(
+        userName=username,
+        authKey=authkey,
+        authProtocol=authProtocol, #usmHMACSHAAuthProtocol,
+        privKey=privkey,
+        privProtocol=privProtocol #usmAesCfb256Protocol
+    )
+
+    engine = SnmpEngine()
+
+    iterator = setCmd(
+        engine,
+        auth,
+        connectto,
+        ContextData(),
+        obj_state
+    )
+    errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
+
+    ret = {
+            'errorIndication': errorIndication,
+            'errorStatus': errorStatus,
+            'errorIndex': errorIndex,
+            'varBinds': varBinds,
+            'errorIndication2': errorIndication2,
+            'errorStatus2': errorStatus2,
+            'errorIndex2': errorIndex2,
+            'varBinds2': varBinds2
+    }
+
+    return ret
+
+
 def snmp_toggle(host, username, authkey, privkey, oid, port,
         authProtocol=usmHMACMD5AuthProtocol, privProtocol=usmDESPrivProtocol):
+
     connectto = UdpTransportTarget((host, 161))
     obj_id = ObjectIdentity(oid + '.' + port)
     obj_off = ObjectType(obj_id, rfc1902.Integer(2))

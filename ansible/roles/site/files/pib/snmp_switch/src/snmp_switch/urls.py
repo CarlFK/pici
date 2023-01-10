@@ -8,4 +8,5 @@ urlpatterns = [
     path('status', status),
     path('toggle', toggle),
     path('toggle_all', toggle_all),
+    path('off_all', off_all),
 ]
