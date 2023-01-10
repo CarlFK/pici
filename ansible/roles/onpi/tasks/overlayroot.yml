@@ -3,5 +3,5 @@
   script: files/install_overlayroot.sh
   args:
     chdir: /var/cache
-    creates: var/cache/overlayroot
+    creates: /var/cache/overlayroot
 
