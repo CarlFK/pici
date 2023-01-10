@@ -3,9 +3,9 @@
 
 set -ex
 
-zip_name=/var/cache/pib/2022-04-04-raspios-bullseye-armhf-lite.img.xz
-img_name=/var/cache/pib/2022-04-04-raspios-bullseye-armhf-lite.img
-dist=bullseye
+zip_name=${1:-/var/cache/pib/2022-04-04-raspios-bullseye-armhf-lite.img.xz}
+img_name=${2:-/var/cache/pib/2022-04-04-raspios-bullseye-armhf-lite.img}
+dist=${3:-bullseye}
 
 mkdir -p /var/cache/pib/
 cd /var/cache/pib/

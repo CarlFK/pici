@@ -20,7 +20,7 @@
     dest: "{{ cache_dir }}"
 
 - name: extract files from raspios.img.xz
-  script: files/img2files.sh
+  script: files/img2files.sh {{ zip_name }} {{ img_name }} {{ dist }}
   # args:
   #  creates: "{{ nfs_root }}"
 
@@ -40,15 +40,15 @@
 - name: install scripts to manage pi states II
   copy:
     src: "files/files/{{ item }}"
-    dest: "/root/scripts/{{ item }}"
+    dest: "/root/{{ item }}"
     mode: preserve
   with_items:
    - scripts/burn.sh
    - scripts/maintenance.sh
    - scripts/mktftpln.sh
    - scripts/normal.sh
-   - netgear/poe.sh
-   - netgear/allpoe.sh
+   # - netgear/poe.sh
+   # - netgear/allpoe.sh
 
 
 
