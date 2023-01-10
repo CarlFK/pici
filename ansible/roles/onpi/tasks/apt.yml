@@ -3,6 +3,7 @@
 # something odd here...
 # dpkg-divert: error: rename involves overwriting '/usr/share/vim/vim82/doc/help.txt.vim-tiny' with different file '/usr/share/vim/vim82/doc/help.txt', not allowed
 # so remove it
+
 - name: apt remove tiny-vim
   apt:
     name:
