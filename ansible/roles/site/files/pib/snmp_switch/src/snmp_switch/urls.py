@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from snmp_switch.views import status, toggle, toggle_all
+from snmp_switch.views import status, toggle, toggle_all, off_all
 
 urlpatterns = [
     path('status', status),

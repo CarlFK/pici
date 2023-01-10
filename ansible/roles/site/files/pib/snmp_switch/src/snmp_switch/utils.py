@@ -8,7 +8,7 @@ from pysnmp.proto import rfc1902
 
 from time import sleep
 
-def snmp_set_state(host, username, authkey, privkey, oid, port, state):
+def snmp_set_state(host, username, authkey, privkey, oid, port, state,
         authProtocol=usmHMACMD5AuthProtocol, privProtocol=usmDESPrivProtocol):
 
     """
@@ -46,10 +46,6 @@ def snmp_set_state(host, username, authkey, privkey, oid, port, state):
             'errorStatus': errorStatus,
             'errorIndex': errorIndex,
             'varBinds': varBinds,
-            'errorIndication2': errorIndication2,
-            'errorStatus2': errorStatus2,
-            'errorIndex2': errorIndex2,
-            'varBinds2': varBinds2
     }
 
     return ret
