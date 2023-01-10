@@ -1,7 +1,0 @@
----
-- name: enable Raspberry Pi Boot
-  copy:
-    src: files/rpi.conf
-    dest: /etc/dnsmasq.d
-  notify: restart dnsmasq
-

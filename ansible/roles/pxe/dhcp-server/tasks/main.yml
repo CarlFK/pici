@@ -1,4 +1,0 @@
----
-# - include_tasks: base.yml
-- include_tasks: pib.yml
-- include_tasks: rpi.yml

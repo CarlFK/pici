@@ -1,8 +1,0 @@
-# {{ ansible_managed }}
-# d-i sets http_proxy which will be inherited by non-APT child processes
-# So squid-deb-proxy gets in the way of netinstall-related http requests
-{{ inventory_hostname }}
-{% if eth_local_address is defined %}
-# For some reason Ubuntu d-i is resolving the IP address when following includes
-{{ eth_local_address }}
-{% endif %}
