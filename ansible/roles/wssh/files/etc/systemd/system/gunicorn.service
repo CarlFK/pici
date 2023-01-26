@@ -6,8 +6,8 @@ After=network.target
 [Service]
 User=weez
 Group=www-data
-WorkingDirectory=/home/weez/pibsite
-ExecStart=/home/weez/venv/bin/gunicorn \
+WorkingDirectory=/usr/local/venv/wssh/bin
+ExecStart=/usr/local/venv/wssh/bin/gunicorn \
           --access-logfile - \
           --workers 3 \
           --bind unix:/run/gunicorn.sock \

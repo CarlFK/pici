@@ -9,8 +9,7 @@ eth_local_address: 10.21.0.1
 eth_local_netmask: 24
 dhcp_range: 10.21.0.128,10.21.0.254,6h
 
-# firewall_internal_networks: [10.21.0.0/24]
-firewall_internal_networks: [10.21.0]
+firewall_internal_networks: [10.21.0.0/24]
 
 pib_network: 10.21.0
 

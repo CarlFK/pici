@@ -11,7 +11,7 @@ eth_uplink_dns_server: 8.8.8.8
 
 dhcp_range: 10.21.0.128,10.21.0.254,6h
 
-firewall_internal_networks: [10.21.0]
+firewall_internal_networks: [10.21.0.0/24]
 
 pib_network: 10.21.0
 
@@ -22,9 +22,6 @@ common_name: mithis.com
 subject_alt_names:
   - frontend.ps1.fpgas.mithis.com
   - backend.ps1.fpgas.mithis.com
-
-letsencrypt_account_email: "cfkarsten@gmail.com"
-letsencrypt_well_known_dir: /var/www/well-known
 
 streaming_frontend_aliases: []
 streaming_frontend_hostname: ps1.fpgas.mithis.com

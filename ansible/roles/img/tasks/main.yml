@@ -18,11 +18,12 @@
   get_url:
     url: "{{ img_host }}/{{ img_path }}/{{ zip_name }}"
     dest: "{{ cache_dir }}"
+    force: False
 
 - name: extract files from raspios.img.xz
   script: files/img2files.sh {{ zip_name }} {{ img_name }} {{ dist }}
-  # args:
-  #  creates: "{{ nfs_root }}"
+  args:
+    creates: "{{ nfs_root }}/root/home"
 
 - name: create scripts dir
   file:

@@ -3,22 +3,6 @@
 - name: Deploy nginx pib.conf
   template:
     src: templates/pib.conf.j2
-    dest: "/etc/nginx/sites-enabled/pib.conf"
-  tags: django
-
-# Restart nginx
-- name: Restart the nginx systemd service
-  systemd:
-    state: restarted
-    name: nginx
-
-- name: generate tls certificate
-  include_role:
-    name: tls-certificates
-  vars:
-    basename: pib
-    common_name: "{{ inventory_hostname }}"
-    subject_alt_names: []
-    self_sign: False
-    letsencrypt_do_nginx_vhost: False
-
+    dest: "/etc/nginx/sites-enabled/{{ domain_name}}-https.conf"
+  tags: pibsite
+  notify: reload nginx

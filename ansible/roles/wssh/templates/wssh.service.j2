@@ -4,11 +4,11 @@ Requires=wssh.socket
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/wssh \
+ExecStart=/usr/local/venv/wssh/bin/wssh \
               --xheaders=True \
               --fbidhttp=False \
-              --certfile='/etc/ssl/ansible/certs/streaming_frontend.fullchain.pem' \
-              --keyfile='/etc/ssl/ansible/private/streaming_frontend.key'
+              --certfile='/etc/ssl/ansible/certs/{{ conference_name }}.fullchain.pem' \
+              --keyfile='/etc/ssl/ansible/private/.{{ conference_name }}key'
 User=root
 Restart=on-failure
 Type=simple

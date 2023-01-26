@@ -45,7 +45,8 @@ ps1.fpgas.mithis.com
 fpgas.mithis.com
 
 [streaming-backends]
-# ps1.fpgas.mithis.com
+ps1.fpgas.mithis.com
+fpgas.mithis.com
 
 [streaming-frontends]
 # ps1.fpgas.mithis.com

@@ -2,7 +2,7 @@
 - name: js video player
   copy:
     src: files/js/videojs-contrib-media-sources.js
-    dest: "{{ streaming.frontend.data_root }}/www/videojs-contrib-media-sources.js"
+    dest: "{{ static_dir }}/videojs-contrib-media-sources.js"
   tags:
     - cam
 

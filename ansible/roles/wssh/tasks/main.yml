@@ -5,15 +5,15 @@
       - nginx
       - systemd
       - python3-pip
+      - python3-venv
       - python3-cryptography
       - python3-bcrypt
-
 
 - name: Install wssh pip packages
   pip:
     name:
       - webssh
-    virtualenv_command: "python -m venv /usr/local/venv/wssh --system-site-packages"
+    virtualenv_command: "python -m venv --system-site-packages"
     virtualenv: "/usr/local/venv/wssh"
 
 - name: systemd files
@@ -24,8 +24,14 @@
     # group: www-data
     # mode: u+r 0755
   with_items:
-    - wssh.service
     - wssh.socket
+  notify:
+   - reload systemd
+
+- name: systemd files
+  template:
+    src: templates/wssh.service.j2
+    dest: /etc/systemd/system/wssh.service
   notify:
    - reload systemd
    - restart wssh
@@ -37,23 +43,4 @@
   with_items:
     - wssh.socket
     - wssh.service
-
-#
-#
-# - name: nginx site conf
-#   copy:
-#     src: "files/etc/nginx/sites-available/pibsite"
-#     dest: "/etc/nginx/sites-available/pibsite"
-#     # owner: root
-#     # group: www-data
-#     # mode: u+r 0755
-#   notify:
-#    - reload nginx
-#
-# - name: enable nginx site
-#  file:
-#    state: link
-#    src: /etc/nginx/sites-available/pibsite
-#    dest: /etc/nginx/sites-enabled/pibsite
-#  notify: reload nginx
 

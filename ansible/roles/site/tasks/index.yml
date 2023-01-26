@@ -1,9 +1,14 @@
 ---
 
+- name: create static content dir
+  file:
+    path: "{{ static_dir }}"
+    state: directory
+
 - name: page of everything
   template:
     src: templates/index.html.j2
-    dest: "{{ streaming.frontend.data_root }}/www/index.html"
+    dest: "{{ static_dir }}/index.html"
   tags:
     - cam
     - index.html
