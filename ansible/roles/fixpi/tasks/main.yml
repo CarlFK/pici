@@ -113,13 +113,13 @@
     src: "files/etc/ssh/sshd_config.d/password.conf"
     dest: "{{ nfs_root }}/root/etc/ssh/sshd_config.d/password.conf"
 
-- name: vanilla pi to fpga pi
-  copy:
-    src: "files/{{ item }}"
-    dest: "{{ nfs_root }}/root/root/{{ item }}"
-    mode: u+x
-  with_items:
-    - uppi1.sh
-    - uppi2.sh
+# - name: vanilla pi to fpga pi
+#   copy:
+#     src: "files/{{ item }}"
+#     dest: "{{ nfs_root }}/root/root/{{ item }}"
+#     mode: u+x
+#   with_items:
+#     - uppi1.sh
+#     - uppi2.sh
 
 

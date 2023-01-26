@@ -19,7 +19,7 @@ James Lamken <james@usethis.email>
 SNMP spelunking
 Michael Farrell <micolous@gmail.com>
 
-Invaluable #Bash help and deserved call out
+Invaluable #Bash help and funny call out
 greycat @greycat:libera.chat
 
 #raspberrypi net boot mentor

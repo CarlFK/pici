@@ -30,65 +30,6 @@ streaming_frontend_aliases: []
 streaming_frontend_hostname: ps1.fpgas.mithis.com
 domain_name: "{{ streaming_frontend_hostname}}"
 
-streaming:
-  frontend:
-    data_root: /srv/streaming-frontend
-    onsite: frontend.ps1.fpgas.mithis.com
-  geoip:
-    domain: mithis.com
-    rules:
-      - continent: [NA, SA, AN]
-        target: sfo1
-      - continent: [AS, OC]
-        target: sgp1
-      - target: ams1
-  backend:
-    server_name: backend.ps1.fpgas.mithis.com
-    data_root: /srv/streaming-backend
-    rtmp_push_uris:
-      - rtmp://frontend.ps1.fpgas.mithis.com/front
-    ips:
-      - "1.1.1.1"
-  rtmp_publishers:
-    - 10.21.0.0/24
-  method: rtmp
-  rooms:
-    - minidebconf
-  rtmp:
-    vaapi: true
-  location: rtmp://frontend.ps1.fpgas.mithis.com:1935/stream/{{ room_name }} live=1
-  hq_config:
-    hls_bandwidth: 2176000
-    video_bitrate: 2000  # kbps
-    audio_bitrate: 128000  # bps
-    keyframe_period: 60  # seconds
-    width: 1280
-  adaptive:
-    video_codec: libx264
-    audio_codec: aac
-    variants:
-      high:
-        hls_bandwidth: 1152000
-        video_bitrate: 1024k
-        audio_bitrate: 128k
-        extra_settings: -tune zerolatency -preset veryfast -crf 23
-        width: 900
-      mid:
-        hls_bandwidth: 448000
-        video_bitrate: 768k
-        audio_bitrate: 96k
-        extra_settings: -tune zerolatency -preset veryfast -crf 23
-        width: 720
-      low:
-        hls_bandwidth: 288000
-        video_bitrate: 256k
-        audio_bitrate: 48k
-        extra_settings: -tune zerolatency -preset veryfast -crf 23
-        width: 480
-  dump: False
-  mix_channels: false
-
-skip_unit_test: false
-
-app_dir: /home/videoteam/pib
-django_project_name: pib
+switch:
+    mac: A0:21:B7:AF:4E:05
+    oid: iso.3.6.1.4.1.4526.11.16.1.1.1.3.1

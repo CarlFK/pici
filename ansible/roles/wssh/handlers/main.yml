@@ -1,0 +1,19 @@
+---
+- name: reload nginx
+  systemd:
+    name: nginx
+    state: reloaded
+
+- name: restart gunicorn
+  systemd:
+    name: gunicorn.service
+    state: restarted
+
+- name: restart wssh
+  systemd:
+    name: wssh.socket
+    state: restarted
+
+- name: reload systemd
+  systemd:
+    daemon_reload: yes

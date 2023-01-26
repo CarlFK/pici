@@ -1,0 +1,17 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=weez
+Group=www-data
+WorkingDirectory=/home/weez/pibsite
+ExecStart=/home/weez/venv/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          pib.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,8 @@
+[Unit]
+Description=webssh daemon
+
+[Socket]
+ListenStream=/run/wssh.sock
+
+[Install]
+WantedBy=sockets.target

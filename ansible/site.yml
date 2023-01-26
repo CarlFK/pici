@@ -1,15 +1,15 @@
 ---
 - hosts: pib
   roles:
-  # - firewall
-  # - sshd
-  # - img
-  # - fixpi
-  # - pxe
-  # - nfs
-  # - wssh
+  - firewall
+  - sshd
+  - img
+  - fixpi
+  - pxe
+  - nfs
+  - wssh
   - site
-  # - cam/stream-server
+  - cam/stream-server
 
 - hosts: pi3
   roles:

@@ -1,0 +1,57 @@
+---
+- name: Install wssh deb packages
+  apt:
+    name:
+      - nginx
+      - systemd
+      - python3-pip
+      - python3-cryptography
+      - python3-bcrypt
+
+
+- name: Install wssh pip packages
+  pip:
+    name:
+      - webssh
+
+- name: systemd files
+  copy:
+    src: "files/etc/systemd/system/{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+    # owner: root
+    # group: www-data
+    # mode: u+r 0755
+  with_items:
+    - wssh.service
+    - wssh.socket
+  notify:
+   - reload systemd
+   - restart wssh
+
+- name: Enable services
+  systemd:
+    service: "{{ item }}"
+    enabled: yes
+  with_items:
+    - wssh.socket
+    - wssh.service
+
+#
+#
+# - name: nginx site conf
+#   copy:
+#     src: "files/etc/nginx/sites-available/pibsite"
+#     dest: "/etc/nginx/sites-available/pibsite"
+#     # owner: root
+#     # group: www-data
+#     # mode: u+r 0755
+#   notify:
+#    - reload nginx
+#
+# - name: enable nginx site
+#  file:
+#    state: link
+#    src: /etc/nginx/sites-available/pibsite
+#    dest: /etc/nginx/sites-enabled/pibsite
+#  notify: reload nginx
+

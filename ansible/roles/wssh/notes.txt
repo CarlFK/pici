@@ -1,0 +1,1 @@
+wssh --address=45.20.162.9 --certfile='/etc/ssl/ansible/certs/streaming_frontend.fullchain.pem' --keyfile='/etc/ssl/ansible/private/streaming_frontend.key' --debug
