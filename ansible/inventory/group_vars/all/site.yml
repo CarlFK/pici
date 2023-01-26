@@ -1,0 +1,6 @@
+app_dir: /srv/www/pib
+static_dir: /srv/www/static
+django_project_name: pib
+
+letsencrypt_well_known_dir: /var/www/well-known
+letsencrypt_account_email: "cfkarsten@gmail.com"
