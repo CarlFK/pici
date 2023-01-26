@@ -1,0 +1,19 @@
+---
+- name: enable Raspberry Pi Boot
+  copy:
+    src: files/rpi.conf
+    dest: /etc/dnsmasq.d/
+  notify: restart dnsmasq
+
+- name: create dnsmasq.d pib.conf
+  template:
+    src: templates/pibs.conf.j2
+    dest: /etc/dnsmasq.d/pibs.conf
+  notify: restart dnsmasq
+
+- name: create dnsmasq.d switch.conf
+  template:
+    src: templates/switch.conf.j2
+    dest: /etc/dnsmasq.d/switch.conf
+  notify: restart dnsmasq
+
