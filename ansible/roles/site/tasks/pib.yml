@@ -1,6 +1,6 @@
 # pib.yml
-#
-- name: Deploy nginx config included pib file
+
+- name: Deploy nginx pib.conf
   template:
     src: templates/pib.conf.j2
     dest: "/etc/nginx/sites-enabled/pib.conf"
@@ -11,3 +11,14 @@
   systemd:
     state: restarted
     name: nginx
+
+- name: generate tls certificate
+  include_role:
+    name: tls-certificates
+  vars:
+    basename: pib
+    common_name: "{{ inventory_hostname }}"
+    subject_alt_names: []
+    self_sign: False
+    letsencrypt_do_nginx_vhost: False
+

@@ -1,0 +1,24 @@
+# nginx.yml
+---
+# Ensure nginx is installed
+- name: Ensure Nginx is installed
+  apt:
+    name:
+    - nginx
+
+- name: remove DCV nginx.confs
+  file:
+    path: /etc/nginx/{{ item }}
+    state: absent
+  loop:
+    - rtmp/backend.conf
+    - rtmp/frontend.conf
+    - sites-available/default
+    - sites-available/pxe
+    - sites-enabled/pxe
+    - sites-enabled/streaming-backend-http.conf
+    - sites-enabled/streaming-backend-https.conf
+    - sites-enabled/streaming-frontend-http.conf
+    - sites-enabled/streaming-frontend-https.conf
+  notify: reload nginx
+

@@ -29,7 +29,7 @@
 - name: create symlink from site-available to sites-enabled
   file:
     src: "/etc/nginx/sites-available/{{ domain_name }}"
-    dest: /etc/nginx/sites-enabled/default
+    dest: "/etc/nginx/sites-enabled/{{ domain_name }}"
     state: link
   # when: False
   when: True

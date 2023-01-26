@@ -1,4 +1,5 @@
 ---
+
 - name: page of everything
   template:
     src: templates/index.html.j2

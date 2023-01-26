@@ -1,25 +1,38 @@
-# nginx.yml
 ---
-# Ensure nginx is installed
-- name: Ensure Nginx is installed
-  apt:
-    name:
-    - nginx
-
-- name: remove DCV nginx.confs
-  file:
-    path: /etc/nginx/{{ item }}
-    state: absent
-  loop:
-    - rtmp/backend.conf
-    - rtmp/frontend.conf
-    - sites-enabled/pxe
-    - sites-enabled/streaming-backend-http.conf
-    - sites-enabled/streaming-backend-https.conf
-    - sites-enabled/streaming-frontend-http.conf
-    - sites-enabled/streaming-frontend-https.conf
+- name: configure http vhost
+  template:
+    src: templates/http-vhost.conf.j2
+    dest: "/etc/nginx/sites-enabled/{{ domain_name}}-http.conf"
   notify: reload nginx
-  tags:
-    - streaming
 
+- name: disable default configuration
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: reload nginx
 
+- name: force nginx reload before tls cert handling
+  meta: flush_handlers
+
+- name: generate tls certificate
+  include_role:
+    name: tls-certificates
+  vars:
+    basename: "{{ conference_name }}"
+    common_name: "{{ domain_name }}"
+    subject_alt_names: []
+    self_sign: False
+    letsencrypt_do_nginx_vhost: False
+  when: not skip_unit_test
+
+- name: Install common Nginx TLS config
+  include_role:
+    name: tls-certificates
+    tasks_from: nginx_common
+  when: not skip_unit_test
+
+- name: configure https vhost
+  template:
+    src: templates/https-vhost.conf.j2
+    dest: "/etc/nginx/sites-enabled/{{ domain_name}}-https.conf"
+  notify: reload nginx
