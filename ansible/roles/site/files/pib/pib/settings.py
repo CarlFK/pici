@@ -123,9 +123,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SNMP_SWITCH_HOST='10.21.0.182'
-SNMP_SWITCH_USERNAME='admin'
-SNMP_SWITCH_AUTHKEY='wordpass'
-SNMP_SWITCH_PRIVKEY='wordpass'
-SNMP_SWITCH_OID='iso.3.6.1.4.1.4526.11.16.1.1.1.3.1'
+from pib.local_settings import *
 

@@ -34,17 +34,19 @@ swichip=10.21.0.182
 oid=iso.3.6.1.4.1.4526.11.16.1.1.1.3.1
 port=$1
 
+. /srv/www/pib/venv/bin/activte
+
 # show current value
 #snmpget -v 3 -u admin -l authPriv -a MD5 -x DES -A wordpass -X wordpass -c pib \
 #      ${swichip} "${oid}.$port"
-/home/videoteam/snmp/bin/python3 /home/videoteam/snmp/bin/snmpget.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
+snmpget.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
   ${swichip} "${oid}.$port"
 # maybe set new value
 if [ $# -eq 2 ]; then
     val=$2
     # snmpset -v 3 -u admin -l authPriv -a MD5 -x DES -A wordpass -X wordpass -c pib \
     #  ${swichip} "${oid}.$port" i "$val"
-    /home/videoteam/snmp/bin/python3 /home/videoteam/snmp/bin/snmpset.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
+    snmpset.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
        ${swichip} "${oid}.$port" i "$val"
 
 fi

@@ -7,8 +7,14 @@
 
 - name: copy the core pib site files
   copy:
-    src: "files/pib/pib"
+    src: "files/pib/pib/{{ item }}"
     dest: "{{ app_dir }}"
+  loop:
+    - __init__.py
+    - settings.py
+    - local_settings.py
+    - urls.py
+    - asgi.py
 
 - name: copy manage.py into site dir
   copy:
@@ -20,10 +26,13 @@
     path: "{{ app_dir }}/manage.py"
     mode: 'u+x'
 
+# pip install "django[bcrypt] @ git+ssh://git@github.com/django/django.git" should work fine.
 - name: PIP install snmp_switch site app
   ansible.builtin.pip:
-    name: "git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch"
+    name: "snmp_switch[cli] @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch"
     virtualenv: "{{ app_dir }}/venv"
+    state: forcereinstall
+  tags: snmp
 
 # change permissions of whole app_dir
 # - name: Recursively change ownership of a directory

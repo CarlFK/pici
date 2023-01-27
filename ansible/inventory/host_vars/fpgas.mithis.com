@@ -27,10 +27,19 @@ streaming_frontend_aliases: []
 streaming_frontend_hostname: fpgas.mithis.com
 domain_name: "{{ streaming_frontend_hostname}}"
 
+# Tim's
 # Netgear S3300-52X-PoE+
-# swichip=10.21.0.171  # Tim's
 switch:
-    mac: ??
+    mac: 08:bd:43:6b:bb:e0
     oid: iso.3.6.1.2.1.105.1.1.1.3.1
+
+# pi mac n ports
+nos:
+    - { port: 14, mac: "e4:5f:01:96:f8:a5", sn: ce8e3593 }
+    - { port: 16, mac: "e4:5f:01:97:32:d2", sn: 8483b266 }
+    - { port: 18, mac: "e4:5f:01:97:1f:7e", sn: 613a4524 }
+    - { port: 20, mac: "e4:5f:01:8d:f7:17", sn: f77b8415 }
+    - { port: 36, mac: "b8:27:eb:86:39:63", sn: "80863963" }
+      # - { port:  , mac: , sn: }
 
 

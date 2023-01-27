@@ -13,8 +13,9 @@
   pip:
     name:
       - webssh
-    virtualenv_command: "python -m venv --system-site-packages"
     virtualenv: "/usr/local/venv/wssh"
+    virtualenv_site_packages: True
+    # virtualenv_command: "python -m venv --system-site-packages"
 
 - name: systemd files
   copy:
