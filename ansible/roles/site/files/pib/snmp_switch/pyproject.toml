@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "snmp_switch"
-version = "0.0.10"
+version = "0.0.11"
 authors = [
   { name="Roman M.", email="roman@typethink.com" },
   { name="Carl Karsten", email="carl@NextDayVideo.com" },
@@ -20,5 +20,9 @@ classifiers = [
 
 dependencies=['pysnmplib', 'django']
 
+[project.optional-dependencies]
+cli = [
+  "snmpclitools",
+]
 [project.urls]
 Repository =  "https://github.com/CarlFK/pib"
