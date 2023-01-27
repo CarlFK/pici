@@ -88,6 +88,7 @@ def status(request):
 
     port = request.POST['port']
 
+    context = {}
     context.update(snmp_status(
         host=settings.SNMP_SWITCH_HOST,
         username=settings.SNMP_SWITCH_USERNAME,
@@ -99,7 +100,10 @@ def status(request):
     pprint(context)
 
     response = HttpResponse(content_type="application/json")
-    d={'port':port, 'value':1}
+    d={     'port':port,
+            'value': None,
+            'context': context.__str__()
+        }
     json.dump(d, response, indent=2)
 
     return response

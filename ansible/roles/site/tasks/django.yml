@@ -5,16 +5,22 @@
     name:
     - python3-venv
 
+- name: create site dir
+  file:
+    path: "{{ app_dir }}/pib"
+    state: directory
+
 - name: copy the core pib site files
   copy:
     src: "files/pib/pib/{{ item }}"
-    dest: "{{ app_dir }}"
+    dest: "{{ app_dir }}/pib/"
   loop:
     - __init__.py
     - settings.py
     - local_settings.py
     - urls.py
     - asgi.py
+  tags: django
 
 - name: copy manage.py into site dir
   copy:
@@ -31,7 +37,7 @@
   ansible.builtin.pip:
     name: "snmp_switch[cli] @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch"
     virtualenv: "{{ app_dir }}/venv"
-    state: forcereinstall
+    # state: forcereinstall
   tags: snmp
 
 # change permissions of whole app_dir

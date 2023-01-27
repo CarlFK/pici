@@ -36,6 +36,13 @@
  <input type="hidden" name="port" value="{{pi.port}}">
 </form>
 
+<form method="post" action="https://ps1.fpgas.mithis.com/snmp/toggle">
+ Check it:<br>
+ <input type="submit" value="status {{pi.port}}" class=reset_button>
+ <input type="hidden" name="port" value="{{pi.port}}">
+</form>
+
+
   <hr>
 
 {% endfor %}
