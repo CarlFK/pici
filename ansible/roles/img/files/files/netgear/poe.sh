@@ -20,8 +20,8 @@
 
 # Tims's
 # Netgear S3300-52X-PoE+
-# swichip=10.21.0.171  # Tim's
-# oid=iso.3.6.1.2.1.105.1.1.1.3.1
+swichip=10.21.0.200  
+oid=iso.3.6.1.2.1.105.1.1.1.3.1
 
 # Carl's
 # Netgear FS728TPv2
@@ -30,23 +30,27 @@
 # Netgear custom based on a draft of SNMP PoE spec
 
 # swichip=192.168.1.163
-swichip=10.21.0.182
-oid=iso.3.6.1.4.1.4526.11.16.1.1.1.3.1
+# swichip=10.21.0.182
+# oid=iso.3.6.1.4.1.4526.11.16.1.1.1.3.1
+
 port=$1
 
-. /srv/www/pib/venv/bin/activte
+. /srv/www/pib/venv/bin/activate
 
 # show current value
 #snmpget -v 3 -u admin -l authPriv -a MD5 -x DES -A wordpass -X wordpass -c pib \
 #      ${swichip} "${oid}.$port"
-snmpget.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
+# snmpget.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
+
+snmpget.py -v 3 -u admin -l authNoPriv -a SHA512 -A WordPass207 -c pib \
   ${swichip} "${oid}.$port"
 # maybe set new value
 if [ $# -eq 2 ]; then
     val=$2
     # snmpset -v 3 -u admin -l authPriv -a MD5 -x DES -A wordpass -X wordpass -c pib \
     #  ${swichip} "${oid}.$port" i "$val"
-    snmpset.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
+    # snmpset.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
+    snmpset.py -v 3 -u admin -l authNoPriv -a SHA512 -A WordPass207 -c pib \
        ${swichip} "${oid}.$port" i "$val"
 
 fi
