@@ -36,6 +36,8 @@
   notify:
    - reload systemd
    - restart wssh
+  tags:
+    - wssh
 
 - name: Enable services
   systemd:
