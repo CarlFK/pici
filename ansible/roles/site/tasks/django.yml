@@ -37,7 +37,7 @@
   ansible.builtin.pip:
     name: "snmp_switch[cli] @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch"
     virtualenv: "{{ app_dir }}/venv"
-    # state: forcereinstall
+    state: forcereinstall
   tags: snmp
 
 # change permissions of whole app_dir
@@ -85,4 +85,6 @@
     state: present
     regexp: '^ALLOWED_HOSTS = '
     line: "ALLOWED_HOSTS = ['{{ eth_uplink_static_address }}','{{ domain_name }}']"
+  tags:
+    - django
 

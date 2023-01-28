@@ -11,5 +11,6 @@
     dest: "{{ static_dir }}/index.html"
   tags:
     - cam
+    - django
     - index.html
 
