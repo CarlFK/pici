@@ -69,6 +69,11 @@
     path: "{{ nfs_root }}/boot/ssh"
     state: touch
 
+- name: get fixed sshswitch
+  get_url:
+    url: https://raw.githubusercontent.com/RPi-Distro/raspberrypi-sys-mods/master/debian/raspberrypi-sys-mods.sshswitch.service
+    dest: "{{ nfs_root }}/root/etc/systemd/system/multi-user.target.wants/sshswitch.service"
+
 - name: avoid [FAILED] Failed to start Set console font and keymap.
   file:
     path: "{{ nfs_root }}/root/etc/systemd/system/multi-user.target.wants/console-setup.service"
