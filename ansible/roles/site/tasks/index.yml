@@ -5,6 +5,10 @@
     path: "{{ static_dir }}"
     state: directory
 
+# password thing:
+# https://github.com/huashengdun/webssh
+# echo Zeij8shi|base64
+
 - name: page of everything
   template:
     src: templates/index.html.j2

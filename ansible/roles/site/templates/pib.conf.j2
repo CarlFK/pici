@@ -15,7 +15,7 @@ server {
   index index.html;
 
   location /live {
-    root {{ streaming.backend.data_root }}/hls;
+    alias {{ streaming.backend.data_root }}/hls/source/;
     autoindex on;
   }
 
