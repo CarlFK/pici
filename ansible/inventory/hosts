@@ -31,7 +31,7 @@ negk ansible_ssh_port=5855 ansible_host=45.20.162.5
 # ansible_ssh_port=5855
 
 [onpi]
-pi13 ansible_host=fpga-gw-ps1.mithis.com ansible_port=11322
+pi ansible_host=fpga-gw-ps1.mithis.com ansible_port=11322
 
 [cam]
 # gator ansible_host=192.168.1.119

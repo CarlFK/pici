@@ -3,8 +3,11 @@
 mkdir overlayroot
 cd overlayroot
 
-wget -N http://launchpadlibrarian.net/493868580/overlayroot_0.47ubuntu1_all.deb
-apt install --assume-yes ./overlayroot_0.47ubuntu1_all.deb
+# wget -N http://launchpadlibrarian.net/493868580/overlayroot_0.47ubuntu1_all.deb
+# apt install --assume-yes ./overlayroot_0.47ubuntu1_all.deb
+
+wget -N http://http.us.debian.org/debian/pool/main/c/cloud-initramfs-tools/overlayroot_0.18.debian11_all.deb
+apt install --assume-yes ./overlayroot_0.18.debian11_all.deb
 
 # generate (-c create) an initrd for the current kernel ver,
 # the name will ...

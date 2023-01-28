@@ -1,5 +1,5 @@
 ---
-- name: yoink overlayroot from ubunutu
+- name: yoink overlayroot from debian
   script: files/install_overlayroot.sh
   args:
     chdir: /var/cache

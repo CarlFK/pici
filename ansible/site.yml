@@ -2,7 +2,6 @@
 - hosts: pib
   roles:
   - firewall
-  - sshd
   - img
   - fixpi
   - pxe
@@ -11,7 +10,7 @@
   - site
   - cam/stream-server
 
-- hosts: pi3
+- hosts: pi
   roles:
   - cam/pi
   - onpi
