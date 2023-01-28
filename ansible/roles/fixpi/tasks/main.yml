@@ -69,6 +69,11 @@
     path: "{{ nfs_root }}/boot/ssh"
     state: touch
 
+# - name: enable sshd agian?
+#  file:
+#    path: "{{ nfs_root }}/root/ssh"
+#    state: touch
+
 - name: get fixed sshswitch
   get_url:
     url: https://raw.githubusercontent.com/RPi-Distro/raspberrypi-sys-mods/master/debian/raspberrypi-sys-mods.sshswitch.service
