@@ -1,4 +1,11 @@
 ---
+- name: update
+      /usr/share/perl5/DebianLinux.pm
+
+  copy:
+    src: "files/DebianLinux.pm"
+    dest: "{{ nfs_root }}/root/usr/share/perl5/DebianLinux.pm"
+
 - name: yoink overlayroot from debian
   script: files/install_overlayroot.sh
   args:
