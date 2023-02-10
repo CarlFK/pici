@@ -21,6 +21,18 @@ server {
     proxy_set_header Connection "upgrade";
   }
 
+  location /wssh/ {
+    rewrite /wssh/(.*) /$1 break;
+    proxy_pass https://127.0.0.1:4433;
+    proxy_http_version 1.1;
+    proxy_read_timeout 300;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Real-PORT $remote_port;
+  }
+
   access_log /var/log/nginx/{{ conference_name }}-access.log;
   error_log /var/log/nginx/{{ conference_name }}-error.log;
 }

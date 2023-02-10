@@ -10,6 +10,8 @@
     src: templates/pibs.conf.j2
     dest: /etc/dnsmasq.d/pibs.conf
   notify: restart dnsmasq
+  tags:
+    - pibs
 
 - name: create dnsmasq.d switch.conf
   template:

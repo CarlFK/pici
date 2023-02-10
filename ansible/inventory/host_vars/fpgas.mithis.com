@@ -35,11 +35,10 @@ switch:
 
 # pi mac n ports
 nos:
-    - { port: 14, mac: "e4:5f:01:96:f8:a5", sn: ce8e3593 }
-    - { port: 16, mac: "e4:5f:01:97:32:d2", sn: 8483b266 }
-    - { port: 18, mac: "e4:5f:01:97:1f:7e", sn: 613a4524 }
-    - { port: 20, mac: "e4:5f:01:8d:f7:17", sn: f77b8415 }
-    - { port: 36, mac: "b8:27:eb:86:39:63", sn: "80863963" }
-      # - { port:  , mac: , sn: }
-
-
+    - { port: 34, mac: "b8:27:eb:6d:27:f6", sn: "7a6d27f6" , cable_color: "white" }
+    - { port: 36, mac: "b8:27:eb:86:39:63", sn: "80863963" , cable_color: "blue" }
+    - { port: 40, mac: "e4:5f:01:97:1f:7e", sn: "613a4524", cable_color: "gray" }
+    - { port: 42, mac: "e4:5f:01:8d:f7:17", sn: "f77b8415", cable_color: "yellow" }
+    - { port: 44, mac: "dc:a6:32:b4:5e:c9", sn: "329205c6", cable_color: "gray + red" }
+    - { port: 46, mac: "e4:5f:01:97:32:d2", sn: "8483b266" , cable_color: "gray/white" }
+    - { port: 48, mac: "e4:5f:01:96:f8:a5", sn: "ce8e3593" , cable_color: "blue" }
