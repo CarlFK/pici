@@ -1,13 +1,15 @@
 #!/bin/bash -x
 
 
-while [ "$(/usr/bin/hostname --short)" = "localhost" ]
-do
+if [ "$(/usr/bin/hostname --short)" = "localhost" ]
+then
+    /usr/bin/hostname --short
+    echo "is not localhost"
     # this should really be in its own systemd script.
     # it works around some bug in
     # https://github.com/isc-projects/dhcp/blob/master/client/scripts/linux#L121
     reboot
-done
+fi
 
 hn=$(/usr/bin/hostname --short)
 
