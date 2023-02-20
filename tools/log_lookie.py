@@ -5,9 +5,36 @@ from pprint import pprint
 
 fn = '/home/carl/temp/syslog'
 
-server_id_re = re.compile(r"dnsmasq-dhcp\[(?P<server_id>\d+)\]")
+ll = "Feb 12 14:45:46 val2 dnsmasq-dhcp[215151]: 2603362573 vendor class: Linux ipconfig"
 
-context_id_re = re.compile(r".*dnsmasq-dhcp\[(?P<server_id>\d+)\]:\s+(?P<context_id>\d+).*")
+syslog_re_s = r"""
+# https://stackoverflow.com/questions/53435437/parsing-a-syslog-using-regex
+(?P<month>\S{3})                    #
+\s+                              # added + because single digit dates might have additional spaces
+(?P<date>[0-9]{1,2})              # changed {2}? to {1,2} because you might have one or two digits
+\s+                              #
+(?P<time>[0-9]+:[0-9]+:[0-9]+)    #
+\s+                              #
+(?P<hostname>\S+)                 # anything which isn't whitespace
+\s+                              #
+(?P<daemon>[^\[]+)                   # just in case your daemon has a digit or lower case in its name
+\[                                #
+(?P<pid>\d+)               #
+\]                                #
+:                                #
+\s+                              #
+"""
+syslog_re_s = ''.join([l.split('#')[0].strip() for l in syslog_re_s.split('\n')])
+print(syslog_re_s)
+syslog_re = re.compile(syslog_re_s)
+print(syslog_re)
+print(ll)
+match = syslog_re.match(ll)
+d = match.groupdict()
+pprint(d)
+print("{month} {date} {time}".format(**d))
+
+context_id_re = re.compile(syslog_re_s + r"(?P<context_id>\d+).*")
 
 """
 #define DHCPDISCOVER             1
@@ -31,50 +58,6 @@ dhcp_vendor_re = re.compile(r".*dnsmasq-dhcp\[(?P<server_id>\d+)\]:\s+(?P<contex
     "vendor class: (?P<vendor_class>.*)")
 
 
-def get_dhcp_server_id():
-    """ Search for log lines from dnsmasq-dhcp, gather the service ID
-
-        In the log provided, the dnsmasq-dhcp service always identifies itself as '215151'
-    """
-
-    resultset = set()
-    for line in open(fn):
-        match = server_id_re.search(line)
-        if match is not None:
-            resultset.add(match.group("server_id"))
-    return resultset
-
-def get__ids():
-    """ Gather the IDs of DHCP server s.
-        One  spans multiple syslog entries.
-
-        7385 s from the DHCP server in the log provided.
-
-        One thing this function does tell us is that the DHCP server is always
-        responding to a client, since there are no lines with a server ID but no client ID
-    """
-    resultset = set()
-    for line in open(fn):
-        server_match = server_id_re.search(line)
-        context_match = context_id_re.search(line)
-        if server_match is not None and context_match is None:
-            print(f"Odd line: {line}")
-            # No odd lines found
-        elif context_match is not None:
-            resultset.add(_match.group("context_id"))
-    return resultset
-
-def group_lines_by_context_id():
-    """ Group DHCP log lines by log ID
-
-        Unsurprisingly, there are 7385 groups in the results
-    """
-    resultdict = dict()
-    for line in open(fn):
-        if (match:=context_id_re.search(line)) is not None:
-            resultdict.setdefault(match.group("context_id"), list()).append(line)
-    return resultdict
-
 def get_contexts():
     """ Gather some details of the DHCP server contexts.
         One context spans multiple packets.
@@ -84,31 +67,32 @@ def get_contexts():
     contexts = defaultdict(dict)
     for line in open(fn):
         if context_match:=context_id_re.match(line):
-            context_id= context_match.group("context_id")
+            d = context_match.groupdict()
+            k = "{month} {date} {time} {context_id}".format(**d)
 
             # gonna look for values getting stepped on
-            old_d=contexts[context_id]
+            old_d=contexts[k]
 
             if (match:=dhcp_vendor_re.match(line)):
-                contexts[context_id].update( match.groupdict() )
+                contexts[k].update( match.groupdict() )
                 # print(contexts)
 
             if (match:=dhcp_type_re.match(line)):
                 # context_id, client_mac, client_ip, client_hostname = match.groupdict("context_id", "client_mac", "client_ip", "client_hostname")
-                contexts[context_id].update( match.groupdict() )
+                contexts[k].update( match.groupdict() )
                 # print(contexts)
                 # break
                 #contexts[context_id]['types'] this is kida weird:
 
-                if "types" not in contexts[context_id]:
-                    contexts[context_id]['types'] = []
-                contexts[context_id]['types'].append(contexts[context_id]['type'])
-                del( contexts[context_id]['type'] )
+                if "types" not in contexts[k]:
+                    contexts[k]['types'] = []
+                contexts[k]['types'].append(contexts[k]['type'])
+                del( contexts[k]['type'] )
 
             # see if any old values got updated (stomp bad!)
-            for k in old_d:
-                if (old_d[k] is not None) and (k != 'types'):
-                    assert old_d[k] == contexts[context_id][k], (old_d[k], contexts[context_id][k])
+            for ok in old_d:
+                if (old_d[ok] is not None) and (ok != 'types'):
+                    assert old_d[ok] == contexts[k][ok], (old_d[ok], contexts[k][ok])
 
     return contexts
 
@@ -158,7 +142,7 @@ def is_weird(contexts):
 
 def get_log():
     contexts = get_contexts()
-    is_weird(contexts)
+    # is_weird(contexts)
 
 def main():
     logs=get_log()
