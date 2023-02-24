@@ -115,7 +115,7 @@ def main():
             f.write(os.getenv('DNSMASQ_VENDOR_CLASS', "oh noze!"))
             f.write('\n')
 
-    if args.action == "add":
+    if args.action in ["add", "old",]:
         log_me(args)
 
 if __name__ == "__main__":
