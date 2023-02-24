@@ -68,31 +68,38 @@ def get_contexts():
     for line in open(fn):
         if context_match:=context_id_re.match(line):
             d = context_match.groupdict()
-            k = "{month} {date} {time} {context_id}".format(**d)
+            if d['daemon']=='dnsmasq-dhcp':
 
-            # gonna look for values getting stepped on
-            old_d=contexts[k]
+                d['time'] = d['time'][:7]
+                k = "{month} {date} {time} {context_id}".format(**d)
 
-            if (match:=dhcp_vendor_re.match(line)):
-                contexts[k].update( match.groupdict() )
-                # print(contexts)
+                if k=='Feb 12 07:26:31 950502743':
+                    k='Feb 12 07:26:33 950502743'
+                    print(line)
 
-            if (match:=dhcp_type_re.match(line)):
-                # context_id, client_mac, client_ip, client_hostname = match.groupdict("context_id", "client_mac", "client_ip", "client_hostname")
-                contexts[k].update( match.groupdict() )
-                # print(contexts)
-                # break
-                #contexts[context_id]['types'] this is kida weird:
+                # gonna look for values getting stepped on
+                old_d=contexts[k]
 
-                if "types" not in contexts[k]:
-                    contexts[k]['types'] = []
-                contexts[k]['types'].append(contexts[k]['type'])
-                del( contexts[k]['type'] )
+                if (match:=dhcp_vendor_re.match(line)):
+                    contexts[k].update( match.groupdict() )
+                    # print(contexts)
 
-            # see if any old values got updated (stomp bad!)
-            for ok in old_d:
-                if (old_d[ok] is not None) and (ok != 'types'):
-                    assert old_d[ok] == contexts[k][ok], (old_d[ok], contexts[k][ok])
+                if (match:=dhcp_type_re.match(line)):
+                    # context_id, client_mac, client_ip, client_hostname = match.groupdict("context_id", "client_mac", "client_ip", "client_hostname")
+                    contexts[k].update( match.groupdict() )
+                    # print(contexts)
+                    # break
+
+                    # make a list of types
+                    if "types" not in contexts[k]:
+                        contexts[k]['types'] = []
+                    contexts[k]['types'].append(contexts[k]['type'])
+                    del( contexts[k]['type'] )
+
+                # see if any old values got updated (stomp bad!)
+                for ok in old_d:
+                    if (old_d[ok] is not None) and (ok != 'types'):
+                        assert old_d[ok] == contexts[k][ok], (old_d[ok], contexts[k][ok])
 
     return contexts
 
@@ -130,6 +137,8 @@ def is_weird(contexts):
     for i in range(10):
 
         for k in contexts:
+            print(k)
+            pprint(contexts[k])
             if len(contexts[k]['types'] ) == i:
                 if contexts[k]['client_hostname'] in [ 'netgear', 'netgear2' ]:
                     continue
@@ -142,7 +151,7 @@ def is_weird(contexts):
 
 def get_log():
     contexts = get_contexts()
-    # is_weird(contexts)
+    is_weird(contexts)
 
 def main():
     logs=get_log()
