@@ -48,8 +48,6 @@ import datetime
 import json
 import os
 
-DEBUG=True
-
 def add_to_file(filename, line):
 
     with open(filename,'a') as f:
@@ -59,13 +57,29 @@ def log_me(args):
 
     d = {}
     d['timestamp'] = datetime.datetime.now().isoformat()
-    d['vendor_class'] = os.getenv('DNSMASQ_VENDOR_CLASS', "no vc")
+    d['action'] = args.action
     d['mac']=args.mac
     d['ip']=args.ip
     d['hostname']=args.hostname
+    d['vendor_class'] = os.getenv('DNSMASQ_VENDOR_CLASS', "no vc")
+    d['client_id'] = os.getenv('DNSMASQ_CLIENT_ID', "no cid")
+    d['tags'] = os.getenv('DNSMASQ_TAGS', "no tags")
+    d['mud'] = os.getenv('DNSMASQ_MUD_URL', "no mud")
+    d['requested_options'] = os.getenv('DNSMASQ_REQUESTED_OPTIONS', "no ra")
 
     line = json.dumps(d)
     add_to_file(args.filename, line)
+
+
+def debug(args):
+
+    with open('/tmp/foo','a') as f:
+        f.write(args.__repr__())
+        f.write('\n')
+        f.write(os.getenv('DNSMASQ_SUPPLIED_HOSTNAME', "oh no!"))
+        f.write('\n')
+        f.write(os.getenv('DNSMASQ_VENDOR_CLASS', "oh noze!"))
+        f.write('\n')
 
 
 def get_args():
@@ -98,6 +112,10 @@ def get_args():
             default="/var/log/dnsmasq/vc.jsons",
             help='File to save mac/hostnames (overide for testing)')
 
+    parser.add_argument('--debug',
+            default=False,
+            help="append 'rawr' data to /tmp/foo")
+
     args = parser.parse_args()
 
     return args
@@ -106,14 +124,8 @@ def get_args():
 def main():
     args = get_args()
 
-    if DEBUG:
-        with open('/tmp/foo','a') as f:
-            f.write(args.__repr__())
-            f.write('\n')
-            f.write(os.getenv('DNSMASQ_SUPPLIED_HOSTNAME', "oh no!"))
-            f.write('\n')
-            f.write(os.getenv('DNSMASQ_VENDOR_CLASS', "oh noze!"))
-            f.write('\n')
+    if args.debug:
+        debug(args)
 
     if args.action in ["add", "old",]:
         log_me(args)
