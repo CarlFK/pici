@@ -5,21 +5,31 @@
 # 2. set boot order to netboot first
 
 # sd card is just a blank fat32 fs (not raspios et all)
-# sd/bot mounted here:
+# sd/boot mounted here:
+# sd_boot=/media/carl/bootfs
 sd_boot=/media/carl/boot
 
-cache=../../cache
+# firmware-2711 firmware-2712
+firmware_dir=firmware-2712/latest/
+eprom_bin=pieeprom-2023-09-28.bin
+
+cache=~/temp/cache
 pushd .
 cd ${cache}
-# git clone https://github.com/raspberrypi/rpi-eeprom
-rpi_eeprom=$PWD/rpi-eeprom
+if [ ! -d "rpi-eeprom" ]; then
+  git clone https://github.com/raspberrypi/rpi-eeprom
+fi
+cd rpi-eeprom
+git pull
+rpi_eeprom=$PWD
+cd ..
 wget -N https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
 popd
 
-$rpi_eeprom/rpi-eeprom-config ${rpi_eeprom}/firmware/stable/pieeprom-2022-04-26.bin --config bootconf.txt --out ${sd_boot}/pieeprom.bin
+${rpi_eeprom}/rpi-eeprom-config ${rpi_eeprom}/${firmware_dir}/${eprom_bin} --config bootconf.txt --out ${sd_boot}/pieeprom.bin
 sha256sum ${sd_boot}/pieeprom.bin | cut -d' ' -f1 > ${sd_boot}/pieeprom.sig
 
-cp ${rpi_eeprom}/firmware/stable/recovery.bin ${sd_boot}
+cp ${rpi_eeprom}/${firmware_dir}/recovery.bin ${sd_boot}
 cp ${rpi_eeprom}/../bootcode.bin ${sd_boot}
 cp config.txt ${sd_boot}
 

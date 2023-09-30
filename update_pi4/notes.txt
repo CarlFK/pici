@@ -1,0 +1,14 @@
+(03:49:14 PM) CarlFK: clever: https://gist.github.com/cleverca22/0b7483f11a6416cbc269128ce355e203
+(03:49:35 PM) CarlFK: does that expect a bookable image, or just an empty fat fs ?
+
+(03:51:51 PM) clever: CarlFK: a fat fs, with those 3 files
+(03:52:00 PM) clever: other files dont matter
+(03:52:21 PM) clever: if you use pieeprom.upd, then recovery.bin will rename itself and reboot
+(03:52:25 PM) clever: allowing a bootable image to resume booting normally
+(03:52:39 PM) clever: if you use pieeprom.bin, then it will display green on the hdmi and hang
+(03:52:44 PM) clever: so you can reuse the SD on multiple pi's
+
+(04:42:24 PM) clever: CarlFK: there is also the self-reflashing mode, if bootconf.txt allows it, then the code in the eeprom will re-flash itself with only pieeprom.{bin,upd} and pieeprom.sig, and this mode works from usb, nvme, and tftp!
+(04:42:35 PM) clever: but if interrupted, it runs the risk of soft-bricking
+(04:42:46 PM) clever: then you need recovery.bin on SD to unbrick it
+(04:43:02 PM) clever: if recovery.bin is interrupted, its still on the card, and will just flash again on the next boot
