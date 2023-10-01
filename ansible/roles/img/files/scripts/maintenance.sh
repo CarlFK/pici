@@ -22,13 +22,16 @@ boot=${p}/boot
 root=${p}/root
 
 # pi overlayroot off
+# TODO: use /etc/overlayroot.conf instead of kernel parameter
+# sudo mount -o remount,rw /partition/identifier /mount/
+# sudo mount -o remount,rw /dev/mmcblk0p2 /media/root-ro
 sed -i "/.*/s/overlayroot=tmpfs/overlayroot=/" ${boot}/cmdline.txt
 
-# pi fstab: automount,rw / and /boot
+# pi's fstab: (no sd) set nfs mounts / and /boot to automount,rw
 sed -i "\@${p}.*\snfs\s@s@\bnoauto\b@auto@" ${root}/etc/fstab
 sed -i "\@${p}.*\snfs\s@s@\bro\b@rw@" ${root}/etc/fstab
 
-# server nfs shares rw
+# server's nfs shares rw
 sed -i "/.*/s/ro,/rw,/" /etc/exports
 systemctl restart nfs-server.service
 
