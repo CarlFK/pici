@@ -1,6 +1,3 @@
 app_dir: /srv/www/pib
 static_dir: /srv/www/static
 django_project_name: pib
-
-certbot_site_name: ps1.fpgas.mithis.com
-certbot_mail_address: carl@NextDayVideo.com

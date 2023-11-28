@@ -1,3 +1,4 @@
+---
 eth_local_mac_address: 00:25:90:22:c4:91
 eth_local_address: 10.21.0.1
 eth_local_netmask: 24
@@ -27,12 +28,20 @@ streaming_frontend_aliases: []
 streaming_frontend_hostname: ps1.fpgas.mithis.com
 domain_name: "{{ streaming_frontend_hostname}}"
 
+certbot_site_name: "{{ streaming_frontend_hostname}}"
+certbot_mail_address: carl@NextDayVideo.com
 
 # ./mk_secrets.sh | xclip
 
 # snmpget -v 3 -u  -l authPriv -a MD5 -x DES -A wordpass -X wordpass -c pib \
 
 switch:
+    # Netgear #2 GS728TPP mac: "b0:39:56:88:22:4c"
+
+    # HP https://support.hpe.com/hpesc/public/docDisplay?docId=c02596727
+    # pethMainPseOperStatus .1.3.6.1.2.1.105.1.3.1.1.3
+
+    # James Netgear:
     mac: "A0:21:B7:AF:4E:05"
     oid: "iso.3.6.1.4.1.4526.11.16.1.1.1.3.1"
     ip: "10.21.0.200"
