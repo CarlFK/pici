@@ -1,9 +1,33 @@
 ---
+# Install certbot and the certbot nginx extension with apt
+- name: Install certbot and the certbot nginx extension with apt
+  apt:
+    name:
+    - certbot
+    - python3-certbot-nginx
+    state: present
+  tags: le
+
+- name: create certificate - standalone
+  command: "certbot certonly --standalone  -d  {{ certbot_site_name }} -m {{ certbot_mail_address }} --agree-tos --noninteractive"
+  tags: le
+
+- name: add hooks for renewal
+  lineinfile:
+    path: /etc/letsencrypt/renewal/{{ certbot_site_name}}.conf
+    line: "{{ item }}"
+    insertafter: EOF
+  with_items:
+    - "post_hook = systemctl start nginx"
+    - "pre_hook = systemctl stop nginx"
+  tags: le
+
 - name: Set Letsencrypt Cronjob for Certificate Auto Renewal
   cron:
     name: letsencrypt_renewal
     special_time: monthly
     job: "/usr/bin/certbot renew"
   tags:
-    - tls-certificates
+    - le
+
 
