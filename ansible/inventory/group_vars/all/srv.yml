@@ -5,7 +5,6 @@ base_name: 2022-09-22-raspios-bullseye-armhf-lite
 zip_name: "{{base_name}}.img.xz"
 img_name: "{{base_name}}.img"
 user: pi
-dist: bullseye
+dist: bookworm
 
 nfs_root: "/srv/nfs/rpi/{{ dist }}"
-
