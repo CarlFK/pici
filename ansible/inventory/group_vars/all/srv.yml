@@ -1,10 +1,14 @@
 ---
+# https://downloads.raspberrypi.com/raspios_armhf/images/raspios_armhf-2023-10-10/2023-10-10-raspios-bookworm-armhf.img.xz
 img_host: http://downloads.raspberrypi.org
-img_path: raspios_lite_armhf/images/raspios_lite_armhf-2022-09-26
-base_name: 2022-09-22-raspios-bullseye-armhf-lite
-zip_name: "{{base_name}}.img.xz"
-img_name: "{{base_name}}.img"
-user: pi
+# img_host: http://192.168.1.8
 dist: bookworm
+release_date: 2023-10-10
+img_path: "raspios_lite_armhf/images/raspios_lite_armhf-{{release_date}}"
+base_name: "{{release_date}}-raspios-{{dist}}-armhf-lite"
+img_name: "{{base_name}}.img"
+zip_name: "{{base_name}}.img.xz"
+
+user: pi
 
 nfs_root: "/srv/nfs/rpi/{{ dist }}"
