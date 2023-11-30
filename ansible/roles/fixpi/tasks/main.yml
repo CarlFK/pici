@@ -61,18 +61,13 @@
 - name: create a password and tell everyone
   script: files/pipw.sh "{{user}}"
   args:
-    chdir: "{{nfs_root}}"
+    chdir: "{{nfs_root}}/root"
     creates: "{{nfs_root}}/root/etc/ssh/password.txt"
 
 - name: enable sshd
   file:
     path: "{{ nfs_root }}/boot/ssh"
     state: touch
-
-# - name: enable sshd agian?
-#  file:
-#    path: "{{ nfs_root }}/root/ssh"
-#    state: touch
 
 - name: get fixed sshswitch
   get_url:
@@ -122,14 +117,3 @@
   copy:
     src: "files/etc/ssh/sshd_config.d/password.conf"
     dest: "{{ nfs_root }}/root/etc/ssh/sshd_config.d/password.conf"
-
-# - name: vanilla pi to fpga pi
-#   copy:
-#     src: "files/{{ item }}"
-#     dest: "{{ nfs_root }}/root/root/{{ item }}"
-#     mode: u+x
-#   with_items:
-#     - uppi1.sh
-#     - uppi2.sh
-
-

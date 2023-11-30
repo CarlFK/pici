@@ -1,0 +1,10 @@
+[FAILED] Failed to start Create System Users.
+[FAILED] Failed to start Network Time Synchronization.
+[FAILED] Failed to start Update UTMP about System Boot/Shutdown.
+[FAILED] Failed to start dphys-swap…mount, and delete a swap file.
+
+[   ***] (2 of 2) A start job is running for…connected by UART (34s / 1min 30s)
+         Starting Modem Manager...
+
+
+BOOT_UART=1 in the eeprom config file, via rpi-eeprom-config --edit
