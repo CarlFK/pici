@@ -32,7 +32,7 @@
 
 - name: install scripts to manage pi states
   copy:
-    src: "files/files"
+    src: "files/scripts"
     dest: "/root"
     mode: preserve
   tags:
@@ -40,17 +40,14 @@
 
 - name: install scripts to manage pi states II
   copy:
-    src: "files/files/{{ item }}"
+    src: "{{ item }}"
     dest: "/root/{{ item }}"
     mode: preserve
   with_items:
    - scripts/burn.sh
    - scripts/maintenance.sh
    - scripts/mktftpln.sh
-   - scripts/normal.sh
+   - scripts/production.sh
    # - netgear/poe.sh
    # - netgear/allpoe.sh
-
-
-
 
