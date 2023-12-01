@@ -1,18 +1,6 @@
 # Ansible managed
 
-server {
-  listen 443 ssl http2;
-  listen [::]:443 ssl http2;
-  server_name {{ domain_name }};
-
-  ssl_certificate /etc/ssl/ansible/certs/{{ conference_name }}.fullchain.pem;
-  ssl_certificate_key /etc/ssl/ansible/private/{{ conference_name }}.key;
-
   add_header Strict-Transport-Security "max-age=15552000";
-
-  root {{ static_dir }};
-
-  index index.html;
 
   location /live {
     alias {{ streaming.backend.data_root }}/hls/source/;
@@ -38,8 +26,3 @@ server {
     proxy_set_header X-Real-PORT $remote_port;
 
   }
-
-  access_log /var/log/nginx/{{ conference_name }}-access.log;
-  error_log /var/log/nginx/{{ conference_name }}-error.log;
-
-}

@@ -1,4 +1,6 @@
 ---
+# this task expects nginx has been setup using the debconf ansible task(s)
+
 - name: remove DCV nginx.confs
   file:
     path: /etc/nginx/{{ item }}
@@ -21,8 +23,9 @@
     state: absent
   notify: reload nginx
 
+# this next step expects /etc/nginx/includes/site.conf to be created (next)
 - name: configure https vhost
   template:
-    src: templates/https-vhost.conf.j2
+    src: templates/nginx.conf.j2
     dest: "/etc/nginx/sites-enabled/{{ domain_name}}-https.conf"
   notify: reload nginx

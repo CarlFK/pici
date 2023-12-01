@@ -1,6 +1,17 @@
 ---
+
+# Check if the SSL key files already exhist on the server
+- name: Check if fullchain.pem file exhists
+  stat: path=/etc/letsencrypt/live/{{ domain_name }}/fullchain.pem
+  register: fullchain_path
+- name: Check if privkey.pem files exhists
+  stat: path=/etc/letsencrypt/live/{{ domain_name }}/privkey.pem
+  register: privkey_path
+
+
 # Install certbot and the certbot nginx extension with apt
 - name: Install certbot and the certbot nginx extension with apt
+
   apt:
     name:
     - certbot
@@ -8,13 +19,14 @@
     state: present
   tags: le
 
-- name: create certificate - standalone
-  command: "certbot certonly --standalone  -d  {{ certbot_site_name }} -m {{ certbot_mail_address }} --agree-tos --noninteractive"
+- name: create certificate
+  command: "certbot --nginx -d {{ domain_name }} --email {{ letsencrypt_account_email }} --agree-tos --non-interactive --test-cert --break-my-certs"
+  when: True or (not privkey_path.stat.exists and not fullchain_path.stat.exists)
   tags: le
 
 - name: add hooks for renewal
   lineinfile:
-    path: /etc/letsencrypt/renewal/{{ certbot_site_name}}.conf
+    path: /etc/letsencrypt/renewal/{{ domain_name }}.conf
     line: "{{ item }}"
     insertafter: EOF
   with_items:

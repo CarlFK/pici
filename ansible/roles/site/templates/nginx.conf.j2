@@ -1,0 +1,15 @@
+server {
+
+    listen 80;
+    # listen [::]:80 default_server;
+
+    server_name {{ domain_name }};
+
+    root {{ static_dir }};
+
+    access_log /var/log/nginx/{{ conference_name }}-access.log;
+    error_log /var/log/nginx/{{ conference_name }}-error.log;
+
+    include includes/{{ conference_name }}.conf;
+
+}

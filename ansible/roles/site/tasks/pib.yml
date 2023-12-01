@@ -1,8 +1,14 @@
 # pib.yml
 
+- name: Create etc/nginx/includes dir
+  ansible.builtin.file:
+    path: /etc/nginx/includes
+    state: directory
+
 - name: Deploy nginx pib.conf
   template:
     src: templates/pib.conf.j2
-    dest: "/etc/nginx/sites-enabled/{{ domain_name}}-https.conf"
+    dest: "/etc/nginx/includes/{{ conference_name }}.conf"
   tags: pibsite
   notify: reload nginx
+
