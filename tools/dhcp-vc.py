@@ -20,18 +20,48 @@ def get_log(args):
 
 def get_answers(logs):
 
-    ret = {}
+    def remove_roages(logs):
+        """
+        fn='/home/carl/src/tv/pib/pici/ansible/inventory/host_vars/ps1.fpgas.mithis.com'
+        s=open(fn).read()
 
-    mac_to_hostname=defaultdict()
+        pi_macs=['b8:27:eb:2f:5d:08', 'dc:a6:32:05:32:45', 'b8:27:eb:d4:f1:74', 'b8:27:eb:33:51:27', 'b8:27:eb:a3:51:b4', 'b8:27:eb:51:01:df', 'b8:27:eb:68:fc:e7', 'b8:27:eb:69:79:a0', 'b8:27:eb:5f:de:85', 'b8:27:eb:0c:f8:43']
+        wonky_macs= [ "b8:27:eb:5a:26:5b", "e4:5f:01:64:75:c6" '46:63:56:3c:80:85' ]
+
+        logs = [
+                log for log in logs
+                    if log['mac'] in pi_macs
+                ]
+
+        return logs
+
+
+    def spackle(logs):
+        mac_to_hostname=defaultdict()
+
+        # find all the mac:hostnames that exist
+        for d in logs:
+            if d['hostname'] is not None:
+                mac_to_hostname[d['mac']] =  d['hostname']
+
+        # fill in all the hostnames
+        for d in logs:
+            if d['mac'] in mac_to_hostname:
+                d['host_name'] = mac_to_hostname[d['mac']]
+            else:
+                print(f"roage mac: {d['mac']}")
+                pprint(d)
+
+    logs = remove_roages(logs)
+    logs=spackle(logs)
+
+    ret = {}
 
     # pis=set()
     vcs=set()
     stats={} # defaultdict(defaultdict(int))
 
     for d in logs:
-
-        if d['hostname'] is not None:
-            mac_to_hostname[d['mac']] =  d['hostname']
 
         # pis.add(d['hostname'])
         vcs.add(d['vendor_class'])
@@ -41,26 +71,36 @@ def get_answers(logs):
 
         stats[d['mac']][d['vendor_class']] +=1
 
+
     # ret['pis'] = pis
     ret['vcs'] = vcs
     ret['stats'] = stats
-    ret['mac_to_hostname'] = mac_to_hostname
+    # ret['mac_to_hostname'] = mac_to_hostname
 
     return ret
+
+
+
+def focus(answers, args):
+
+    if args.hostname:
+        # answers = [d for d in answers if d['hostname'] == args.hostname ]
+        answers = filter( lambda d: d['hostname'] == args.hostname, answers )
+
+    return answers
+
 
 def show_answers(answers):
 
     stats = answers['stats']
-    for mac in stats:
+    for k in stats:
 
-        if mac in answers['mac_to_hostname']:
+        host_name = stats[k]['hostname']
 
-            host_name = answers['mac_to_hostname'][mac]
-
-            if host_name[:2] == 'pi':
-                print(host_name)
-                pprint(stats[mac])
-                print()
+        if host_name[:2] == 'pi':
+            print(host_name)
+            pprint(stats[k])
+            print()
 
 
 
@@ -91,6 +131,9 @@ def get_args():
     parser.add_argument('--filename',
             default="vc.jsons",
             help='File to save mac/hostnames (overide for testing)')
+
+    parser.add_argument('--host',
+            help="only show [hostname]")
 
     parser.add_argument('--debug',
             default=False,
