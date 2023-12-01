@@ -7,11 +7,15 @@ After=network.target
 ExecStart=/usr/local/venv/wssh/bin/wssh \
               --xheaders=True \
               --fbidhttp=False \
-              --certfile='/etc/ssl/ansible/certs/{{ conference_name }}.fullchain.pem' \
-              --keyfile='/etc/ssl/ansible/private/{{ conference_name }}.key'
+              --certfile='/etc/letsencrypt/live/{{ domain_name }}/fullchain.pem' \
+              --keyfile='/etc/letsencrypt/live/{{ domain_name }}/privkey.pem'
 User=root
 Restart=on-failure
 Type=simple
 
 [Install]
 WantedBy=multi-user.target
+
+--certfile=/etc/letsencrypt/live/ps1.fpgas.mithis.com/fullchain.pem
+--keyfile=/etc/letsencrypt/live/ps1.fpgas.mithis.com/privkey.pem
+
