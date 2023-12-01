@@ -10,8 +10,9 @@
 sd_boot=/media/carl/boot
 
 # firmware-2711 firmware-2712
-firmware_dir=firmware-2712/latest/
-eprom_bin=pieeprom-2023-09-28.bin
+firmware_dir=firmware-2711/latest/
+# eprom_bin=pieeprom-2023-09-28.bin
+eprom_bin=pieeprom-2023-05-11.bin
 
 cache=~/temp/cache
 pushd .
@@ -26,8 +27,9 @@ cd ..
 wget -N https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
 popd
 
-${rpi_eeprom}/rpi-eeprom-config ${rpi_eeprom}/${firmware_dir}/${eprom_bin} --config bootconf.txt --out ${sd_boot}/pieeprom.bin
-sha256sum ${sd_boot}/pieeprom.bin | cut -d' ' -f1 > ${sd_boot}/pieeprom.sig
+${rpi_eeprom}/rpi-eeprom-config ${rpi_eeprom}/${firmware_dir}/${eprom_bin} --config config.txt --out ${sd_boot}/pieeprom.bin
+# sha256sum ${sd_boot}/pieeprom.bin | cut -d' ' -f1 > ${sd_boot}/pieeprom.sig
+${rpi_eeprom}/rpi-eeprom-digest -i ${sd_boot}/pieeprom.bin -o ${sd_boot}/pieeprom.sig
 
 cp ${rpi_eeprom}/${firmware_dir}/recovery.bin ${sd_boot}
 cp ${rpi_eeprom}/../bootcode.bin ${sd_boot}
