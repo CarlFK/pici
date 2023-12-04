@@ -1,0 +1,28 @@
+---
+- name: populate /etc/environment
+  lineinfile:
+    dest: "/etc/environment"
+    state: present
+    regexp: "^{{ item.key }}="
+    line: "{{ item.key }}={{ item.value }}"
+  with_items:
+    - key: SNMP_SWITCH_USERNAME
+      value: "{{ SNMP_SWITCH_USERNAME }}"
+    - key: SNMP_SWITCH_AUTHKEY
+      value: "{{ SNMP_SWITCH_AUTHKEY }}"
+    - key: SNMP_SWITCH_PRIVKEY
+      value: "{{ SNMP_SWITCH_PRIVKEY }}"
+    - key: SNMP_SWITCH_PASSPHRASE
+      value: "{{ SNMP_SWITCH_PASSPHRASE }}"
+  tags: testsnmp
+
+- name: copy poe.sh and allpoe.sh into usr/local/bin
+  copy:
+    src: "pib/snmp_switch/scripts/{{ item }}"
+    dest: "/usr/local/bin"
+    mode: preserve
+  loop:
+    - poe.sh
+    - allpoe.sh
+  tags: testsnmp
+
