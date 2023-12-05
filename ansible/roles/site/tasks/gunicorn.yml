@@ -4,6 +4,7 @@
   apt:
     name:
     - python3-venv
+    - python3-virtualenv
     - python3-pip
 
 # - name: Install virtualenv via pip
