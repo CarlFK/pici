@@ -2,9 +2,11 @@
 
 - name: apt update/upgrade
   apt:
-    name: "*"
+    # name: "*"
+    upgrade: true
     state: latest
-    update_cache: yes
+    update_cache: true
+    cache_valid_time: 86400
 
 # something odd here...
 # dpkg-divert: error: rename involves overwriting '/usr/share/vim/vim82/doc/help.txt.vim-tiny' with different file '/usr/share/vim/vim82/doc/help.txt', not allowed
@@ -18,6 +20,7 @@
 - name: Install packages
   apt:
     name:
+      - overlayroot
       - ssh-import-id
       - vim
       - tmux
