@@ -7,7 +7,7 @@
 # sd card is just a blank fat32 fs (not raspios et all)
 # sd/boot mounted here:
 # sd_boot=/media/carl/bootfs
-sd_boot=/media/carl/boot
+sd_boot=/media/carl/bootfs
 
 # firmware-2711 firmware-2712
 firmware_dir=firmware-2711/latest/
