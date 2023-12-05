@@ -1,10 +1,8 @@
 
-Normal: ro nfs, rw tmpfs, /boot not mounted.
-
+Production.sh: ro nfs, rw tmpfs, /boot not mounted.
 etc/overlayroot.conf: overlayroot="tmpfs"
 
 Maitance: rw nfs, /boot mounted
-
 etc/overlayroot.conf: overlayroot=""
 
 common:
@@ -94,3 +92,5 @@ Camera Name ov5647
 
 pi 4
 ov5647
+
+Pi image fixer: https://github.com/gitbls/sdm
