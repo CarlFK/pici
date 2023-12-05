@@ -3,17 +3,33 @@
   lineinfile:
     dest: "/etc/environment"
     state: present
-    regexp: "^{{ item.key }}="
-    line: "{{ item.key }}={{ item.value }}"
+    regexp: "^export {{ item.key }}="
+    line: "export {{ item.key }}={{ item.value }}"
   with_items:
     - key: SNMP_SWITCH_USERNAME
-      value: "{{ SNMP_SWITCH_USERNAME }}"
-    - key: SNMP_SWITCH_AUTHKEY
-      value: "{{ SNMP_SWITCH_AUTHKEY }}"
-    - key: SNMP_SWITCH_PRIVKEY
-      value: "{{ SNMP_SWITCH_PRIVKEY }}"
+      value: "{{ switch.SNMP_SWITCH_USERNAME }}"
+      hint: -u
+    - key: SNMP_SWITCH_SECURITY_LEVEL
+      value: "{{ switch.SNMP_SWITCH_SECURITY_LEVEL }}"
+      hint: -l
+    - key: SNMP_SWITCH_AUTH_PROTOCOL
+      value: "{{ switch.SNMP_SWITCH_AUTH_PROTOCOL }}"
+      hint: -a
     - key: SNMP_SWITCH_PASSPHRASE
-      value: "{{ SNMP_SWITCH_PASSPHRASE }}"
+      value: "{{ switch.SNMP_SWITCH_PASSPHRASE }}"
+      hint: -A
+    - key: SNMP_SWITCH_PRIV_PROTOCOL
+      value: "{{ switch.SNMP_SWITCH_PRIV_PROTOCOL }}"
+      hint: -x
+    - key: SNMP_SWITCH_PRIV_PASSPHRASE
+      value: "{{ switch.SNMP_SWITCH_PRIV_PASSPHRASE }}"
+      hint: -X
+    # - key: SNMP_SWITCH_PRIVKEY
+    #   value: "{{ SNMP_SWITCH_PRIVKEY }}"
+    - key: SNMP_SWITCH_IP
+      value: "{{ switch.ip }}"
+    - key: SNMP_SWITCH_OID
+      value: "{{ switch.oid }}"
   tags: testsnmp
 
 - name: copy poe.sh and allpoe.sh into usr/local/bin
