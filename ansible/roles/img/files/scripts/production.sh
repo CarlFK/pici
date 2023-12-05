@@ -11,7 +11,7 @@ set -ex
 # pi fstab: don't mount boot
 # pi fstab: don't mount boot
 
-dist=bullseye
+dist=bookworm
 p=/srv/nfs/rpi/${dist}
 boot=${p}/boot
 root=${p}/root
@@ -25,7 +25,7 @@ sed -i -E "/.*/s/overlayroot=(tmpfs)?/overlayroot=tmpfs/" ${boot}/cmdline.txt
 cat ${boot}/cmdline.txt
 
 # don't automount pi's /boot
-sed -i "/.boot nfs*/s/,auto,/,noauto,/" ${root}/etc/fstab
+sed -i "/.boot.* nfs*/s/,auto,/,noauto,/" ${root}/etc/fstab
 
 # done with pi files, so ro all of them:
 # make the nfs shares ro

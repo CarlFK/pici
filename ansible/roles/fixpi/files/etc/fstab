@@ -1,3 +1,3 @@
 # proc            /proc           proc    defaults          0       0
-10.21.0.1:/srv/nfs/rpi/bullseye/boot /boot nfs defaults,noauto,ro,nfsvers=3 0 0
-10.21.0.1:/srv/nfs/rpi/bullseye/root / nfs defaults,noauto,ro,nfsvers=3 0 0
+10.21.0.1:/srv/nfs/rpi/bookworm/boot /boot/firmware nfs defaults,noauto,ro,nfsvers=3 0 0
+10.21.0.1:/srv/nfs/rpi/bookworm/root / nfs defaults,noauto,ro,nfsvers=3 0 0

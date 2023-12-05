@@ -8,7 +8,7 @@
 # then
 #  normal.sh
 
-dist=bullseye
+dist=bookworm
 p=/srv/nfs/rpi/${dist}
 
 systemctl stop nfs-server.service

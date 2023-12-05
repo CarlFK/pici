@@ -1,2 +1,2 @@
 # /boot/cmdline.txt
-root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/bullseye/root,nfsvers=3 ro ip=dhcp rootwait consoleblank=0 netconsole=@/,@10.21.0.1/ overlayroot=tmpfs console=serial0,115200
+root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/bookworm/root,nfsvers=3 ro ip=dhcp rootwait consoleblank=0 netconsole=@/,@10.21.0.1/ overlayroot=tmpfs console=serial0,115200

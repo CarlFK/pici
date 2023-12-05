@@ -14,7 +14,7 @@ fi
 
 id=$1
 
-dist=bullseye
+dist=bookworm
 d=/srv/nfs/rpi/${dist}
 
 ln -s ${d}/boot /srv/tftp/${id}
