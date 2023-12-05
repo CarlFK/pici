@@ -20,7 +20,8 @@
   tags: le
 
 - name: create certificate
-  command: "certbot --nginx -d {{ domain_name }} --email {{ letsencrypt_account_email }} --agree-tos --non-interactive --test-cert --break-my-certs"
+  command: "certbot --nginx -d {{ domain_name }} --email {{ letsencrypt_account_email }} --agree-tos --non-interactive"
+    #  --test-cert --break-my-certs"
   when: True or (not privkey_path.stat.exists and not fullchain_path.stat.exists)
   tags: le
 
