@@ -40,15 +40,6 @@
     state: forcereinstall
   tags: snmp
 
-# change permissions of whole app_dir
-# - name: Recursively change ownership of a directory
-#   file:
-#     path: "{{ app_dir }}"
-#    state: directory
-#    recurse: yes
-#    group: wheel
-#    mode: '0775'
-
 # Run Django collectstatic
 # - name: Run manage.py collectstatic
 #   community.general.django_manage:
