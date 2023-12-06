@@ -19,9 +19,10 @@ printf "%s\n" ${pass} >>  etc/issue
 
 # pre-seed raspios's "make a new user" process
 crypt_pas=$(openssl passwd -6 -in etc/ssh/password.txt)
-# this works for fixit.sh, needs to be fixed for ansible.
+# this works for fixit.sh,
 # fname=boot/firmware/userconf.txt
-fname=boot/userconf.txt
+# this is for for ansible:
+fname=../boot/userconf.txt
 printf "%s:%s" ${user} ${crypt_pas} > ${fname}
 
 # this sets the password of an existing user
