@@ -1,6 +1,8 @@
 #!/bin/bash
 # extract files from raspios.img file.
 
+# img2files.sh {{ zip_name }} {{ img_name }} {{ dist }}
+
 set -ex
 
 zip_name=${1}

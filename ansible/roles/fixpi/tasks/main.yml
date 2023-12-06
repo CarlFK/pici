@@ -63,6 +63,8 @@
   args:
     chdir: "{{nfs_root}}/root"
     creates: "{{nfs_root}}/root/etc/ssh/password.txt"
+  tags:
+  - pipw
 
 - name: enable sshd
   file:

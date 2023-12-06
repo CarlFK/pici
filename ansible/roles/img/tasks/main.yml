@@ -23,6 +23,7 @@
 - name: extract files from raspios.img.xz
   script: files/img2files.sh {{ zip_name }} {{ img_name }} {{ dist }}
   args:
+    chdir: "{{ cache_dir }}"
     creates: "{{ nfs_root }}/root/home"
 
 - name: create scripts dir
