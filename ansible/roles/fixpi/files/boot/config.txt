@@ -50,7 +50,7 @@
 # Additional overlays and parameters are documented /boot/overlays/README
 
 # Enable audio (loads snd_bcm2835)
-dtparam=audio=on
+# dtparam=audio=on
 
 # Automatically load overlays for detected cameras
 camera_auto_detect=1
@@ -90,6 +90,9 @@ arm_64bit=1
 # https://www.raspberrypi.org/forums/viewtopic.php?f=63&t=10532
 # kernel=vmlinuz-5.10.0-9-arm64
 # initramfs initrd.img-5.10.0-9-arm64
+
+# Automatically load initramfs files, if found
+auto_initramfs=1
 
 core_freq=250
 enable_uart=1
