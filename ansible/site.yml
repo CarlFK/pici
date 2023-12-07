@@ -2,10 +2,10 @@
 - hosts: pib
   roles:
   - firewall
+  - nfs
   - img
   - fixpi
   - pxe
-  - nfs
   - wssh
   - site
   - cam/stream-server
