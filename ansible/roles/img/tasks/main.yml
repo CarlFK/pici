@@ -41,14 +41,11 @@
 
 - name: install scripts to manage pi states II
   copy:
-    src: "{{ item }}"
-    dest: "/root/{{ item }}"
+    src: "scripts/{{ item }}"
+    dest: "/usr/local/sbin/{{ item }}"
     mode: preserve
   with_items:
-   - scripts/burn.sh
-   - scripts/maintenance.sh
-   - scripts/mktftpln.sh
-   - scripts/production.sh
-   # - netgear/poe.sh
-   # - netgear/allpoe.sh
-
+   - mktftpln.sh
+   - burn.sh
+   - maintenance.sh
+   - production.sh
