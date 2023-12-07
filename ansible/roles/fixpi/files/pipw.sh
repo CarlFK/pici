@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 # generate a random password for pi user
 # usage: pipw.sh username [password]
 
@@ -8,16 +8,17 @@ if [ "$#" -eq 2 ]; then
     pass=$2
 else
     # generate a password
-    pass=$(pwgen)
+    pass=$(pwgen --ambiguous)
 fi
 
 # save it in the clear so everyone can see it when they want to root the box
 printf "%s\n" ${pass} > etc/ssh/password.txt
 
 # append it to the text that is displayed on the console
-printf "%s\n" ${pass} >>  etc/issue
+printf "%s:%s\n" ${user} ${pass} >> etc/issue
 
 # pre-seed raspios's "make a new user" process
+# https://www.raspberrypi.com/news/raspberry-pi-bullseye-update-april-2022/
 crypt_pas=$(openssl passwd -6 -in etc/ssh/password.txt)
 # this works for fixit.sh,
 # fname=boot/firmware/userconf.txt
