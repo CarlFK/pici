@@ -8,6 +8,7 @@
       - gstreamer1.0-plugins-bad
       - gstreamer1.0-plugins-ugly
       - gstreamer1.0-plugins-base-apps
+      - libcamera0
       - jq
   tags:
     - streaming
