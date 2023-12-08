@@ -2,16 +2,18 @@
 # extract files from raspios.img file.
 
 # img2files.sh {{ zip_name }} {{ img_name }} {{ dist }}
+# run this script from the dir where img_name is (cache dir)
+
+# 1. unzip
+# 2. mount the 2 fs's in the img
+# 3. copy the files to /srv/nfs
+# 4. clean up: umount and delete the loop dev
 
 set -ex
 
 zip_name=${1}
 img_name=${2}
 dist=${3}
-
-# zip_name=${1:-/var/cache/pib/2022-04-04-raspios-bullseye-armhf-lite.img.xz}
-# img_name=${2:-/var/cache/pib/2022-04-04-raspios-bullseye-armhf-lite.img}
-# dist=${3:-bullseye}
 
 xz --keep --decompress ${zip_name} | true
 
