@@ -8,3 +8,6 @@
 
 
 BOOT_UART=1 in the eeprom config file, via rpi-eeprom-config --edit
+
+1. add host box's ssh keys on pi so host can issue shutdown command.
+
