@@ -18,6 +18,9 @@ root=${p}/root
 
 systemctl stop nfs-server.service
 
+# clean up stuff that should not persist
+rm ${root}/var/lib/dhcp/dhclient.leases
+
 # turn on overlayroot
 sed -i -E "/.*/s/overlayroot=(tmpfs)?/overlayroot=tmpfs/" ${boot}/cmdline.txt
 # sed -i E 's/([[:blank:]]|^)overlayroot=[^[:blank:]]*/\1overlayroot=tmpfs/'  ${boot}/cmdline.txt
