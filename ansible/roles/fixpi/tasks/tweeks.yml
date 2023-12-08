@@ -1,0 +1,39 @@
+---
+- name: don't resize the root fs
+  file:
+    path: "{{ nfs_root }}/root/etc/init.d/resize2fs_once"
+    state: absent
+
+- name: don't manage a swap file
+  file:
+    path: "{{ nfs_root }}/etc/systemd/system/multi-user.target.wants/dphys-swapfile.service"
+    state: absent
+
+- name: avoid [FAILED] Failed to start Set console font and keymap.
+  file:
+    path: "{{ nfs_root }}/root/etc/systemd/system/multi-user.target.wants/console-setup.service"
+    state: absent
+
+- name: avoid Wi-Fi is currently blocked by rfkill.
+  file:
+    path: "{{ nfs_root }}/root/etc/profile.d/wifi-check.sh"
+    state: absent
+
+# FIXME
+# - name: avoid [FAILED] Failed to start Hostname Service.
+#  file:
+#    path: "{{ nfs_root }}/"
+#    state: absent
+#
+
+- name: set US keyboard
+  copy:
+    src: "files/etc/keyboard"
+    dest: "{{ nfs_root }}/root/etc/default/"
+
+- name: set hostname to localhost (dhclient will get hostname from server)
+  copy:
+    content: 'localhost'
+    dest: "{{ nfs_root }}/root/etc/hostname"
+  tags:
+  - hostname

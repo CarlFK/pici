@@ -1,0 +1,38 @@
+---
+- name: Install packages
+  apt:
+    name:
+      - pwgen
+    install_recommends: yes
+  tags:
+    - img
+
+- name: display IP, pw and things on console
+  copy:
+    src: "files/etc/issue"
+    dest: "{{ nfs_root }}/root/etc/issue"
+
+- name: create a password and tell everyone
+  script: files/pipw.sh "{{user}}"
+  args:
+    chdir: "{{nfs_root}}/root"
+    creates: "{{nfs_root}}/root/etc/ssh/password.txt"
+  tags:
+  - pipw
+
+- name: enable sshd
+  file:
+    path: "{{ nfs_root }}/boot/ssh"
+    state: touch
+
+- name: get fixed sshswitch
+  get_url:
+    url: https://raw.githubusercontent.com/RPi-Distro/raspberrypi-sys-mods/master/debian/raspberrypi-sys-mods.sshswitch.service
+    dest: "{{ nfs_root }}/root/etc/systemd/system/multi-user.target.wants/sshswitch.service"
+  when: False
+
+- name: sshd password settings
+  copy:
+    src: "files/etc/ssh/sshd_config.d/password.conf"
+    dest: "{{ nfs_root }}/root/etc/ssh/sshd_config.d/password.conf"
+

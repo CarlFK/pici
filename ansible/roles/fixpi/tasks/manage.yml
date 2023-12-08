@@ -1,0 +1,17 @@
+---
+- name: create scripts dir
+  file:
+    path: /root/scripts
+    state: directory
+
+- name: install scripts to manage pi states
+  copy:
+    src: "scripts/{{ item }}"
+    dest: "/usr/local/sbin/{{ item }}"
+    mode: preserve
+  with_items:
+   - maintenance.sh
+   - production.sh
+
+- name: put the pi boot system into maintenance mode
+  command: maintenance.sh

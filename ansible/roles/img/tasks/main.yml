@@ -25,27 +25,3 @@
   args:
     chdir: "{{ cache_dir }}"
     creates: "{{ nfs_root }}/root/home"
-
-- name: create scripts dir
-  file:
-    path: /root/scripts
-    state: directory
-
-- name: install scripts to manage pi states
-  copy:
-    src: "files/scripts"
-    dest: "/root"
-    mode: preserve
-  tags:
-    - scripts
-
-- name: install scripts to manage pi states II
-  copy:
-    src: "scripts/{{ item }}"
-    dest: "/usr/local/sbin/{{ item }}"
-    mode: preserve
-  with_items:
-   - mktftpln.sh
-   - burn.sh
-   - maintenance.sh
-   - production.sh
