@@ -1,6 +1,3 @@
 ---
-user: pi
-
 cache_dir: "/var/cache/pib"
 nfs_root: "/srv/nfs/rpi/{{ dist }}"
-
