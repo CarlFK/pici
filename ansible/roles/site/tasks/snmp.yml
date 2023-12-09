@@ -3,8 +3,8 @@
   lineinfile:
     dest: "/etc/environment"
     state: present
-    regexp: "^export {{ item.key }}="
-    line: "export {{ item.key }}={{ item.value }}"
+    regexp: "^{{ item.key }}="
+    line: "{{ item.key }}={{ item.value }}"
   with_items:
     - key: SNMP_SWITCH_USERNAME
       value: "{{ switch.SNMP_SWITCH_USERNAME }}"
@@ -26,10 +26,12 @@
       hint: -X
     # - key: SNMP_SWITCH_PRIVKEY
     #   value: "{{ SNMP_SWITCH_PRIVKEY }}"
-    - key: SNMP_SWITCH_IP
-      value: "{{ switch.ip }}"
+    - key: SNMP_SWITCH_HOST
+      value: "{{ switch.host }}"
     - key: SNMP_SWITCH_OID
       value: "{{ switch.oid }}"
+    - key: pi_ports
+      value: "\"{% for pi in nos %}{{pi.port}} {% endfor %}\""
   tags: testsnmp
 
 - name: copy poe.sh and allpoe.sh into usr/local/bin
