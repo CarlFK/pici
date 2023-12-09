@@ -11,7 +11,7 @@
 {% for pi in nos %}
 
   pi{{pi.port}}<br>
-  <a href="https://{{ domain_name }}:4433/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password=WmVpajhzaGkK">
+  <a href="https://{{ domain_name }}:4433/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password={{pi_pw|b64encode}}">
     ssh -p {{100+pi.port}}22 pi@{{ domain_name }}<br>
   </a>
   vlc https://{{ domain_name }}/live/pi{{pi.port}}.m3u8<br>

@@ -12,10 +12,10 @@ else
 fi
 
 # save it in the clear so everyone can see it when they want to root the box
-printf "%s\n" ${pass} > etc/ssh/password.txt
+printf "%s" ${pass} > etc/ssh/password.txt
 
 # append it to the text that is displayed on the console
-printf "%s:%s\n" ${user} ${pass} >> etc/issue
+printf "%s\n" ${user} ${pass} >> etc/issue
 
 # pre-seed raspios's "make a new user" process
 # https://www.raspberrypi.com/news/raspberry-pi-bullseye-update-april-2022/
