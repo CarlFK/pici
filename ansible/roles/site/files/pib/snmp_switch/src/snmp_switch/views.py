@@ -113,13 +113,13 @@ def toggle_all(request):
 def off_all(request):
 
     # 2=off
-    params['state']=2
+    # params['state']=2
 
     l = []
     for port in range(1,49):
 
         params['port'] = str(port)
-        d = snmp_set_state( **params )
+        d = snmp_set_state( state=2, **params )
         l.append(d)
 
     response = HttpResponse(content_type="application/json")
