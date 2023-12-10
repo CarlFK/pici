@@ -90,8 +90,7 @@ def toggle(request):
     d=snmp_toggle( **params )
 
     response = HttpResponse(content_type="application/json")
-    s = d.__str__()
-    json.dump(s, response, indent=2)
+    json.dump(d, response, indent=2, default=all_to_str)
 
     return response
 
@@ -103,11 +102,10 @@ def toggle_all(request):
 
         params['port'] = str(port)
         d=snmp_toggle( **params )
-        s = d.__str__()
-        l.append(s)
+        l.append(d)
 
     response = HttpResponse(content_type="application/json")
-    json.dump(l, response, indent=2)
+    json.dump(l, response, indent=2, default=all_to_str)
 
     return response
 
@@ -115,18 +113,17 @@ def toggle_all(request):
 def off_all(request):
 
     # 2=off
-    d['state']=2
+    params['state']=2
 
     l = []
-    for port in range(1,48):
+    for port in range(1,49):
 
         params['port'] = str(port)
         d = snmp_set_state( **params )
-        s = d.__str__()
-        l.append(s)
+        l.append(d)
 
     response = HttpResponse(content_type="application/json")
-    json.dump(l, response, indent=2)
+    json.dump(l, response, indent=2, default=all_to_str)
 
     return response
 
@@ -140,8 +137,5 @@ def status(request):
     d = {'snmp_status': d, 'raw': d.__str__() }
     response = HttpResponse(content_type="application/json")
     json.dump(d, response, indent=2, default=all_to_str)
-    s = d.__str__()
-    # json.dump(s, response, indent=2)
-    # json.dump(params, response, indent=2)
 
     return response
