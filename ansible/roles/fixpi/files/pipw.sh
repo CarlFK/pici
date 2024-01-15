@@ -12,18 +12,20 @@ else
 fi
 
 # save it in the clear so everyone can see it when they want to root the box
-printf "%s" ${pass} > etc/ssh/password.txt
+# note: this file is used by openssl passwd so don't mess it up
+# we will find out if the \n messes it up
+printf "%s\n" ${pass} > etc/ssh/password.txt
 
 # append it to the text that is displayed on the console
-printf "%s\n" ${user} ${pass} >> etc/issue
+printf "%s %s\n" ${user} ${pass} >> etc/issue
 
 # pre-seed raspios's "make a new user" process
 # https://www.raspberrypi.com/news/raspberry-pi-bullseye-update-april-2022/
 crypt_pas=$(openssl passwd -6 -in etc/ssh/password.txt)
 # this works for fixit.sh,
-# fname=boot/firmware/userconf.txt
+fname=boot/firmware/userconf.txt
 # this is for for ansible:
-fname=../boot/userconf.txt
+# fname=../boot/userconf.txt
 printf "%s:%s" ${user} ${crypt_pas} > ${fname}
 
 # this sets the password of an existing user

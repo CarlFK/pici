@@ -1,0 +1,32 @@
+---
+- name: Create nginx content directories
+  ansible.builtin.file:
+    path: "{{ streaming.data_root }}/{{ item }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0755"
+  with_items:
+    - ""
+    - "www"
+    - "hls"
+  tags:
+    - streaming
+
+- name: Use tmpfs for hls
+  ansible.builtin.lineinfile:
+    dest: /etc/fstab
+    line: "tmpfs {{ streaming.data_root }}/hls tmpfs \
+           uid=www-data,gid=www-data,mode=0755 0 2"
+    regexp: \s{{ streaming.data_root }}/hls\s
+  notify: Mount all
+  tags:
+    - streaming
+
+- name: Install nginx streaming backend rtmp configuration
+  ansible.builtin.template:
+    src: templates/pib.conf.j2
+    dest: /etc/nginx/rtmp/pib.conf
+  tags:
+    - streaming
+

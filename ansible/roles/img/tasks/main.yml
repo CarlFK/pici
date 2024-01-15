@@ -25,3 +25,5 @@
   args:
     chdir: "{{ cache_dir }}"
     creates: "{{ nfs_root }}/root/home"
+  tags:
+    - img

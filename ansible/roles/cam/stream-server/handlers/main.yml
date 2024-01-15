@@ -15,3 +15,7 @@
   systemd:
     daemon_reload: yes
   when: not skip_unit_test
+
+- name: Mount all
+  ansible.builtin.command: mount -a
+

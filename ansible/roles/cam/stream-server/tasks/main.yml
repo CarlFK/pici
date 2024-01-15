@@ -1,32 +1,8 @@
 ---
-- name: remove DCV nginx.confs
-  file:
-    path: /etc/nginx/{{ item }}
-    state: absent
-  loop:
-    - rtmp/backend.conf
-    - rtmp/frontend.conf
-    - sites-enabled/streaming-backend-http.conf
-    - sites-enabled/streaming-backend-https.conf
-    - sites-enabled/streaming-frontend-http.conf
-    - sites-enabled/streaming-frontend-https.conf
-  notify: reload nginx
+- ansible.builtin.include_tasks: base.yml
   tags:
     - streaming
 
-- name: install pib rtmp nginx conf
-  template:
-    src: templates/pib.conf.j2
-    dest: /etc/nginx/rtmp/pib.conf
+- ansible.builtin.include_tasks: back.yml
   tags:
     - streaming
-
-- name: pibatize streaming-frontend-https.conf
-  replace:
-    path: /etc/nginx/sites-enabled/streaming-frontend-https.conf
-    regexp: ' *proxy_pass https://backend.ps1.fpgas.mithis.com/live/.*'
-    replace: ' root /srv/streaming-frontend/hls/;'
-  when: False
-  tags:
-    - streaming
-

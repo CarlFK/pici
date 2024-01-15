@@ -3,8 +3,9 @@
 img_host: http://downloads.raspberrypi.org
 # img_host: http://192.168.1.8
 dist: bookworm
-release_date: 2023-10-10
-img_path: "raspios_lite_armhf/images/raspios_lite_armhf-{{release_date}}"
+release_date: 2023-12-05
+dir_date: 2023-12-06
+img_path: "raspios_lite_armhf/images/raspios_lite_armhf-{{dir_date}}"
 base_name: "{{release_date}}-raspios-{{dist}}-armhf-lite"
 img_name: "{{base_name}}.img"
 zip_name: "{{base_name}}.img.xz"

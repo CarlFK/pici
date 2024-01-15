@@ -12,7 +12,7 @@ table inet filter {
           tcp dport ssh counter accept;
               meta l4proto {icmp, icmpv6} counter accept;
               udp dport { 67, 68, 546, 547 } counter accept;
-                    tcp dport 4433 counter accept;
+          # tcp dport 4433 counter accept;
           # tcp dport 4433 counter accept;
           # tcp dport 8888 counter accept;
         jump internal_networks;

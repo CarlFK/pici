@@ -32,7 +32,7 @@
       value: "{{ switch.oid }}"
     - key: pi_ports
       value: "\"{% for pi in nos %}{{pi.port}} {% endfor %}\""
-  tags: testsnmp
+  tags: snmp
 
 - name: copy poe.sh and allpoe.sh into usr/local/bin
   copy:
@@ -42,5 +42,5 @@
   loop:
     - poe.sh
     - allpoe.sh
-  tags: testsnmp
+  tags: snmp
 
