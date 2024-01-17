@@ -5,5 +5,5 @@
 - {include_tasks: index.yml, tags: index.html}
 - {include_tasks: js_player.yml, tags: django}
 - {include_tasks: gunicorn.yml, tags: django}
-- {include_tasks: django.yml, tags: [snmp, django] }
 - {include_tasks: snmp.yml, tags: [snmp, django] }
+- {include_tasks: django.yml, tags: [snmp, django] }
