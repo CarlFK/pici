@@ -1,19 +1,8 @@
 [pxe]
 ps1.fpgas.mithis.com
-rpi-6d-27-f6 ansible_host=10.1.10.246
-rpi-cb-1f-f7
-val2
-negk ansible_ssh_port=5855 ansible_host=45.20.162.5
 fpgas.mithis.com
-gator
-
-[users]
-# ps1.fpgas.mithis.com
-# gator
-rpi-6d-27-f6 ansible_host=10.1.10.246
-rpi-cb-1f-f7
-val2
 negk ansible_ssh_port=5855 ansible_host=45.20.162.5
+gator
 
 [firewall]
 ps1.fpgas.mithis.com
@@ -21,27 +10,8 @@ rpi-cb-1f-f7
 val2
 negk ansible_ssh_port=5855 ansible_host=45.20.162.5
 
-[img]
-ps1.fpgas.mithis.com
-
-[fixpi]
-ps1.fpgas.mithis.com
-val2
-negk ansible_ssh_port=5855 ansible_host=45.20.162.5
-# negk ansible_host=10.20.2.11
-
-# negk ansible_host=10.20.2.11
-# ansible_ssh_port=5855
-
 [onpi]
 pi ansible_host=192.168.1.121 ansible_port=10022
-
-[cam]
-ps1.fpgas.mithis.com
-# gator ansible_host=192.168.1.119
-
-[wssh]
-# ps1.fpgas.mithis.com
 
 [pib]
 ps1.fpgas.mithis.com
