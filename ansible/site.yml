@@ -2,9 +2,9 @@
 - hosts: pib
   roles:
     # - firewall
-  - nfs
-  - img
-  - fixpi
+    # - nfs
+    # - img
+    # - fixpi
     # - pxe
     # - wssh
     # - site

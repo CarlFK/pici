@@ -5,7 +5,7 @@
       - nginx-extras
       - libnginx-mod-rtmp
       - libnginx-mod-http-fancyindex
-  notify: Restart nginx
+  notify: restart nginx
   tags:
     - streaming
 
@@ -31,7 +31,7 @@
   ansible.builtin.template:
     src: nginx-rtmp.conf.j2
     dest: /etc/nginx/nginx-rtmp.conf
-  notify: Reload nginx
+  notify: reload nginx
   tags:
     - streaming
 
@@ -40,7 +40,7 @@
     dest: /etc/nginx/nginx.conf
     line: include /etc/nginx/nginx-rtmp.conf;
     state: present
-  notify: Reload nginx
+  notify: reload nginx
   tags:
     - streaming
 
@@ -51,6 +51,6 @@
     line: worker_processes 1;
     regexp: ^worker_processes
     state: present
-  notify: Reload nginx
+  notify: reload nginx
   tags:
     - streaming

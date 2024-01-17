@@ -3,18 +3,15 @@
   systemd:
     name: nginx
     state: reloaded
-  when: not skip_unit_test
 
 - name: restart nginx
   systemd:
     name: nginx
     state: restarted
-  when: not skip_unit_test
 
 - name: reload-systemd
   systemd:
     daemon_reload: yes
-  when: not skip_unit_test
 
 - name: Mount all
   ansible.builtin.command: mount -a
