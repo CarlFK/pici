@@ -1,29 +1,4 @@
 ---
-# this task expects nginx has been setup using the debconf ansible task(s)
-
-- name: remove DCV nginx.confs
-  file:
-    path: /etc/nginx/{{ item }}
-    state: absent
-  loop:
-    - rtmp/backend.conf
-    - rtmp/frontend.conf
-    - sites-available/default
-    - sites-available/pxe
-    - sites-enabled/pxe
-    - sites-enabled/streaming-backend-http.conf
-    - sites-enabled/streaming-backend-https.conf
-    - sites-enabled/streaming-frontend-http.conf
-    - sites-enabled/streaming-frontend-https.conf
-  notify: reload nginx
-
-- name: disable default configuration
-  file:
-    path: /etc/nginx/sites-enabled/default
-    state: absent
-  notify: reload nginx
-
-# this next step expects /etc/nginx/includes/site.conf to be created (next)
 - name: configure https vhost
   template:
     src: templates/nginx.conf.j2
