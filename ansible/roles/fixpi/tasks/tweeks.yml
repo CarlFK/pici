@@ -37,3 +37,11 @@
     dest: "{{ nfs_root }}/root/etc/hostname"
   tags:
   - hostname
+
+# brltty greedily grabs serial ports, ftdi_sio loses connection
+# https://bugs.debian.org/667616
+- name: apt remove brltty
+  apt:
+    name:
+      - brltty
+    state: absent
