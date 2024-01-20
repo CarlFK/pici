@@ -38,10 +38,22 @@
   tags:
   - hostname
 
-# brltty greedily grabs serial ports, ftdi_sio loses connection
 # https://bugs.debian.org/667616
+# brltty greedily grabs serial ports, ftdi_sio loses connection
 - name: apt remove brltty
   apt:
     name:
       - brltty
     state: absent
+
+- name: install tio
+  apt:
+    name:
+      - tio
+
+- name: let tio connect to the tty and see pi boot messages
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    groups: dialout
+    append: true
+
