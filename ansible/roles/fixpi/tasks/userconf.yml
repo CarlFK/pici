@@ -36,3 +36,18 @@
     src: "files/etc/ssh/sshd_config.d/password.conf"
     dest: "{{ nfs_root }}/root/etc/ssh/sshd_config.d/password.conf"
 
+- name: Generate ssh keys for server user
+  ansible.builtin.user:
+    name: "{{ user_name }}"
+    generate_ssh_key: true  # This will not overwrite an existing SSH key.
+    ssh_key_type: ed25519
+
+- name: Copy authorized_keys to pi pi and root
+  ansible.builtin.copy:
+    remote_src: true
+    src: "/home/{{ user_name }}/.ssh/authorized_keys"
+    dest: "/srv/nfs/rpi/{{dist}}/root/{{item}}/.ssh/authorized_keys"
+  with_items:
+    - root
+    - home/pi
+
