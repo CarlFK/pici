@@ -1,6 +1,6 @@
-#!/bin/bash -ex
+#!/bin/bash
 
-# poe.sh $port 1|2
+# poe.sh port 1|2
 # 1=on, 2=off
 
 # http://oid-info.com/get/1.3.6.1.2.1.2.2.1.7
@@ -13,8 +13,6 @@
 # Access Mode: ReadWrite
 # Status: Enable
 # (Add)
-
-# sudo apt install snmp
 
 # Tims's
 # Netgear S3300-52X-PoE+
@@ -40,12 +38,6 @@ port=$1
 
 . /srv/www/pib/venv/bin/activate
 
-# show current value
-# snmpget -v 3 -u admin -l authPriv -a MD5 -x DES -A wordpass -X wordpass -c pib \
-#      ${swichip} "${oid}.$port"
-# snmpget.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
-
-
 #   -u SECURITY-NAME      SNMP USM user security name (e.g. bert)
 #   -l SECURITY-LEVEL     security level (noAuthNoPriv|authNoPriv|authPriv)
 #   -a AUTH-PROTOCOL      authentication protocol ID (MD5|SHA|SHA224|SHA256|SHA384|SHA512)
@@ -60,8 +52,6 @@ port=$1
 #      Set the privacy pass phrase used for encrypted SNMPv3 messages.  Overrides the defPrivPassphrase token
 #      in the snmp.conf file.  It is insecure to specify pass phrases on the command line, see snmp.conf(5).
 
-# snmpget.py -v 3 -u admin -c pib -l authPriv -a MD5 -x DES -A wordpass -X wordpass 10.21.0.200 iso.3.6.1.4.1.4526.11.16.1.1.1.3.1.3
-
 snmpget.py -v 3 \
     -u ${SNMP_SWITCH_USERNAME} \
     -l ${SNMP_SWITCH_SECURITY_LEVEL} \
@@ -69,13 +59,11 @@ snmpget.py -v 3 \
     -A ${SNMP_SWITCH_PASSPHRASE} \
     -x ${SNMP_SWITCH_PRIV_PROTOCOL} \
     -X ${SNMP_SWITCH_PRIV_PASSPHRASE} \
-  ${SNMP_SWITCH_IP} "${SNMP_SWITCH_OID}.$port"
+  ${SNMP_SWITCH_HOST} "${SNMP_SWITCH_OID}.$port"
+
 # maybe set new value
 if [ $# -eq 2 ]; then
     val=$2
-    # snmpset -v 3 -u admin -l authPriv -a MD5 -x DES -A wordpass -X wordpass -c pib \
-    #  ${swichip} "${oid}.$port" i "$val"
-    # snmpset.py -v3 -l authPriv -u admin -A wordpass -X wordpass -c pib \
     snmpset.py -v 3 \
         -u ${SNMP_SWITCH_USERNAME} \
         -l ${SNMP_SWITCH_SECURITY_LEVEL} \
@@ -83,7 +71,6 @@ if [ $# -eq 2 ]; then
         -A ${SNMP_SWITCH_PASSPHRASE} \
         -x ${SNMP_SWITCH_PRIV_PROTOCOL} \
         -X ${SNMP_SWITCH_PRIV_PASSPHRASE} \
-      ${SNMP_SWITCH_IP} "${SNMP_SWITCH_OID}.$port" i "$val"
-#
+      ${SNMP_SWITCH_HOST} "${SNMP_SWITCH_OID}.$port" i "$val"
 fi
 
