@@ -1,11 +1,9 @@
 # Ansible managed
 
 application pib {
-    allow publish 127.0.0.1;
-    allow publish ::1;
     allow publish {{ eth_local_address }}/{{ eth_local_netmask }};
-
     deny publish all;
+
     allow play all;
 
     live on;
@@ -16,7 +14,7 @@ application pib {
     wait_key on;
 
     hls on;
-    hls_path "{{ streaming.data_root }}/hls/source;"
+    hls_path {{ streaming.data_root }}/hls/source;
     hls_fragment_naming system;
 
 }

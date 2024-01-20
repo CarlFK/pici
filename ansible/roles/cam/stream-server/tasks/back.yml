@@ -10,6 +10,7 @@
     - ""
     - "www"
     - "hls"
+    - "hls/source"
   tags:
     - streaming
 
