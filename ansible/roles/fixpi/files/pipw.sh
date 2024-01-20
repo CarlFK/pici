@@ -23,9 +23,9 @@ printf "%s %s\n" ${user} ${pass} >> etc/issue
 # https://www.raspberrypi.com/news/raspberry-pi-bullseye-update-april-2022/
 crypt_pas=$(openssl passwd -6 -in etc/ssh/password.txt)
 # this works for fixit.sh,
-fname=boot/firmware/userconf.txt
+# fname=boot/firmware/userconf.txt
 # this is for for ansible:
-# fname=../boot/userconf.txt
+fname=../boot/userconf.txt
 printf "%s:%s" ${user} ${crypt_pas} > ${fname}
 
 # this sets the password of an existing user
