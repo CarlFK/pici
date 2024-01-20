@@ -1,12 +1,4 @@
 ---
-- name: Install packages
-  apt:
-    name:
-      - pwgen
-    install_recommends: yes
-  tags:
-    - img
-
 - name: display IP, pw and things on console
   copy:
     src: "files/etc/issue"
@@ -40,14 +32,48 @@
   ansible.builtin.user:
     name: "{{ user_name }}"
     generate_ssh_key: true  # This will not overwrite an existing SSH key.
-    ssh_key_type: ed25519
+  tags:
+  - keys
 
-- name: Copy authorized_keys to pi pi and root
+- name: create .ssh dirs
+  file:
+    path: "{{ nfs_root }}/root/{{ item }}/.ssh"
+    state: directory
+  with_items:
+    - root
+    - home/pi
+  tags:
+  - keys
+
+- name: Generate ssh keys for pi users pi and root
+  community.crypto.openssh_keypair:
+    path: "{{ nfs_root }}/root/{{ item }}/.ssh/id_ssh_rsa"
+  with_items:
+    - root
+    - home/pi
+  tags:
+  - keys
+
+- name: Set authorized key for pi root user
+  ansible.posix.authorized_key:
+    user: root
+    state: present
+    key: "{{ lookup('file', '/home/{{ user_name }}/.ssh/id_rsa.pub') }}"
+    path: "/srv/nfs/rpi/{{dist}}/root/{{item}}/.ssh/authorized_keys"
+  with_items:
+    - root
+  tags:
+  - keys
+  when: false
+
+- name: Copy keys to pi pi and root authorized_keys
   ansible.builtin.copy:
     remote_src: true
-    src: "/home/{{ user_name }}/.ssh/authorized_keys"
+    src:  "/home/{{ user_name }}/.ssh/id_rsa.pub"
     dest: "/srv/nfs/rpi/{{dist}}/root/{{item}}/.ssh/authorized_keys"
   with_items:
     - root
     - home/pi
+  tags:
+  - keys
 
