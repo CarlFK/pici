@@ -15,17 +15,15 @@
     - key: SNMP_SWITCH_AUTH_PROTOCOL
       value: "{{ switch.SNMP_SWITCH_AUTH_PROTOCOL }}"
       hint: -a
-    - key: SNMP_SWITCH_PASSPHRASE
-      value: "{{ switch.SNMP_SWITCH_PASSPHRASE }}"
+    - key: SNMP_SWITCH_AUTHKEY
+      value: "{{ switch.SNMP_SWITCH_AUTHKEY }}"
       hint: -A
     - key: SNMP_SWITCH_PRIV_PROTOCOL
       value: "{{ switch.SNMP_SWITCH_PRIV_PROTOCOL }}"
       hint: -x
-    - key: SNMP_SWITCH_PRIV_PASSPHRASE
-      value: "{{ switch.SNMP_SWITCH_PRIV_PASSPHRASE }}"
+    - key: SNMP_SWITCH_PRIVKEY
+      value: "{{ switch.SNMP_SWITCH_PRIVKEY }}"
       hint: -X
-    # - key: SNMP_SWITCH_PRIVKEY
-    #   value: "{{ SNMP_SWITCH_PRIVKEY }}"
     - key: SNMP_SWITCH_HOST
       value: "{{ switch.host }}"
     - key: SNMP_SWITCH_OID
