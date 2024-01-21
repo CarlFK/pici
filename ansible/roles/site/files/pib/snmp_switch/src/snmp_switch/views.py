@@ -8,7 +8,8 @@ import json
 from pprint import pprint
 
 from pysnmp import hlapi # import usmHMAC384SHA512AuthProtocol, usmNoPrivProtocol
-from snmp_switch.utils import snmp_set_state, snmp_status, snmp_toggle
+from snmp_switch.utils import mk_params,
+  snmp_set_state, snmp_status, snmp_toggle
 
 # construct params: a dictionary of parameters
 # the source of truth is the swich config page, stored as strings in ansible inventory.
@@ -41,7 +42,6 @@ authProtocol={
         }[settings.SNMP_SWITCH_AUTH_PROTOCOL]
 
 """
-same for
     snmpget.py
    -x PRIV-PROTOCOL      privacy protocol ID (3DES|AES|AES128|AES192|AES192BLMT|AES256|AES256BLMT|DES)
 
@@ -68,12 +68,11 @@ privProtocol = {
 
 # port is the rj45 port on the 24 or 48 or howmanyever port switch.
 # not tcp/udp port.  (which seems to be udp 161)
-params = {
+xparams = {
         'host':settings.SNMP_SWITCH_HOST,
         'username':settings.SNMP_SWITCH_USERNAME,
         'authkey':settings.SNMP_SWITCH_AUTHKEY,
         'authProtocol': authProtocol,
-        'privkey':settings.SNMP_SWITCH_PRIVKEY,
         'privProtocol': privProtocol,
         'oid':settings.SNMP_SWITCH_OID,
         'port': None,
@@ -86,6 +85,7 @@ def all_to_str(o):
 def toggle(request):
     # turn the port off and on again
 
+    params = mk_params()
     params['port'] = request.POST['port']
     d=snmp_toggle( **params )
 
@@ -97,6 +97,7 @@ def toggle(request):
 @csrf_exempt
 def toggle_all(request):
 
+    params = mk_params()
     l = []
     for port in range(1,48):
 
@@ -115,6 +116,7 @@ def off_all(request):
     # 2=off
     # params['state']=2
 
+    params = mk_params()
     l = []
     for port in range(1,49):
 
@@ -131,6 +133,7 @@ def off_all(request):
 @csrf_exempt
 def status(request):
 
+    params = mk_params()
     params['port'] = request.POST['port']
     d=snmp_status( **params )
 

@@ -1,15 +1,121 @@
-from pysnmp.hlapi import UsmUserData, usmHMACSHAAuthProtocol, \
-                         usmAesCfb256Protocol, usmHMACMD5AuthProtocol, \
-                         usmDESPrivProtocol, \
-                         ObjectType, ObjectIdentity, getCmd, setCmd, \
-                         UdpTransportTarget, SnmpEngine, ContextData
+import os
 
-from pysnmp.proto import rfc1902
-
+from pprint import pprint
 from time import sleep
 
-def snmp_set_state(host, username, authkey, privkey, oid, port, state,
-        authProtocol=usmHMACMD5AuthProtocol, privProtocol=usmDESPrivProtocol):
+from pysnmp import hlapi
+from pysnmp.proto import rfc1902
+
+
+def mk_params():
+    # construct params: a dictionary of parameters
+
+    # the keys are the parameter names used by
+    # snmp_get_state(), snmp_set_state(),
+    # which follows hlapi.UsmUserData, etc.
+
+    # The source of truth is the swich config page,
+    # copied to strings in ansible inventory.
+    # the protocol deails get mapped to pysnmp.hlapi constants
+    # and what physical ports are used.
+
+    # put all the thigns here and return it
+    params = {}
+
+    """
+ -u admin
+ -l authPriv
+ -a MD5
+ -A wordpass
+ -x DES
+ -X wordpass
+ 10.21.0.200 iso.3.6.1.4.1.4526.11.16.1.1.1.3.1.2 i 2
+-u ${SNMP_SWITCH_USERNAME} \
+-l ${SNMP_SWITCH_SECURITY_LEVEL} \
+-a ${SNMP_SWITCH_AUTH_PROTOCOL}  \
+-A ${SNMP_SWITCH_PASSPHRASE} \
+-x ${SNMP_SWITCH_PRIV_PROTOCOL} \
+-X ${SNMP_SWITCH_PRIV_PASSPHRASE} \
+"""
+
+    # get local switch settings and secrets from env vars
+    for k in (
+        'host',
+        'username',
+        'authKey',
+        'privKey',
+        'oid',
+        ):
+            ev_name = f'SNMP_SWITCH_{k.upper()}'
+            ev_val = os.environ.get(ev_name)
+            print(f"{ev_name=} {ev_val=}")
+            params[k] = ev_val
+
+
+    # these protocol deails get mapped to pysnmp.hlapi constants:
+    # authProtocol, privProtocol
+
+    """
+    ansible inventory will use the strings used by snmpget.py:
+    -a AUTH-PROTOCOL      authentication protocol ID (MD5|SHA|SHA224|SHA256|SHA384|SHA512)
+
+    map those strings to pysnmp.hlapi constants:
+
+    usmNoAuthProtocol (default is authKey not given)
+    usmHMACMD5AuthProtocol (default if authKey is given)
+    usmHMACSHAAuthProtocol
+    usmHMAC128SHA224AuthProtocol
+    usmHMAC192SHA256AuthProtocol
+    usmHMAC256SHA384AuthProtocol
+    usmHMAC384SHA512AuthProtocol
+    """
+
+    k = os.environ.get('SNMP_SWITCH_AUTH_PROTOCOL')
+    params['authProtocol'] = {
+        'NoAuth': hlapi.usmNoAuthProtocol,
+        'MD5': hlapi.usmHMACMD5AuthProtocol,
+        'SHA': hlapi.usmHMACSHAAuthProtocol,
+        'SHA224': hlapi.usmHMAC128SHA224AuthProtocol,
+        'SHA256': hlapi.usmHMAC192SHA256AuthProtocol,
+        'SHA384': hlapi.usmHMAC256SHA384AuthProtocol,
+        'SHA512': hlapi.usmHMAC384SHA512AuthProtocol,
+        }[k]
+
+    """
+    same for
+   -x PRIV-PROTOCOL      privacy protocol ID (3DES|AES|AES128|AES192|AES192BLMT|AES256|AES256BLMT|DES)
+
+    usmNoPrivProtocol (default if privKey not given)
+    usmDESPrivProtocol (default if privKey is given)
+    usm3DESEDEPrivProtocol
+    usmAesCfb128Protocol
+    usmAesCfb192Protocol
+    usmAesCfb256Protocol
+    """
+
+    k = os.environ.get('SNMP_SWITCH_PRIV_PROTOCOL')
+    params['privProtocol'] = {
+        'NoPriv': hlapi.usmNoPrivProtocol,
+        '3DES': hlapi.usm3DESEDEPrivProtocol,
+        'AES': None,
+        'AES128': hlapi.usmAesCfb128Protocol,
+        'AES192': hlapi.usmAesCfb192Protocol,
+        'AES192BLMT': None,
+        'AES256': hlapi.usmAesCfb256Protocol,
+        'AES256BLMT': None,
+        'DES': hlapi.usmDESPrivProtocol,
+        }[k]
+
+    # port is the rj45 port on the 24 or 48 or howmanyever port switch.
+    # not tcp/udp port.  (which seems to be udp 161)
+    # it is set here just to document it.
+    params['port'] = None
+
+    return params
+
+
+def snmp_set_state(host, username, authKey, privKey, oid, port, state,
+        authProtocol, privProtocol):
 
     """
     state:
@@ -17,26 +123,26 @@ def snmp_set_state(host, username, authkey, privkey, oid, port, state,
     2=off
     """
 
-    connectto = UdpTransportTarget((host, 161))
-    obj_id = ObjectIdentity(oid + '.' + port)
+    connectto = hlapi.UdpTransportTarget((host, 161))
+    obj_id = hlapi.ObjectIdentity(oid + '.' + port)
 
-    obj_state = ObjectType(obj_id, rfc1902.Integer(state))
+    obj_state = hlapi.ObjectType(obj_id, rfc1902.Integer(state))
 
-    auth = UsmUserData(
+    auth = hlapi.UsmUserData(
         userName=username,
-        authKey=authkey,
+        authKey=authKey,
         authProtocol=authProtocol, #usmHMACSHAAuthProtocol,
-        privKey=privkey,
+        privKey=privKey,
         privProtocol=privProtocol #usmAesCfb256Protocol
     )
 
-    engine = SnmpEngine()
+    engine = hlapi.SnmpEngine()
 
-    iterator = setCmd(
+    iterator = hlapi.setCmd(
         engine,
         auth,
         connectto,
-        ContextData(),
+        hlapi.ContextData(),
         obj_state
     )
     errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
@@ -51,39 +157,39 @@ def snmp_set_state(host, username, authkey, privkey, oid, port, state,
     return ret
 
 
-def snmp_toggle(host, username, authkey, privkey, oid, port,
-        authProtocol=usmHMACMD5AuthProtocol, privProtocol=usmDESPrivProtocol):
+def snmp_toggle(host, username, authKey, privKey, oid, port,
+        authProtocol, privProtocol):
 
-    connectto = UdpTransportTarget((host, 161))
-    obj_id = ObjectIdentity(oid + '.' + port)
-    obj_off = ObjectType(obj_id, rfc1902.Integer(2))
-    obj_on = ObjectType(obj_id, rfc1902.Integer(1))
+    connectto = hlapi.UdpTransportTarget((host, 161))
+    obj_id = hlapi.ObjectIdentity(oid + '.' + port)
+    obj_off = hlapi.ObjectType(obj_id, rfc1902.Integer(2))
+    obj_on = hlapi.ObjectType(obj_id, rfc1902.Integer(1))
 
-    auth = UsmUserData(
+    auth = hlapi.UsmUserData(
         userName=username,
-        authKey=authkey,
+        authKey=authKey,
         authProtocol=authProtocol, #usmHMACSHAAuthProtocol,
-        privKey=privkey,
+        privKey=privKey,
         privProtocol=privProtocol #usmAesCfb256Protocol
     )
 
-    engine = SnmpEngine()
+    engine = hlapi.SnmpEngine()
 
-    iterator = setCmd(
+    iterator = hlapi.setCmd(
         engine,
         auth,
         connectto,
-        ContextData(),
+        hlapi.ContextData(),
         obj_off
     )
     errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
 
     sleep(2)
-    iterator = setCmd(
+    iterator = hlapi.setCmd(
         engine,
         auth,
         connectto,
-        ContextData(),
+        hlapi.ContextData(),
         obj_on
     )
     errorIndication2, errorStatus2, errorIndex2, varBinds2 = next(iterator)
@@ -100,27 +206,27 @@ def snmp_toggle(host, username, authkey, privkey, oid, port,
     }
 
 
-def snmp_status(host, username, authkey, privkey, oid, port,
-        authProtocol=usmHMACMD5AuthProtocol, privProtocol=usmDESPrivProtocol):
-    connectto = UdpTransportTarget((host, 161))
-    obj_id = ObjectIdentity(oid + '.' + port)
-    obj_get = ObjectType(obj_id)
+def snmp_status(host, username, authKey, privKey, oid, port,
+        authProtocol, privProtocol):
+    connectto = hlapi.UdpTransportTarget((host, 161))
+    obj_id = hlapi.ObjectIdentity(oid + '.' + port)
+    obj_get = hlapi.ObjectType(obj_id)
 
-    auth = UsmUserData(
+    auth = hlapi.UsmUserData(
         userName=username,
-        authKey=authkey,
+        authKey=authKey,
         authProtocol=authProtocol, #usmHMACSHAAuthProtocol,
-        privKey=privkey,
+        privKey=privKey,
         privProtocol=privProtocol #usmAesCfb256Protocol
     )
 
-    engine = SnmpEngine()
+    engine = hlapi.SnmpEngine()
 
-    iterator = getCmd(
+    iterator = hlapi.getCmd(
         engine,
         auth,
         connectto,
-        ContextData(),
+        hlapi.ContextData(),
         obj_get
     )
 
@@ -161,3 +267,16 @@ check_iterator(set_cmd(obj_on))
 sleep(2)
 check_iterator(get_cmd(obj_get))
 """
+
+def test_mkparams():
+    params = mk_params()
+    params['port'] = '2'
+    pprint(params)
+    o = snmp_status( **params )
+    pprint(o)
+
+def test():
+    test_mkparams()
+
+if __name__=='__main__':
+    test()
