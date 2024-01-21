@@ -56,9 +56,9 @@ snmpget.py -v 3 \
     -u ${SNMP_SWITCH_USERNAME} \
     -l ${SNMP_SWITCH_SECURITY_LEVEL} \
     -a ${SNMP_SWITCH_AUTH_PROTOCOL}  \
-    -A ${SNMP_SWITCH_PASSPHRASE} \
+    -A ${SNMP_SWITCH_AUTHKEY} \
     -x ${SNMP_SWITCH_PRIV_PROTOCOL} \
-    -X ${SNMP_SWITCH_PRIV_PASSPHRASE} \
+    -X ${SNMP_SWITCH_PRIVKEY} \
   ${SNMP_SWITCH_HOST} "${SNMP_SWITCH_OID}.$port"
 
 # maybe set new value
@@ -68,9 +68,9 @@ if [ $# -eq 2 ]; then
         -u ${SNMP_SWITCH_USERNAME} \
         -l ${SNMP_SWITCH_SECURITY_LEVEL} \
         -a ${SNMP_SWITCH_AUTH_PROTOCOL}  \
-        -A ${SNMP_SWITCH_PASSPHRASE} \
+        -A ${SNMP_SWITCH_AUTHKEY} \
         -x ${SNMP_SWITCH_PRIV_PROTOCOL} \
-        -X ${SNMP_SWITCH_PRIV_PASSPHRASE} \
+        -X ${SNMP_SWITCH_PRIVKEY} \
       ${SNMP_SWITCH_HOST} "${SNMP_SWITCH_OID}.$port" i "$val"
 fi
 
