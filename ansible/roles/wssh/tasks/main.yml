@@ -14,16 +14,13 @@
     name:
       - webssh
     virtualenv: "/usr/local/venv/wssh"
-    virtualenv_site_packages: True
+    # virtualenv_site_packages: True
     virtualenv_command: "python3 -m venv --system-site-packages"
 
 - name: systemd files
   copy:
     src: "files/etc/systemd/system/{{ item }}"
     dest: "/etc/systemd/system/{{ item }}"
-    # owner: root
-    # group: www-data
-    # mode: u+r 0755
   with_items:
     - wssh.socket
   notify:
