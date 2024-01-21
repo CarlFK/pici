@@ -8,8 +8,7 @@ import json
 from pprint import pprint
 
 from pysnmp import hlapi # import usmHMAC384SHA512AuthProtocol, usmNoPrivProtocol
-from snmp_switch.utils import mk_params,
-  snmp_set_state, snmp_status, snmp_toggle
+from snmp_switch.utils import mk_params, snmp_set_state, snmp_status, snmp_toggle
 
 # construct params: a dictionary of parameters
 # the source of truth is the swich config page, stored as strings in ansible inventory.
