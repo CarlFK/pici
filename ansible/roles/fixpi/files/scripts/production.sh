@@ -19,6 +19,8 @@ root=${p}/root
 systemctl stop nfs-server.service
 
 # clean up stuff that should not persist
+# touch first to make sure there is something to rm
+touch ${root}/var/lib/dhcp/dhclient.leases
 rm ${root}/var/lib/dhcp/dhclient.leases
 
 # turn on overlayroot
@@ -38,7 +40,7 @@ sed -i "\@${p}.*\snfs\s@s@\bauto\b@noauto@" ${root}/etc/fstab
 sed -i "\@${p}.*\snfs\s@s@\brw\b@ro@" ${root}/etc/fstab
 
 # done with pi files, so ro all of them:
-# make the nfs shares ro
+# make the nfs shares ro (read only)
 sed -i "s/rw,/ro,/" /etc/exports
 
 systemctl start nfs-server.service
