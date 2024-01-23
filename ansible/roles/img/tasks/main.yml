@@ -19,6 +19,8 @@
     url: "{{ img_host }}/{{ img_path }}/{{ zip_name }}"
     dest: "{{ cache_dir }}"
     force: False
+  args:
+      creates: "{{ cache_dir }}/{{ zip_name }}"
   tags:
     - img
 
