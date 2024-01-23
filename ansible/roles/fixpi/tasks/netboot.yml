@@ -11,7 +11,7 @@
     dest: "/srv/tftp/{{ item.sn }}"
     state: link
   with_items:
-    "{{ nos }}"
+    "{{ switch.nos }}"
 
 - name: save the original config.txt and cmdline.txt
   command: mv "{{ nfs_root }}/boot/{{ item }}" "{{ nfs_root }}/boot/{{ item }}.org"

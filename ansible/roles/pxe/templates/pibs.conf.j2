@@ -1,6 +1,6 @@
 #  - port:  3, mac: b8:27:eb:68:fc:e7, sn: f168fce7
 # hostname = pi+port (pi3)
 # 4th IP octet = 100+index x.y.z.103
-{% for pi in nos %}
+{% for pi in switch.nos %}
 dhcp-host={{ pi.mac }},pi{{pi.port}},{{ pib_network }}.{{ 100+pi.port}}
 {% endfor %}

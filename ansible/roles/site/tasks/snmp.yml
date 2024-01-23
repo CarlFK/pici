@@ -29,7 +29,7 @@
     - key: SNMP_SWITCH_OID
       value: "{{ switch.oid }}"
     - key: pi_ports
-      value: "\"{% for pi in nos %}{{pi.port}} {% endfor %}\""
+      value: "\"{% for pi in switch.nos %}{{pi.port}} {% endfor %}\""
   tags: snmp
 
 - name: copy poe.sh and allpoe.sh into usr/local/bin

@@ -8,7 +8,7 @@
 
 <body>
 
-{% for pi in nos %}
+{% for pi in switch.nos %}
 
   pi{{pi.port}}<br>
   <a href="https://{{ domain_name }}/wssh/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password={{pi_pw|b64encode}}">
