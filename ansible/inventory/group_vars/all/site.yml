@@ -1,3 +1,5 @@
 app_dir: /srv/www/pib
 static_dir: /srv/www/static
 django_project_name: pib
+
+letsencrypt_account_email: carl@NextDayVideo.com
