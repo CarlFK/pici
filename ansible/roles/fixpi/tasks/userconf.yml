@@ -81,3 +81,14 @@
   tags:
   - keys
 
+- name: set perms
+  ansible.builtin.file:
+    path: "/srv/nfs/rpi/{{dist}}/root/{{item}}/.ssh"
+    recurse: true
+    owner: "{{user_name}}"
+    group: "{{user_name}}"
+  with_items:
+    - home/pi
+  tags:
+  - keys
+
