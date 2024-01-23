@@ -19,10 +19,9 @@
     url: "{{ img_host }}/{{ img_path }}/{{ zip_name }}"
     dest: "{{ cache_dir }}"
     force: False
-  args:
-      creates: "{{ cache_dir }}/{{ zip_name }}"
   tags:
     - img
+  # creates: "{{ cache_dir }}/{{ zip_name }}"
 
 - name: extract files from raspios.img.xz
   script: files/img2files.sh {{ zip_name }} {{ img_name }} {{ dist }}
