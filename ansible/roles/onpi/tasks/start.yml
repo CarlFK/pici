@@ -4,6 +4,6 @@
     name: cam
     enabled: yes
     state: started
-  - tags:
+  tags:
     - cam
 
