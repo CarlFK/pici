@@ -1,0 +1,9 @@
+---
+- name: enable and start cam stream
+  systemd:
+    name: cam
+    enabled: yes
+    state: started
+  - tags:
+    - cam
+
