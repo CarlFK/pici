@@ -10,9 +10,8 @@
       - pwgen
 
 - name: set the password and tell everyone
-  script: files/pipw.sh "{{user}}" "{{pi_pw}}"
+  script: files/pipw.sh "{{user}}" "{{pi_pw}}" "{{nfs_root}}/boot" "{{nfs_root}}/root"
   args:
-    chdir: "{{nfs_root}}/root"
     creates: "{{nfs_root}}/root/etc/ssh/password.txt"
   tags:
   - pipw
