@@ -1,4 +1,12 @@
 ---
+- name: remove unneeded nginx conf
+  file:
+    path: "/etc/nginx/{{item}}"
+    state: absent
+  with_items:
+    - sites-enabled/default
+    - sites-enabled/pxe
+
 - name: configure https vhost
   template:
     src: templates/nginx.conf.j2
