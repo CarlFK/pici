@@ -17,9 +17,9 @@
   loop:
     - __init__.py
     - settings.py
-    - local_settings.py
     - urls.py
     - asgi.py
+# - local_settings.py
   tags: django
 
 - name: copy manage.py into site dir

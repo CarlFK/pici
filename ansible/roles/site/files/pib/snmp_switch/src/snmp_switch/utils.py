@@ -22,22 +22,6 @@ def mk_params():
     # put all the thigns here and return it
     params = {}
 
-    """
- -u admin
- -l authPriv
- -a MD5
- -A wordpass
- -x DES
- -X wordpass
- 10.21.0.200 iso.3.6.1.4.1.4526.11.16.1.1.1.3.1.2 i 2
--u ${SNMP_SWITCH_USERNAME} \
--l ${SNMP_SWITCH_SECURITY_LEVEL} \
--a ${SNMP_SWITCH_AUTH_PROTOCOL}  \
--A ${SNMP_SWITCH_PASSPHRASE} \
--x ${SNMP_SWITCH_PRIV_PROTOCOL} \
--X ${SNMP_SWITCH_PRIV_PASSPHRASE} \
-"""
-
     # get local switch settings and secrets from env vars
     for k in (
         'host',
@@ -249,7 +233,6 @@ def check_iterator(iterator):
     if errorIndex:
         print(errorIndex)
     if varBinds:
-
         print(varBinds[0].prettyPrint())
 
 """
@@ -273,6 +256,8 @@ def test_mkparams():
     params['port'] = '2'
     pprint(params)
     o = snmp_status( **params )
+    # o = snmp_set_state( state=1, **params )
+    # o = snmp_toggle( **params )
     pprint(o)
 
 def test():
