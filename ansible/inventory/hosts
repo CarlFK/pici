@@ -11,7 +11,9 @@ val2
 negk ansible_ssh_port=5855 ansible_host=45.20.162.5
 
 [onpi]
-pi ansible_host=192.168.1.121 ansible_port=10022
+# pi ansible_host=192.168.1.121 ansible_port=10022
+# pi ansible_host=fpgas.mithis.com ansible_port=13422
+pi ansible_host=10.21.0.136
 
 [pib]
 ps1.fpgas.mithis.com
