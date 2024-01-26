@@ -38,6 +38,26 @@
   tags:
   - hostname
 
+# the rest of thiese tasks config the server to monitor client boot spew
+
+- name: is server pi
+  stat:
+    path: /boot/firmware/config.txt
+  register: is_pi
+  tags:
+  - ispi
+
+- name: enable /dev/serial0
+  ansible.builtin.lineinfile:
+    dest: /boot/firmware/config.txt
+    # regexp: (^|#\s*)Storage=
+    line: "{{ item }}"
+  with_items:
+    - dtoverlay=disable-bt
+  when: is_pi.stat.exists
+  tags:
+  - ispi
+
 # https://bugs.debian.org/667616
 # brltty greedily grabs serial ports, ftdi_sio loses connection
 - name: apt remove brltty
@@ -46,10 +66,11 @@
       - brltty
     state: absent
 
-- name: install tio
+- name: install packages on server
   apt:
     name:
       - tio
+      - ansible
 
 - name: let tio connect to the tty and see pi boot messages
   ansible.builtin.user:
@@ -57,3 +78,18 @@
     groups: dialout
     append: true
 
+# we don't need a getty snooping on the boot messages over the serial console
+- name: disable (mask) getty systemd service
+  systemd:
+    enabled: false
+    masked: true
+    state: stopped
+    name: serial-getty@ttyAMA0.service
+  tags:
+  - ispi
+
+- name: Git checkout this repo for safer 2 hour onpi
+  ansible.builtin.git:
+    repo: 'https://github.com/CarlFK/pici.git'
+    dest: "/home/{{ user_name }}/pici"
+    depth: 1
