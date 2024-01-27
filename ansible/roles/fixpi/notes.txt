@@ -5,6 +5,17 @@
 
 [   ***] (2 of 2) A start job is running for…connected by UART (34s / 1min 30s)
          Starting Modem Manager...
+[FAILED] Failed to start NetworkMan…[0m - Network Manager Wait Online.
+
+no wifi:
+[  OK  ] Started wpa_supplicant.service - WPA supplicant.
+
+
+
+
+sudo systemctl status serial-getty@ttyAMA0.service
+sudo systemctl mask serial-getty@ttyAMA0.service
+Created symlink /etc/systemd/system/serial-getty@ttyAMA0.service → /dev/null.
 
 
 BOOT_UART=1 in the eeprom config file, via rpi-eeprom-config --edit
