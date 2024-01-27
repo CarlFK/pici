@@ -18,4 +18,4 @@
   systemd:
     service: nftables.service
     enabled: yes
-    mode: restarted
+    state: restarted
