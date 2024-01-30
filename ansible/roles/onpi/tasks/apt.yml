@@ -33,6 +33,8 @@
       - rsync
       - openocd
       - fxload
+      - openfpgaloader
+      - openwince-jtag
       - python3-full
       - python3-venv
       - python3-pip
