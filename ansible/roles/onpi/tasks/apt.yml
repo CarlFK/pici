@@ -24,10 +24,12 @@
       - ssh-import-id
       - vim
       - tmux
+      - screen
       - git
       - etckeeper
       - sshfs
       - tio
+      - minicom
       - rsync
       - openocd
       - fxload
