@@ -31,7 +31,11 @@
       - rsync
       - openocd
       - fxload
+      - python3-full
       - python3-venv
+      - python3-pip
+      - python3-tqdm
+      - python3-numpy
       - software-properties-common
     install_recommends: yes
   tags:
