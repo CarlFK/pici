@@ -93,3 +93,5 @@
     repo: 'https://github.com/CarlFK/pici.git'
     dest: "/home/{{ user_name }}/pici"
     depth: 1
+    accept_hostkey: true
+ # ssh-keyscan -H remote_host.com >> /etc/ssh/ssh_known_hosts
