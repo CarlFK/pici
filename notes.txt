@@ -94,3 +94,5 @@ pi 4
 ov5647
 
 Pi image fixer: https://github.com/gitbls/sdm
+
+https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#raspberry-pi-4-boot-flow
