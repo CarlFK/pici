@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'pib',
     'snmp_switch',
+    'pistat',
 ]
 
 MIDDLEWARE = [
@@ -123,5 +125,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# from pib.local_settings import *
+# Daphne
+ASGI_APPLICATION = "pib.asgi.application"
 
+# from pib.local_settings import *
