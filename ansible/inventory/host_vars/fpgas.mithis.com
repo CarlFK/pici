@@ -18,6 +18,8 @@ user_name: fpgadmin
 conference_name: pib
 room_name: k207
 
+time_zone: America/Los_Angeles
+
 common_name: mithis.com
 subject_alt_names:
   - fpgas.mithis.com
