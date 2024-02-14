@@ -32,14 +32,6 @@
     path: "{{ app_dir }}/manage.py"
     mode: 'u+x'
 
-# pip install "django[bcrypt] @ git+ssh://git@github.com/django/django.git" should work fine.
-- name: PIP install snmp_switch site app
-  ansible.builtin.pip:
-    name: "snmp_switch[cli] @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch"
-    virtualenv: "{{ app_dir }}/venv"
-    state: forcereinstall
-  tags: snmp
-
 # Run Django collectstatic
 # - name: Run manage.py collectstatic
 #   community.general.django_manage:
