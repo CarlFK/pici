@@ -22,5 +22,6 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('snmp/', include('snmp_switch.urls'))
+    path('snmp/', include('snmp_switch.urls')),
+    path('pistat/', include('pistat.urls')),
 ]

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
     'pib',
     'snmp_switch',
     'pistat',
@@ -70,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'pib.wsgi.application'
+# WSGI_APPLICATION = 'pib.wsgi.application'
 
 
 # Database
@@ -120,6 +121,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    # "static",
+    # BASE_DIR / "static",
+    # "/var/www/static/",
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
