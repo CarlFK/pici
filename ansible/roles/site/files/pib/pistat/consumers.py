@@ -19,9 +19,9 @@ class PiStatConsumer(WebsocketConsumer):
         # pprint(text_data_json)
         # {'message': 'abc'}
 
-        # pprint(self.scope)
+        pprint(self.scope)
         # ... 'url_route': {'args': (), 'kwargs': {'pi_name': 'pi2'}},
-        # print(f"{self.scope['url_route']['kwargs']['pi_name']=}")
+        print(f"{self.scope['url_route']['kwargs']['pi_name']=}")
         # self.scope['url_route']['kwargs']['pi_name']='pi2'
 
         pi_name = self.scope['url_route']['kwargs']['pi_name']
