@@ -5,13 +5,13 @@
     <input id="message-input" type="text" size="20"><br>
     <input id="message-submit" type="button" value="Send">
     <script>
-        const roomName = "pi2"
+        const PiName = "pi2"
 
         const logSocket = new WebSocket(
             'ws://'
             + window.location.host
             + '/ws/pistat/'
-            + roomName
+            + PiName
             + '/'
         );
 
