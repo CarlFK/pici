@@ -1,4 +1,2 @@
-django
-daphne
 channels[daphne]
 snmp_switch[cli] @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch
