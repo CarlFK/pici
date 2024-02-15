@@ -4,28 +4,33 @@ import json
 from pprint import pprint
 
 from channels.generic.websocket import WebsocketConsumer
+from asgiref.sync import async_to_sync
 
 
 class PiStatConsumer(WebsocketConsumer):
+
     def connect(self):
-        self.accept()
+        pprint(self.channel_name)
+        self.channel_layer.group_add("pistat", self.channel_name)
 
     def disconnect(self, close_code):
-        pass
+        self.channel_layer.group_discard("pistat", self.channel_name)
 
     def receive(self, text_data):
-        text_data_json = json.loads(text_data)
 
-        # pprint(text_data_json)
-        # {'message': 'abc'}
+        pprint(text_data)
 
-        pprint(self.scope)
-        # ... 'url_route': {'args': (), 'kwargs': {'pi_name': 'pi2'}},
-        print(f"{self.scope['url_route']['kwargs']['pi_name']=}")
-        # self.scope['url_route']['kwargs']['pi_name']='pi2'
+        self.channel_layer.group_send(
+            "pistat",
+            {
+                "type": "message",
+                "text": text_data,
+            },
+        )
 
-        pi_name = self.scope['url_route']['kwargs']['pi_name']
+    def message(self, event):
+        self.send(text_data=event["text"])
 
-        message = text_data_json["message"]
-
-        self.send(text_data=json.dumps({"message": message}))
+    def notify(self, event):
+        print("notify:")
+        print(event)
