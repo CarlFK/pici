@@ -31,7 +31,7 @@ The Pi/Arty boards:
   <textarea id="log{{pi.port}}" cols="20" rows="3"></textarea><br>
   <input id="log-input{{pi.port}}" type="text" size="20">
   <input id="log-submit{{pi.port}}" type="button" value="Send">
-  <script> o{{pi.port}} = PiStatus({{pi.port}}) </script>
+  <script>let o{{pi.port}} = PiStatus({{pi.port}}); </script>
   </div>
 
   vlc https://{{ domain_name }}/live/pi{{pi.port}}.m3u8<br>

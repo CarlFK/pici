@@ -1,5 +1,4 @@
 ---
-
 - name: create static content dir
   file:
     path: "{{ static_dir }}"
@@ -16,19 +15,4 @@
   tags:
     - cam
     - django
-    - index.html
-
-- name: PIP install pistat site app
-  ansible.builtin.pip:
-    name: "pistat @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/pistat"
-    virtualenv: "{{ app_dir }}/venv"
-    state: forcereinstall
-  tags:
-    - index.html
-
-- name: status chat js
-  copy:
-    src: files/pib/pistat/src/pistat/static/dcws.js
-    dest: "{{ static_dir }}/dcws.js"
-  tags:
     - index.html

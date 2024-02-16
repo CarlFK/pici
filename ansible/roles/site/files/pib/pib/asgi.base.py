@@ -1,4 +1,5 @@
-# mysite/asgi.py
+# pib/pici/ansible/roles/site/files/pib/pib/asgi.py
+
 import os
 
 from channels.auth import AuthMiddlewareStack
@@ -12,6 +13,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pib.settings")
 # Initialize Django ASGI application early to ensure the AppRegistry
 # is populated before importing code that may import ORM models.
 django_asgi_app = get_asgi_application()
+
+import pistat.routing
 
 application = ProtocolTypeRouter(
     {

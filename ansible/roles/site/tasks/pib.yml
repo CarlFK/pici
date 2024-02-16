@@ -1,23 +1,3 @@
 # pib.yml
 
-- name: Create etc/nginx/includes dir
-  ansible.builtin.file:
-    path: /etc/nginx/includes
-    state: directory
-
-- name: Deploy nginx pib.conf
-  template:
-    src: templates/pib.conf.j2
-    dest: "/etc/nginx/includes/{{ conference_name }}.conf"
-  tags: pibsite
-  notify: reload nginx
-
-# pip install "django[bcrypt] @ git+ssh://git@github.com/django/django.git" should work fine.
-- name: PIP install snmp_switch site app
-  ansible.builtin.pip:
-    name: "snmp_switch[cli] @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/snmp_switch"
-    virtualenv: "{{ app_dir }}/venv"
-    state: forcereinstall
-  tags: snmp
-
 

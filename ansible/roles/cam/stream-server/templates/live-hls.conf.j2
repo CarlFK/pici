@@ -1,0 +1,7 @@
+  add_header Strict-Transport-Security "max-age=15552000";
+
+  location /live {
+    alias {{ streaming.data_root }}/hls/source;
+    autoindex on;
+  }
+

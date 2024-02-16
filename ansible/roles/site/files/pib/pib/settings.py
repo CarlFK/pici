@@ -134,12 +134,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Daphne
 ASGI_APPLICATION = "pib.asgi.application"
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#        "BACKEND": "channels.layers.InMemoryChannelLayer"
-#    }
-# }
-
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",

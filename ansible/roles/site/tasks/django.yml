@@ -20,7 +20,8 @@
     - urls.py
     - asgi.py
 # - local_settings.py
-  tags: django
+  tags:
+    - django
 
 - name: copy manage.py into site dir
   copy:

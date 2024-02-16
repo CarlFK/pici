@@ -46,3 +46,11 @@
     - wssh.socket
     - wssh.service
 
+- name: Deploy nginx conf
+  template:
+    src: "files/etc/nginx/includes/wssh.conf"
+    dest: "/etc/nginx/includes/{{ conference_name }}-wssh.conf"
+  tags:
+    - pibsite
+  notify: reload nginx
+

@@ -1,0 +1,33 @@
+---
+- name: Install redis
+  apt:
+    name:
+    - redis
+  tags:
+    - index.html
+
+- name: PIP install pistat site app
+  ansible.builtin.pip:
+    name: "pistat @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/pistat"
+    virtualenv: "{{ app_dir }}/venv"
+    state: forcereinstall
+  tags:
+    - index.html
+
+- name: status chat js
+  copy:
+    src: files/pib/pistat/src/pistat/static/dcws.js
+    dest: "{{ static_dir }}/dcws.js"
+  tags:
+    - index.html
+
+- name: copy scripts into usr/local/bin
+  copy:
+    src: "pib/pistat/scripts/{{ item }}"
+    dest: "/usr/local/bin"
+    mode: preserve
+  loop:
+    - send.py
+  tags: pistat
+
+

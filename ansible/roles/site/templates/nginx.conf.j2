@@ -10,6 +10,6 @@ server {
     access_log /var/log/nginx/{{ conference_name }}-access.log;
     error_log /var/log/nginx/{{ conference_name }}-error.log;
 
-    include includes/{{ conference_name }}.conf;
+    include includes/{{ conference_name }}-*.conf;
 
 }
