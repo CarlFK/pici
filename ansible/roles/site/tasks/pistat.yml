@@ -4,7 +4,7 @@
     name:
     - redis
   tags:
-    - index.html
+    - pistat
 
 - name: PIP install pistat site app
   ansible.builtin.pip:
@@ -12,14 +12,21 @@
     virtualenv: "{{ app_dir }}/venv"
     state: forcereinstall
   tags:
-    - index.html
+    - pistat
 
 - name: status chat js
   copy:
     src: files/pib/pistat/src/pistat/static/dcws.js
     dest: "{{ static_dir }}/dcws.js"
   tags:
-    - index.html
+    - pistat
+
+- name: Install nginx streaming front configuration
+  ansible.builtin.copy:
+    src: files/pib/pistat/nginx/pistat.conf
+    dest: "/etc/nginx/includes/{{ conference_name }}-pistat.conf"
+  tags:
+    - pistat
 
 - name: copy scripts into usr/local/bin
   copy:
@@ -28,6 +35,7 @@
     mode: preserve
   loop:
     - send.py
-  tags: pistat
+  tags:
+    - pistat
 
 

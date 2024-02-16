@@ -1,36 +1,39 @@
-# pistat/consumers.py
+# chat/consumers.py
 import json
 
-from pprint import pprint
-
-from channels.generic.websocket import WebsocketConsumer
-from asgiref.sync import async_to_sync
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 
-class PiStatConsumer(WebsocketConsumer):
+class PiStatConsumer(AsyncWebsocketConsumer):
 
-    def connect(self):
-        pprint(self.channel_name)
-        self.channel_layer.group_add("pistat", self.channel_name)
+    async def connect(self):
+        self.pi_name = self.scope["url_route"]["kwargs"]["pi_name"]
+        self.group_name = f"pistat_{self.pi_name}"
 
-    def disconnect(self, close_code):
-        self.channel_layer.group_discard("pistat", self.channel_name)
+        # Join group
+        await self.channel_layer.group_add(self.group_name, self.channel_name)
+        # print(self.group_name, self.channel_name)
 
-    def receive(self, text_data):
+        await self.accept()
 
-        pprint(text_data)
+    async def disconnect(self, close_code):
+        # Leave group
+        await self.channel_layer.group_discard(self.group_name, self.channel_name)
 
-        self.channel_layer.group_send(
-            "pistat",
-            {
-                "type": "message",
-                "text": text_data,
-            },
+    # Receive message from WebSocket
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json["message"]
+
+        # Send message to group
+        await self.channel_layer.group_send(
+            self.group_name, {"type": "stat.message", "message": message}
         )
 
-    def message(self, event):
-        self.send(text_data=event["text"])
+    # Receive message from group
+    async def stat_message(self, event):
+        # pprint(event)
+        message = event["message"]
 
-    def notify(self, event):
-        print("notify:")
-        print(event)
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({"message": message}))

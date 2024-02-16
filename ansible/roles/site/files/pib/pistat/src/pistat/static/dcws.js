@@ -20,18 +20,18 @@ function PiStatus(PiID) {
         console.error('socket closed unexpectedly');
     };
 
-    document.querySelector('#message-input2').focus();
-    document.querySelector('#message-input2').onkeyup = function(e) {
+    document.querySelector('#log-input'+PiID.toString()).focus();
+    document.querySelector('#log-input'+PiID.toString()).onkeyup = function(e) {
         if (e.key === 'Enter') {  // enter, return
-            document.querySelector('#message-submit2').click();
+            document.querySelector('#log-submit'+PiID.toString()).click();
         }
     };
 
-    document.querySelector('#message-submit2').onclick = function(e) {
-        const messageInputDom = document.querySelector('#message-input2');
+    document.querySelector('#log-submit'+PiID.toString()).onclick = function(e) {
+        const messageInputDom = document.querySelector('#log-input'+PiID.toString());
         const message = messageInputDom.value;
         logSocket.send(JSON.stringify({
-            'message': message
+            'log.message': message
         }));
         messageInputDom.value = '';
     };
