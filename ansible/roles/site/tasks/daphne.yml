@@ -1,0 +1,51 @@
+# daphne.yml
+---
+- name: python and friends
+  apt:
+    name:
+    - python3-venv
+    - python3-virtualenv
+    - python3-pip
+
+# - name: Install virtualenv via pip
+#  pip:
+#    name: virtualenv
+# executable: pip3
+
+# Ensure daphne is installed
+- name: pip install daphne
+  pip:
+    name:
+    - daphne
+    virtualenv: "{{ app_dir }}/venv"
+
+# Copy daphne socket file
+- name: copy daphne socket file to /etc/systemd/system/daphne.socket
+  template:
+    src: templates/daphne.socket.j2
+    dest: /etc/systemd/system/daphne.socket
+
+# Copy daphne systemd file
+- name: copy daphne systemd file to /etc/systemd/system/daphne.service
+  template:
+    src: templates/daphne.service.j2
+    dest: /etc/systemd/system/daphne.service
+  tags:
+    - django
+
+- name: Enable services
+  systemd:
+    service: "{{ item }}"
+    enabled: yes
+  with_items:
+    - daphne.socket
+    - daphne.service
+
+# Ensure daphne socket and system service is running
+- name: force systemd to reread configs (2.4 and above)
+  systemd:
+    daemon_reload: yes
+- name: Start/Make sure the daphne.socket systemd service is running
+  systemd:
+    state: started
+    name: daphne.socket

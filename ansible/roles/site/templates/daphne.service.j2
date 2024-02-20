@@ -1,0 +1,23 @@
+[Unit]
+Description=daphne daemon
+Requires=daphne.socket
+After=network.target
+
+[Service]
+User={{ user_name }}
+Group=www-data
+EnvironmentFile=/etc/environment
+WorkingDirectory={{ app_dir }}
+ExecStart={{ app_dir }}/venv/bin/daphne \
+          --unix-socket /run/daphne/daphne%(process_num)d.sock \
+          {{ django_project_name }}.asgi:application \
+
+# https://github.com/django/daphne/blob/main/daphne/cli.py
+# command=/home/ubuntu/django_app/venv/bin/daphne \
+#    --unix-socket /run/daphne/daphne%(process_num)d.sock \
+#    --fd 0 \
+#    --access-log - \
+#    --proxy-headers mysite.asgi:application
+
+[Install]
+WantedBy=multi-user.target
