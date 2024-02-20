@@ -1,0 +1,51 @@
+# install_uvicorn.yml
+---
+- name: python and friends
+  apt:
+    name:
+    - python3-venv
+    - python3-virtualenv
+    - python3-pip
+
+# - name: Install virtualenv via pip
+#  pip:
+#    name: virtualenv
+# executable: pip3
+
+# Ensure uvicorn is installed
+- name: pip install uvicorn
+  pip:
+    name:
+    - uvicorn
+    virtualenv: "{{ app_dir }}/venv"
+
+# Copy uvicorn systemd file
+- name: copy uvicorn systemd file to /etc/systemd/system/uvicorn.service
+  template:
+    src: templates/uvicorn.service.j2
+    dest: /etc/systemd/system/uvicorn.service
+  tags:
+    - django
+
+- name: Enable services
+  systemd:
+    service: "{{ item }}"
+    enabled: yes
+  with_items:
+    - uvicorn.service
+  tags:
+    - django
+
+# Ensure uvicorn system service is running
+- name: force systemd to reread configs (2.4 and above)
+  systemd:
+    daemon_reload: yes
+  tags:
+    - django
+
+- name: Start/Make sure uvicorn.service systemd service is running
+  systemd:
+    state: started
+    name: uvicorn.service
+  tags:
+    - django

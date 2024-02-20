@@ -1,0 +1,23 @@
+[Unit]
+Description=uvicorn daemon
+After=network.target
+Requires=redis.service
+
+[Service]
+User={{ user_name }}
+Group=www-data
+EnvironmentFile=/etc/environment
+WorkingDirectory={{ app_dir }}
+ExecStart={{ app_dir }}/venv/bin/uvicorn \
+        --proxy-headers \
+        --forwarded-allow-ips='*' \
+        --workers=4 \
+        --port=8084 \
+          {{ django_project_name }}.asgi:application
+
+ExecReload=/bin/kill -HUP ${MAINPID}
+RestartSec=1
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
