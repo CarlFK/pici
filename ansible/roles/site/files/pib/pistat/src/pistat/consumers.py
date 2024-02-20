@@ -24,7 +24,7 @@ class PiStatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         pprint(text_data_json)
-        message = text_data_json["stat.message"]
+        message = text_data_json["stats.message"]
 
         # Send message to group
         await self.channel_layer.group_send(

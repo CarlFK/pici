@@ -31,7 +31,7 @@ function PiStatus(PiID) {
         const messageInputDom = document.querySelector('#log-input'+PiID.toString());
         const message = messageInputDom.value;
         logSocket.send(JSON.stringify({
-            'log.message': message
+            'stat.message': message
         }));
         messageInputDom.value = '';
     };
