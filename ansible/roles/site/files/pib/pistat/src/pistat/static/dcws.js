@@ -20,7 +20,7 @@ function PiStatus(PiID) {
         console.error('socket closed unexpectedly');
     };
 
-    document.querySelector('#log-input'+PiID.toString()).focus();
+    // document.querySelector('#log-input'+PiID.toString()).focus();
     document.querySelector('#log-input'+PiID.toString()).onkeyup = function(e) {
         if (e.key === 'Enter') {  // enter, return
             document.querySelector('#log-submit'+PiID.toString()).click();
