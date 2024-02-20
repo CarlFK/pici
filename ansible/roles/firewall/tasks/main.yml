@@ -19,3 +19,5 @@
     service: nftables.service
     enabled: yes
     state: restarted
+  tags:
+    nftables
