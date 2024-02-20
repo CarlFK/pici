@@ -16,6 +16,6 @@ channel_layer = get_channel_layer()
 print( type(channel_layer) )
 
 from asgiref.sync import async_to_sync
-async_to_sync(channel_layer.group_send)( "pi2", {"type": "chat.system_message", "text": "send.py"} )
+async_to_sync(channel_layer.group_send)( "stats_pi2", {"type": "stat.message", "text": "send.py"} )
 
 

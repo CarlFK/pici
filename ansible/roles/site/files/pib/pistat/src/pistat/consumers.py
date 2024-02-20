@@ -1,6 +1,8 @@
 # chat/consumers.py
 import json
 
+from pprint import pprint
+
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 
@@ -12,8 +14,6 @@ class PiStatConsumer(AsyncWebsocketConsumer):
 
         # Join group
         await self.channel_layer.group_add(self.group_name, self.channel_name)
-        # print(self.group_name, self.channel_name)
-
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -23,7 +23,8 @@ class PiStatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json["message"]
+        pprint(text_data_json)
+        message = text_data_json["stat.message"]
 
         # Send message to group
         await self.channel_layer.group_send(
@@ -32,7 +33,8 @@ class PiStatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from group
     async def stat_message(self, event):
-        # pprint(event)
+        pprint(event)
+        # {'message': 'x', 'type': 'stat.message'}
         message = event["message"]
 
         # Send message to WebSocket
