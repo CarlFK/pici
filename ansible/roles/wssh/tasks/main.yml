@@ -46,6 +46,11 @@
     - wssh.socket
     - wssh.service
 
+- name: Create etc/nginx/includes dir
+  ansible.builtin.file:
+    path: /etc/nginx/includes
+    state: directory
+
 - name: Deploy nginx conf
   template:
     src: "files/etc/nginx/includes/wssh.conf"
