@@ -6,12 +6,12 @@
   - img
   - fixpi
   - pxe
-  - wssh
   - site
+  - wssh
   - cam/stream-server
 
 - hosts: pi
   roles:
-  - cam/pi
   - onpi
+  - cam/pi
 
