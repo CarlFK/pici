@@ -1,0 +1,10 @@
+[Unit]
+Description=pi status ssh ready
+After=ssh.target systemd-user-sessions.target
+
+[Service]
+ExecStart=/usr/bin/curl https://{{domain_name}}/pistat/stat/%H/ssh/
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target

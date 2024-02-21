@@ -1,9 +1,12 @@
 ---
-- name: enable and start cam stream
+- name: enable and start services
   systemd:
     name: cam
     enabled: yes
     state: started
+  with_items:
+    - cam
+    - pistat_ssh
   tags:
     - cam
 

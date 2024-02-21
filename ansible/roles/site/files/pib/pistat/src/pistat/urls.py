@@ -2,12 +2,12 @@
 
 # from django.conf import settings
 # from django.conf.urls.static import static
-from django.urls import path
+from django.urls import re_path
 
-# from snmp_switch.views import status, toggle, toggle_all, off_all
+from pistat.views import status
 
 urlpatterns = [
-    # path('status.html', status),
+    re_path('stat/(?P<pi_name>\w+)/(?P<status>\w+)', status),
 ]
 # + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT, show_indexes=True)
 
