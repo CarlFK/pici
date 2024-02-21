@@ -1,24 +1,21 @@
 # pistat/send.py
-# sends a message to the pistat websocket thing
+# sends a message to the websocket thing
 
 import argparse
-
 import os
-
 import sys
 
 from channels.layers import get_channel_layer
 
 from asgiref.sync import async_to_sync
 
-def init(args):
-    sys.path.insert(0, args.site_path)
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", args.django_settings)
+def init(site_path, django_settings_module):
+    sys.path.insert(0, site_path)
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", django_settings_module)
 
-def send_message(args):
-
+def send_message(group, message_type, message_text):
     channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)( args.group, {"type": args.type, "message": args.message} )
+    async_to_sync(channel_layer.group_send)( group, {"type": message_type, "message": message_text} )
 
 def get_args():
 
@@ -56,11 +53,10 @@ def get_args():
     return args
 
 
-
 def main():
     args = get_args()
-    init(args)
-    send_message(args)
+    init(args.site_path, args.django_settings)
+    send_message(args.group, args.type, args.message)
     # ret = test_args(args)
 
 

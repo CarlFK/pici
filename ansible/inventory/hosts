@@ -1,11 +1,11 @@
 [pxe]
-ps1.fpgas.mithis.com
+ps1.fpgas.mithis.com # ansible_host=76.227.131.194
 fpgas.mithis.com
 negk ansible_ssh_port=5855 ansible_host=45.20.162.5
 gator
 
 [firewall]
-ps1.fpgas.mithis.com
+ps1.fpgas.mithis.com # ansible_host=76.227.131.194
 rpi-cb-1f-f7
 val2
 negk ansible_ssh_port=5855 ansible_host=45.20.162.5
