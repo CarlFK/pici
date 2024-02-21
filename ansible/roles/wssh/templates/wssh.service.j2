@@ -6,9 +6,7 @@ After=network.target
 [Service]
 ExecStart=/usr/local/venv/wssh/bin/wssh \
               --xheaders=True \
-              --fbidhttp=False \
-              --certfile='/etc/letsencrypt/live/{{ domain_name }}/fullchain.pem' \
-              --keyfile='/etc/letsencrypt/live/{{ domain_name }}/privkey.pem'
+              --fbidhttp=False
 User=root
 Restart=on-failure
 Type=simple
