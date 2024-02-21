@@ -1,11 +1,11 @@
 ---
 - name: enable and start services
   systemd:
-    name: cam
+    name: "{{ item }}"
     enabled: yes
     state: started
   with_items:
-    - cam
+    # - cam
     - pistat_ssh
   tags:
     - cam
