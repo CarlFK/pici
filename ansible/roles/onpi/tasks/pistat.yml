@@ -6,3 +6,14 @@
   tags:
     - pistat
 
+- name: enable and start services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items:
+    # - cam
+    - pistat_ssh
+  tags:
+    - pistat
+
