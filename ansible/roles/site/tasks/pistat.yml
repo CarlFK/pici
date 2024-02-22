@@ -35,7 +35,22 @@
     mode: preserve
   loop:
     - send.py
+    - send_stat.py
   tags:
     - pistat
 
+- name: copy conf into /etc/dnsmasq.d
+  copy:
+    src: pib/pistat/dnsmasq/send_stat.conf
+    dest: /etc/dnsmasq.d/send_stat.conf
+    mode: preserve
+  tags:
+    - pistat
+
+- name: restart dnsmasq
+  systemd:
+    name: dnsmasq
+    state: restarted
+  tags:
+    - pistat
 
