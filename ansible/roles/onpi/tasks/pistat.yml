@@ -1,6 +1,6 @@
 - name: systemd pistat_ssh.service
   template:
-    src: files/pistat_ssh.service.j2
+    src: templates/pistat_ssh.service.j2
     dest: /etc/systemd/system/pistat_ssh.service
   notify: reload-systemd
   tags:
