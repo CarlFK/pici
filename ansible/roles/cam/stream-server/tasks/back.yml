@@ -35,7 +35,6 @@
   ansible.builtin.template:
     src: templates/live-hls.conf.j2
     dest: "/etc/nginx/includes/{{ conference_name }}-live-hls.conf"
-
   tags:
     - streaming
 

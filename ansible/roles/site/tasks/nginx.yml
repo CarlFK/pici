@@ -7,12 +7,6 @@
     - sites-enabled/default
     - sites-enabled/pxe
 
-- name: configure https vhost
-  template:
-    src: templates/nginx.conf.j2
-    dest: "/etc/nginx/sites-enabled/{{ domain_name}}-https.conf"
-  notify: reload nginx
-
 - name: Create etc/nginx/includes dir
   ansible.builtin.file:
     path: /etc/nginx/includes
