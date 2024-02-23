@@ -31,12 +31,18 @@
     src: "files/etc/keyboard"
     dest: "{{ nfs_root }}/root/etc/default/"
 
-- name: set hostname to localhost (dhclient will get hostname from server)
-  copy:
-    content: 'localhost'
-    dest: "{{ nfs_root }}/root/etc/hostname"
+- name: remove etc/hostname (dhclient will get hostname from server)
+  file:
+    path: "{{ nfs_root }}/root/etc/hostname"
+    state: absent
   tags:
   - hostname
+
+- name: set pistat_host in /etc/environment
+  lineinfile:
+    dest: "{{ nfs_root }}/root/etc/environment"
+    state: present
+    line: "pistat_host={{ domain_name}}"
 
 # the rest of thiese tasks config the server to monitor client boot spew
 

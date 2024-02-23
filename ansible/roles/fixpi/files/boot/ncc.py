@@ -31,6 +31,7 @@ class LogUDP(DatagramProtocol):
         self.start_time=None
 
     def datagramReceived(self, datagram, address):
+        datagram = datagram.decode()
         this_time=datetime.datetime.now()
         if datagram=="start\n":
             # reset the 'stopwatch'
