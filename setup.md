@@ -2,7 +2,7 @@
  0. build bare debian box ready for ansible
  1. ansible part 1 - everything needed to netboot a pi, and the public facing server bits
  2. put server into update mode (pi has rw access to its files)
- 3. boot pi, mabye ansible, maybe setup3.sh?
+ 3. boot pi, more ansible
  4. put server into production mode
  5. boot lots of pi'
 
