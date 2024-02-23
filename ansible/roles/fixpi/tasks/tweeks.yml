@@ -100,4 +100,8 @@
     dest: "/home/{{ user_name }}/pici"
     depth: 1
     accept_hostkey: true
+    force: true
+      #  args:
+      # creates: "/home/{{ user_name }}/pici"
+
  # ssh-keyscan -H remote_host.com >> /etc/ssh/ssh_known_hosts

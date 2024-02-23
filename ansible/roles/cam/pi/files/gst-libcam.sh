@@ -7,15 +7,15 @@ hn=$(/usr/bin/hostname --short)
 ip=$(ip -json route show default | jq ".[0].gateway" --raw-output)
 dev=$(ip -json route show default | jq ".[0].dev" --raw-output)
 
-while [ "${hn}" = "localhost" ]
-do
-    echo ${hn} "is still localhost"
-    # this should really be in its own systemd script.
-    # it works around some bug in
-    # https://github.com/isc-projects/dhcp/blob/master/client/scripts/linux#L121
-    /usr/sbin/dhclient -v ${dev}
-    hn=$(/usr/bin/hostname --short)
-done
+# while [ "${hn}" = "localhost" ]
+# do
+#     echo ${hn} "is still localhost"
+#     # this should really be in its own systemd script.
+#     # it works around some bug in
+#     # https://github.com/isc-projects/dhcp/blob/master/client/scripts/linux#L121
+#     /usr/sbin/dhclient -v ${dev}
+#     hn=$(/usr/bin/hostname --short)
+# done
 
 RTMP_DEST=rtmp://${ip}/pib/${hn}
 
