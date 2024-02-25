@@ -83,12 +83,12 @@ def mk_name(ip):
 def main():
     args = get_args()
 
+    dsh = os.getenv('DNSMASQ_SUPPLIED_HOSTNAME', "(none)")
+
     if DEBUG:
         with open('/tmp/foo','a') as f:
             f.write(args.__repr__())
-            f.write('\n')
-            f.write(os.getenv('DNSMASQ_SUPPLIED_HOSTNAME', "oh no!"))
-            f.write('\n')
+            f.write(f' {dsh=}\n')
 
     send.init(
             site_path="/srv/www/pib",
@@ -98,7 +98,7 @@ def main():
     pi_name=mk_name(args.ip)
     if pi_name is not None:
 
-        message=f"dhcp: {args.action} {args.mac} {args.ip} {args.hostname}"
+        message=f"dhcp: {args.action} {args.mac} {args.ip} {args.hostname}/{dsh}"
         send.send_message(
                 group=f"pistat_{pi_name}",
                 message_type="stat.message",
