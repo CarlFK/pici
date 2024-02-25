@@ -6,9 +6,9 @@ from time import sleep
 from pysnmp import hlapi
 from pysnmp.proto import rfc1902
 
-
 def mk_params():
     # construct params: a dictionary of parameters
+    # everything except the switch port number
 
     # the keys are the parameter names used by
     # snmp_get_state(), snmp_set_state(),
@@ -32,9 +32,8 @@ def mk_params():
         ):
             ev_name = f'SNMP_SWITCH_{k.upper()}'
             ev_val = os.environ.get(ev_name)
-            print(f"{ev_name=} {ev_val=}")
+            # print(f"{ev_name=} {ev_val=}")
             params[k] = ev_val
-
 
     # these protocol deails get mapped to pysnmp.hlapi constants:
     # authProtocol, privProtocol
