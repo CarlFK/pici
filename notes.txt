@@ -11,8 +11,6 @@ root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/impish/root/merged rw
 fstab
 10.21.0.1:/srv/nfs/rpi/impish/boot/merged /boot nfs defaults,noauto,rw
 
-setup2.sh leaves the system in maintince mode.
-
 pi@raspberrypi:~ $ time sudo apt upgrade --assume-yes
 ...
 real	12m50.374s

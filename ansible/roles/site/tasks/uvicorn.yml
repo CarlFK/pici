@@ -30,14 +30,16 @@
 - name: Enable services
   systemd:
     service: "{{ item }}"
+    daemon_reload: yes
     enabled: yes
+    state: started
   with_items:
     - uvicorn.service
   tags:
     - django
 
 # Ensure uvicorn system service is running
-- name: force systemd to reread configs (2.4 and above)
+- name: force systemd to reread configs
   systemd:
     daemon_reload: yes
   tags:

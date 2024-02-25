@@ -7,11 +7,11 @@
          Starting Modem Manager...
 [FAILED] Failed to start NetworkMan…[0m - Network Manager Wait Online.
 
+[FAILED] Failed to start dphys-swap…t/unmount, and delete a swap file.
+See 'systemctl status dphys-swapfile.service' for details.
+
 no wifi:
 [  OK  ] Started wpa_supplicant.service - WPA supplicant.
-
-
-
 
 sudo systemctl status serial-getty@ttyAMA0.service
 sudo systemctl mask serial-getty@ttyAMA0.service

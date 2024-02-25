@@ -4,9 +4,7 @@ After=ssh.target systemd-user-sessions.target
 PartOf=ssh.service
 
 [Service]
-# ConditionHost!=localhost
 EnvironmentFile=/etc/environment
-# ConditionEnvironment=pistat_host
 ExecStart=/usr/bin/curl https://${pistat_host}/pistat/stat/%l/ssh/
 Type=oneshot
 

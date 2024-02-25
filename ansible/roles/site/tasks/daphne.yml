@@ -36,13 +36,15 @@
 - name: Enable services
   systemd:
     service: "{{ item }}"
+    daemon_reload: yes
     enabled: yes
+    state: started
   with_items:
     - daphne.socket
     - daphne.service
 
 # Ensure daphne socket and system service is running
-- name: force systemd to reread configs (2.4 and above)
+- name: force systemd to reread configs
   systemd:
     daemon_reload: yes
 - name: Start/Make sure the daphne.socket systemd service is running

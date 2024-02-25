@@ -41,7 +41,9 @@
 - name: Enable services
   systemd:
     service: "{{ item }}"
-    enabled: yes
+    daemon_reload: true
+    enabled: true
+    state: started
   with_items:
     - wssh.socket
     - wssh.service
@@ -57,5 +59,6 @@
     dest: "/etc/nginx/includes/{{ conference_name }}-wssh.conf"
   tags:
     - pibsite
-  notify: reload nginx
+  notify:
+    - reload nginx
 

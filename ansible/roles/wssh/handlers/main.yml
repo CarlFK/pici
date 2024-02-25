@@ -4,11 +4,6 @@
     name: nginx
     state: reloaded
 
-- name: restart gunicorn
-  systemd:
-    name: gunicorn.service
-    state: restarted
-
 - name: restart wssh
   systemd:
     name: wssh.socket

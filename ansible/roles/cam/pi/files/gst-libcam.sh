@@ -4,6 +4,7 @@
 hn=$(/usr/bin/hostname --short)
 
 # find the upstream IP and nic dev
+# this is clever, but should probably be an os var manged by ansible.
 ip=$(ip -json route show default | jq ".[0].gateway" --raw-output)
 dev=$(ip -json route show default | jq ".[0].dev" --raw-output)
 

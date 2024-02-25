@@ -4,11 +4,6 @@
     src: "files/etc/issue"
     dest: "{{ nfs_root }}/root/etc/issue"
 
-- name: install pwgen (for pipw)
-  apt:
-    name:
-      - pwgen
-
 - name: set the password and tell everyone
   script: files/pipw.sh "{{user}}" "{{pi_pw}}" "{{nfs_root}}/boot" "{{nfs_root}}/root"
   args:

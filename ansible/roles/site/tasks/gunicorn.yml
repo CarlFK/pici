@@ -37,16 +37,19 @@
 - name: Enable services
   systemd:
     service: "{{ item }}"
+    daemon_reload: yes
     enabled: yes
+    state: started
   with_items:
     - gunicorn.socket
     - gunicorn.service
 
 # Ensure gunicorn socket and system service is running
-- name: force systemd to reread configs (2.4 and above)
+# Not sure what needs to be started.  start both above fine?
+- name: force systemd to reread configs
   systemd:
     daemon_reload: yes
 - name: Start/Make sure the gunicorn.socket systemd service is running
   systemd:
-    state: started
     name: gunicorn.socket
+    state: started

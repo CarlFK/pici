@@ -21,7 +21,7 @@
   tags:
     - pistat
 
-- name: Install nginx streaming front configuration
+- name: Install nginx streaming conf
   ansible.builtin.copy:
     src: files/pib/pistat/nginx/pistat.conf
     dest: "/etc/nginx/includes/{{ conference_name }}-pistat.conf"
