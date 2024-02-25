@@ -1,9 +1,13 @@
+<html>
 <head>
 
   <link href="https://vjs.zencdn.net/7.19.2/video-js.css" rel="stylesheet" />
   <script src="https://vjs.zencdn.net/7.19.2/video.min.js"></script>
 
   <script src="dcws.js"></script>
+
+  <script src="/static/js/vendor/jquery/jquery-ui.min.js"></script>
+  <script src="snmp.js"></script>
 
 </head>
 
@@ -31,7 +35,6 @@ The Pi/Arty boards:
   <textarea id="log{{pi.port}}" cols="20" rows="3"></textarea><br>
   <input id="log-input{{pi.port}}" type="text" size="20">
   <input id="log-submit{{pi.port}}" type="button" value="Send">
-  <script>let o{{pi.port}} = PiStatus({{pi.port}}); </script>
   </div>
 
   vlc https://{{ domain_name }}/live/pi{{pi.port}}.m3u8<br>
@@ -50,10 +53,10 @@ The Pi/Arty boards:
   </video>
   <a href="https://{{ domain_name }}/live/pi{{pi.port}}_src.m3u8" > https://{{ domain_name }}/live/pi{{pi.port}}_src.m3u8" </a>
 
-<form method="post" action="/snmp/toggle">
- Turn it off and on again.<br>
- <input type="submit" value="Reset {{pi.port}}" class=reset_button>
+<form id="form-reset{{pi.port}}" method="post" action="/snmp/toggle">
+ Turn it off and on again.
  <input type="hidden" name="port" value="{{pi.port}}">
+ <input id="submit-reset{{pi.port}}" type="submit" value="Reset {{pi.port}}" class=reset_button>
 </form>
 
 <form method="post" action="/snmp/status">
@@ -62,6 +65,7 @@ The Pi/Arty boards:
  <input type="hidden" name="port" value="{{pi.port}}">
 </form>
 
+  <script>PiStatus("{{pi.port}}"); </script>
 
   <hr>
 
@@ -83,3 +87,4 @@ The Pi/Arty boards:
 <a href="https://github.com/CarlFK/pici">https://github.com/CarlFK/pici</a>
 
 </body>
+</html>
