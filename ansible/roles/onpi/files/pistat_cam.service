@@ -5,7 +5,7 @@ PartOf=cam.service
 
 [Service]
 EnvironmentFile=/etc/environment
-ExecStart=/usr/bin/curl https://${pistat_host}/pistat/stat/%l/cam/
+ExecStart=/usr/bin/curl --silent https://${pistat_host}/pistat/stat/%l/cam/
 Type=oneshot
 
 [Install]

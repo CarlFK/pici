@@ -5,7 +5,7 @@ PartOf=ssh.service
 
 [Service]
 EnvironmentFile=/etc/environment
-ExecStart=/usr/bin/curl https://${pistat_host}/pistat/stat/%l/ssh/
+ExecStart=/usr/bin/curl --silent https://${pistat_host}/pistat/stat/%l/ssh/
 Type=oneshot
 
 [Install]
