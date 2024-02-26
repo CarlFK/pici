@@ -1,0 +1,12 @@
+[Unit]
+Description=pi status cam ready
+After=cam.target systemd-user-sessions.target
+PartOf=cam.service
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStart=/usr/bin/curl https://${pistat_host}/pistat/stat/%l/cam/
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target

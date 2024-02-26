@@ -48,7 +48,7 @@ function PiStatus(PiID) {
           method: 'POST',
             // name="port" value="2"
             // { "port": PiID }
-          body: new FormData(document.querySelector('#form-reset2'))
+          body: new FormData(document.querySelector('#form-reset'+PiID))
           // body: JSON.stringify({ port: [PiID,] }),
           // headers: { "Content-type": "application/json; charset=UTF-8" }
           }
