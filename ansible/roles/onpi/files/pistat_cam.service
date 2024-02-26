@@ -2,6 +2,7 @@
 Description=pi status cam ready
 After=cam.target systemd-user-sessions.target
 PartOf=cam.service
+BindsTo=cam.service
 
 [Service]
 EnvironmentFile=/etc/environment

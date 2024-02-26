@@ -2,6 +2,7 @@
 Description=pi status ssh ready
 After=ssh.target systemd-user-sessions.target
 PartOf=ssh.service
+BindsTo=ssh.service
 
 [Service]
 EnvironmentFile=/etc/environment
