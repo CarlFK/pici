@@ -13,7 +13,9 @@ function PiStatus(PiID) {
 
     logSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
-        document.querySelector('#log'+PiID).value += (data.message + '\n');
+        const textBox = document.getElementById("log"+PiID);
+        textBox.value += (data.message + '\n');
+        textBox.scrollTop = textBox.scrollHeight; // Scroll to bottom
     };
 
     logSocket.onclose = function(e) {
