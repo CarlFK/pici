@@ -3,9 +3,12 @@
 - {include_tasks: certbot.yml, tags: le}
 - {include_tasks: index.yml, tags: index.html}
 - {include_tasks: js_player.yml, tags: django}
+
+- {include_tasks: snmp.yml, tags: [snmp, django] }
+- {include_tasks: pistat.yml, tags: [pistat, django] }
+
+- {include_tasks: django.yml, tags: [snmp, django] }
+
 - {include_tasks: gunicorn.yml, tags: django}
 - {include_tasks: uvicorn.yml, tags: django}
 - {include_tasks: daphne.yml, tags: django}
-- {include_tasks: snmp.yml, tags: [snmp, django] }
-- {include_tasks: pistat.yml, tags: [pistat, django] }
-- {include_tasks: django.yml, tags: [snmp, django] }
