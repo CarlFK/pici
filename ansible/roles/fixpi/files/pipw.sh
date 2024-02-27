@@ -4,16 +4,12 @@
 
 user=${1:-pi}
 
-# if [ "$#" -eq 2 ]; then
-#    pass=$2
-#else
-#    # generate a default password
-#    pass=$(pwgen --ambiguous)
-#fi
-
-# generate a default password
-pass=$(pwgen --ambiguous)
-pass=${2:-${$pass}}
+if [ "$#" -ge 2 ]; then
+   pass=$2
+else
+    # generate a default password
+    pass=$(pwgen --ambiguous)
+fi
 
 # TODO figure out good defaults for these 3 cases:
 # 1. on a booted pi: p1(boot) is mounted under /boot/firmware, p2(root) /
