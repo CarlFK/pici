@@ -3,12 +3,6 @@
 
 function PiStatus(PiID) {
 
-    function addTextAndScrollToBottom(PiID,newText){
-        const textBox = document.getElementById("log"+PiID);
-        textBox.value += (newText + '\n');
-        textBox.scrollTop = textBox.scrollHeight; // Scroll to bottom
-    };
-
     const logSocket = new WebSocket(
         'wss://'
         + window.location.host
@@ -17,18 +11,25 @@ function PiStatus(PiID) {
         + '/'
     );
 
-    logSocket.onmessage = function(e) {
-        const data = JSON.parse(e.data);
-        addTextAndScrollToBottom(PiID,data.message);
-		};
+    function addTextAndScrollToBottom(newText){
+        const textBox = document.getElementById("log"+PiID);
+        textBox.value += (newText + '\n');
+        textBox.scrollTop = textBox.scrollHeight; // Scroll to bottom
+    };
+
+    addTextAndScrollToBottom("connected");
 
     logSocket.onclose = function(e) {
         const errortext = 'socket closed, refresh page to reconnect.';
         console.error(errortext);
-        addTextAndScrollToBottom(PiID,errortext);
+        addTextAndScrollToBottom(errortext);
     };
 
-    // document.querySelector('#log-input'+PiID).focus();
+    logSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        addTextAndScrollToBottom(data.message);
+		};
+
     document.querySelector('#log-input'+PiID).onkeyup = function(e) {
         if (e.key === 'Enter') {  // enter, return
             document.querySelector('#log-submit'+PiID).click();
