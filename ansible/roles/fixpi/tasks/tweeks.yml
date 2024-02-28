@@ -38,6 +38,15 @@
   tags:
   - hostname
 
+- name: etc/hosts # 127.0.1.1 raspberrypi
+  lineinfile:
+    path: "{{ nfs_root }}/root/etc/hosts"
+    regexp: ^(127\.0\.1\.1.*)
+    line: "# \\g<1>"
+    backrefs: yes
+  tags:
+  - hostname
+
 - name: set pistat_host in /etc/environment
   lineinfile:
     dest: "{{ nfs_root }}/root/etc/environment"
