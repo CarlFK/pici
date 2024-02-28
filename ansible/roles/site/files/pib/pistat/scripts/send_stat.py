@@ -98,7 +98,7 @@ def main():
     args = get_args()
 
     dsh = os.getenv('DNSMASQ_SUPPLIED_HOSTNAME', "(none)")
-    asn = iif(args.hostname is None, "(none)", args.hostname)
+    ash = args.hostname if args.hostname is not None else "(none)"
 
     if DEBUG:
         with open('/tmp/foo','a') as f:
