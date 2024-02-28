@@ -71,36 +71,51 @@ def get_args():
 
 
 def mk_name(ip):
+
+    # Pie's are plugged into a port, numbered 1-48.
+    # the IP is 100 + port
+    # so 101 - 148.
+
+    # the pi's hostname is "pi" + portno (no leading 0s'
+    # pi1 - pi48
+
+    # the websocket frameworks wanta a "groupname"
+    # group=f"pistat_{pi_name}"
+    # pistat_pi1
+
     octs = ip.split('.')
     o=octs[-1]
     if len(o) == 3 and o[0] == '1':
         n = int(o)-100
         pi_name=f"pi{n}"
+        grp_name = f"pistat_{pi_name}"
     else:
-        pi_name=None
-    return pi_name
+        grp_name=None
+
+    return grp_name
 
 def main():
     args = get_args()
 
     dsh = os.getenv('DNSMASQ_SUPPLIED_HOSTNAME', "(none)")
+    asn = iif(args.hostname is None, "(none)", args.hostname)
 
     if DEBUG:
         with open('/tmp/foo','a') as f:
             f.write(args.__repr__())
             f.write(f' {dsh=}\n')
 
-    send.init(
-            site_path="/srv/www/pib",
-            django_settings_module="pib.settings",
-            )
+    grp_name=mk_name(args.ip)
+    if grp_name is not None:
 
-    pi_name=mk_name(args.ip)
-    if pi_name is not None:
+        send.init(
+                site_path="/srv/www/pib",
+                django_settings_module="pib.settings",
+                )
 
-        message=f"dhcp: {args.action} {args.mac} {args.ip} {args.hostname}/{dsh}"
+        message=f"dnsmasq: {args.action} {args.mac} {args.ip} {ash}/{dsh}"
         send.send_message(
-                group=f"pistat_{pi_name}",
+                group=grp_name,
                 message_type="stat.message",
                 message_text=message,
                 )

@@ -1,4 +1,6 @@
 ---
+- {include_tasks: apt.yml, tags: django}
+
 - {include_tasks: nginx.yml, tags: le}
 - {include_tasks: certbot.yml, tags: le}
 - {include_tasks: index.yml, tags: index.html}

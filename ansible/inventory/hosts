@@ -1,8 +1,8 @@
 [pxe]
-ps1.fpgas.mithis.com # ansible_host=76.227.131.197
+ps1.fpgas.mithis.com ansible_host=76.227.131.199
 
 [pib]
-ps1.fpgas.mithis.com # ansible_host=76.227.131.197
+ps1.fpgas.mithis.com ansible_host=76.227.131.199
 fpgas.mithis.com
 
 [onpi]

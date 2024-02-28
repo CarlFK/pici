@@ -3,6 +3,12 @@
 
 function PiStatus(PiID) {
 
+    function addTextAndScrollToBottom(PiID,newText){
+        const textBox = document.getElementById("log"+PiID);
+        textBox.value += (newText + '\n');
+        textBox.scrollTop = textBox.scrollHeight; // Scroll to bottom
+    };
+
     const logSocket = new WebSocket(
         'wss://'
         + window.location.host
@@ -13,13 +19,13 @@ function PiStatus(PiID) {
 
     logSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
-        const textBox = document.getElementById("log"+PiID);
-        textBox.value += (data.message + '\n');
-        textBox.scrollTop = textBox.scrollHeight; // Scroll to bottom
-    };
+        addTextAndScrollToBottom(PiID,data.message);
+		};
 
     logSocket.onclose = function(e) {
-        console.error('socket closed unexpectedly');
+        const errortext = 'socket closed, refresh page to reconnect.';
+        console.error(errortext);
+        addTextAndScrollToBottom(PiID,errortext);
     };
 
     // document.querySelector('#log-input'+PiID).focus();

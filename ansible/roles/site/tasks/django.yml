@@ -1,10 +1,5 @@
 # install_django.yml
 ---
-- name: python and friends
-  apt:
-    name:
-    - python3-venv
-
 - name: create site dir
   file:
     path: "{{ app_dir }}/pib"
