@@ -1,0 +1,3 @@
+mkdir ~/.ansible
+scp ~/.ansible/pw_file.txt videoteam@val2:.ansible
+time ansible-playbook ansible/site.yml  --inventory-file ansible/inventory/hosts --limit pi --user root --vault-password-file ~/.ansible/pw_file.txt
