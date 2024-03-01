@@ -1,0 +1,8 @@
+# apt.yml
+---
+- name: python and friends
+  apt:
+    name:
+    - python3-venv
+    - python3-virtualenv
+    - python3-pip
