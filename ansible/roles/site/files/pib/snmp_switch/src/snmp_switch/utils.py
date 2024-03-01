@@ -6,6 +6,12 @@ from time import sleep
 from pysnmp import hlapi
 from pysnmp.proto import rfc1902
 
+# so we can send the browser a message when the power goes off and on:
+# tangle up this code with the django-connect web socket code :(
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
+
 def mk_params():
     # construct params: a dictionary of parameters
     # everything except the switch port number
@@ -167,7 +173,16 @@ def snmp_toggle(host, username, authKey, privKey, oid, port,
     )
     errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
 
+    pi_name=f"pi{port}"
+    group = f"pistat_{pi_name}"
+    message_type="stat.message"
+
+    message_text="snmp: power off"
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)( group, {"type": message_type, "message": message_text} )
+
     sleep(2)
+
     iterator = hlapi.setCmd(
         engine,
         auth,
@@ -176,6 +191,10 @@ def snmp_toggle(host, username, authKey, privKey, oid, port,
         obj_on
     )
     errorIndication2, errorStatus2, errorIndex2, varBinds2 = next(iterator)
+
+    message_text="snmp: power on"
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)( group, {"type": message_type, "message": message_text} )
 
     return {
             'errorIndication': errorIndication,
