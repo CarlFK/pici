@@ -1,3 +1,5 @@
+import argparse
+import sys
 import os
 
 from pprint import pprint
@@ -102,6 +104,29 @@ def mk_params():
 
     return params
 
+def transform_ret(o):
+    # if o['errorIndication'] is None:
+    try:
+        v = o['varBinds']
+        v0=v[0]
+        i = v0[1]
+        ret = i
+        # import code; code.interact(local=locals())
+    except Exception as e:
+        print(e)
+        ret = None
+
+    return ret
+
+def notify_dcws(port,state):
+
+    pi_name=f"pi{port}"
+    group = f"pistat_{pi_name}"
+    message_type="stat.message"
+    message_text=f"snmp: power {state}"
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)( group, {"type": message_type, "message": message_text} )
+
 
 def snmp_set_state(host, username, authKey, privKey, oid, port, state,
         authProtocol, privProtocol):
@@ -136,11 +161,22 @@ def snmp_set_state(host, username, authKey, privKey, oid, port, state,
     )
     errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
 
+    try:
+        v0 = varBinds[0]
+        i = v0[1]
+        state={1:'on',2:'off'}[i]
+    except Exception as e:
+        print(e)
+        state = None
+
+    notify_dcws(port,state)
+
     ret = {
             'errorIndication': errorIndication,
             'errorStatus': errorStatus,
             'errorIndex': errorIndex,
             'varBinds': varBinds,
+            'state': state,
     }
 
     return ret
@@ -210,6 +246,7 @@ def snmp_toggle(host, username, authKey, privKey, oid, port,
 
 def snmp_status(host, username, authKey, privKey, oid, port,
         authProtocol, privProtocol):
+
     connectto = hlapi.UdpTransportTarget((host, 161))
     obj_id = hlapi.ObjectIdentity(oid + '.' + port)
     obj_get = hlapi.ObjectType(obj_id)
@@ -269,6 +306,33 @@ sleep(2)
 check_iterator(get_cmd(obj_get))
 """
 
+def get_args():
+
+    parser = argparse.ArgumentParser(
+            description="PoE set and get")
+
+    parser.add_argument('port',
+            help='Which physical port on the switch.',
+            )
+
+    parser.add_argument('state',
+            help='1=on, 2=off',
+            nargs='?',
+            )
+
+    parser.add_argument('--site-path', '-p',
+            default = "/srv/www/pib",
+            help="DJANGO_SETTINGS_MODULE")
+
+    parser.add_argument('--django-settings', '-s',
+            default = "pib.settings",
+            help="DJANGO_SETTINGS_MODULE")
+
+    args = parser.parse_args()
+
+    return args
+
+
 def test_mkparams():
     params = mk_params()
     params['port'] = '2'
@@ -281,5 +345,29 @@ def test_mkparams():
 def test():
     test_mkparams()
 
+def init_dcwc(site_path, django_settings_module):
+    sys.path.insert(0, site_path)
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", django_settings_module)
+
+def main():
+    args = get_args()
+
+    init_dcwc(args.site_path, args.django_settings)
+
+    params = mk_params()
+    params['port'] = args.port
+
+    o = snmp_status( **params )
+    i = transform_ret(o)
+    state={1:'on',2:'off'}[i]
+    print(f"{args.port=} {state=}")
+
+    if args.state is not None:
+        o = snmp_set_state( state=args.state, **params )
+        i = transform_ret(o)
+        state={1:'on',2:'off'}[i]
+        print(f"{args.port=} {state=}")
+
+
 if __name__=='__main__':
-    test()
+    main()
