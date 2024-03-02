@@ -52,6 +52,15 @@ port=$1
 #      Set the privacy pass phrase used for encrypted SNMPv3 messages.  Overrides the defPrivPassphrase token
 #      in the snmp.conf file.  It is insecure to specify pass phrases on the command line, see snmp.conf(5).
 
+/srv/www/pib/venv/bin/python3 /srv/www/pib/venv/lib/python3.11/site-packages/snmp_switch/utils.py $port
+
+# maybe set new value
+if [ $# -eq 2 ]; then
+    val=$2
+    /srv/www/pib/venv/bin/python3 /srv/www/pib/venv/lib/python3.11/site-packages/snmp_switch/utils.py $port $val
+
+exit
+
 snmpget.py -v 3 \
     -u ${SNMP_SWITCH_USERNAME} \
     -l ${SNMP_SWITCH_SECURITY_LEVEL} \

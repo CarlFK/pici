@@ -18,18 +18,20 @@ def all_to_str(o):
 def toggle(request):
     # turn the port off and on again
 
-    params = mk_params()
-    params['port'] = request.POST['port']
+    port = request.POST['port']
 
-    ret = {}
+    params = mk_params()
+    params['port'] = port
+
+    ret = {port:[]}
 
     d = snmp_set_state( state='2', **params )
-    ret['old'] = d['state']
+    ret[port].append(d['state'])
 
     time.sleep(1)
 
     d = snmp_set_state( state='1', **params )
-    ret['new'] = d['state']
+    ret[port].append(d['state'])
 
     response = HttpResponse(content_type="application/json")
     json.dump(ret, response, indent=2, default=all_to_str)
@@ -41,15 +43,25 @@ def toggle(request):
 def toggle_all(request):
 
     params = mk_params()
-    l = []
-    for port in range(1,48):
 
+    ret = { port:[] for port in range(48) }
+
+    # all off:
+    for port in range(1,48):
         params['port'] = str(port)
-        d=snmp_toggle( **params )
-        l.append(d)
+        d = snmp_set_state( state='2', **params )
+        ret[port].append(d['state'])
+
+    time.sleep(1)
+
+    # all on:
+    for port in range(1,48):
+        params['port'] = str(port)
+        d = snmp_set_state( state='1', **params )
+        ret['was'][port] = d['state']
 
     response = HttpResponse(content_type="application/json")
-    json.dump(l, response, indent=2, default=all_to_str)
+    json.dump(ret, response, indent=2, default=all_to_str)
 
     return response
 
@@ -60,15 +72,16 @@ def off_all(request):
     # params['state']=2
 
     params = mk_params()
-    l = []
-    for port in range(1,49):
+    ret = { port:[] for port in range(48) }
 
+    # all off:
+    for port in range(1,48):
         params['port'] = str(port)
-        d = snmp_set_state( state=2, **params )
-        l.append(d)
+        d = snmp_set_state( state='2', **params )
+        ret[port].append(d['state'])
 
     response = HttpResponse(content_type="application/json")
-    json.dump(l, response, indent=2, default=all_to_str)
+    json.dump(ret, response, indent=2, default=all_to_str)
 
     return response
 
