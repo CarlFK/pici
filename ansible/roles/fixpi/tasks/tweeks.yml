@@ -53,6 +53,17 @@
     src: "files/etc/"
     dest: "{{ nfs_root }}/root/etc/"
 
+- name: resolve.conf
+  template:
+    src: templates/resolve.conf.j2
+    dest: "{{ nfs_root }}/root/etc/resolve.conf"
+
+- name: add time to bash prompt
+  lineinfile:
+    dest: "{{ nfs_root }}/root/home/pi/.bashrc"
+    insertafter: '^unset color_prompt force_color_prompt'
+    line: 'PS1="\D{%T} $PS1"'
+
 # the rest of these tasks config the server to monitor client boot spew
 
 - name: is server pi
