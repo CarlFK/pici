@@ -35,6 +35,7 @@ The Pi/Arty boards:
   <textarea id="log{{pi.port}}" cols="85" rows="4" placeholder="boot status" readonly></textarea><br>
   <input id="log-input{{pi.port}}" type="text" size="20">
   <input id="log-submit{{pi.port}}" type="button" value="Send">
+  <input id="reconnect{{pi.port}}" type="submit" value="reconnect {{pi.port}}" class=reset_button>
   </div>
 
   vlc https://{{ domain_name }}/live/pi{{pi.port}}.m3u8<br>
@@ -53,17 +54,17 @@ The Pi/Arty boards:
   </video>
   <a href="https://{{ domain_name }}/live/pi{{pi.port}}_src.m3u8" > https://{{ domain_name }}/live/pi{{pi.port}}_src.m3u8" </a>
 
-<form id="form-reset{{pi.port}}" method="post" action="/snmp/toggle">
- Turn it off and on again.
- <input type="hidden" name="port" value="{{pi.port}}">
- <input id="submit-reset{{pi.port}}" type="submit" value="Reset {{pi.port}}" class=reset_button>
-</form>
+  <form id="form-reset{{pi.port}}" method="post" action="/snmp/toggle">
+     Turn it off and on again.
+     <input type="hidden" name="port" value="{{pi.port}}">
+     <input id="submit-reset{{pi.port}}" type="submit" value="Reset {{pi.port}}" class=reset_button>
+  </form>
 
-<form method="post" action="/snmp/status">
- Check it:<br>
- <input type="submit" value="status {{pi.port}}" class=reset_button>
- <input type="hidden" name="port" value="{{pi.port}}">
-</form>
+  <formid="form-status{{pi.port}} method="post" action="/snmp/status">
+     Check it:
+     <input type="hidden" name="port" value="{{pi.port}}">
+     <input id="submit-status{{pi.port}}" type="submit" value="status {{pi.port}}" class=reset_button>
+  </form>
 
   <script>PiStatus("{{pi.port}}"); </script>
 

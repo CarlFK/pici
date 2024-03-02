@@ -254,9 +254,9 @@ def snmp_status(host, username, authKey, privKey, oid, port,
     auth = hlapi.UsmUserData(
         userName=username,
         authKey=authKey,
-        authProtocol=authProtocol, #usmHMACSHAAuthProtocol,
+        authProtocol=authProtocol,
         privKey=privKey,
-        privProtocol=privProtocol #usmAesCfb256Protocol
+        privProtocol=privProtocol
     )
 
     engine = hlapi.SnmpEngine()
@@ -271,11 +271,22 @@ def snmp_status(host, username, authKey, privKey, oid, port,
 
     errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
 
+    try:
+        v0 = varBinds[0]
+        i = v0[1]
+        state={1:'on',2:'off'}[i]
+    except Exception as e:
+        print(e)
+        state = None
+
+    notify_dcws(port,state)
+
     return {
         'errorIndication': errorIndication,
         'errorStatus': errorStatus,
         'errorIndex': errorIndex,
-        'varBinds': varBinds
+        'varBinds': varBinds,
+        'state': state,
     }
 
 

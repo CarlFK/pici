@@ -80,7 +80,8 @@ def status(request):
     params['port'] = request.POST['port']
     d=snmp_status( **params )
 
-    d = {'snmp_status': d, 'raw': d.__str__() }
+    # d = {'snmp_status': d, 'raw': d.__str__() }
+    d = {'state':d['state']}
     response = HttpResponse(content_type="application/json")
     json.dump(d, response, indent=2, default=all_to_str)
 
