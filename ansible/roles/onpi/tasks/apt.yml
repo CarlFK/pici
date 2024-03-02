@@ -28,6 +28,7 @@
       - git
       - etckeeper
       - sshfs
+      - atftpd
       - tio
       - minicom
       - rsync
