@@ -2,4 +2,4 @@
 - include_tasks: netboot.yml
 - include_tasks: manage.yml
 - {include_tasks: userconf.yml, tags: [pipw, keys]}
-- {include_tasks: tweeks.yml, tags: [ispi, hostname]}
+- {include_tasks: tweeks.yml, tags: [ispi, hostname, bashrc]}

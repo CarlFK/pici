@@ -62,7 +62,10 @@
   lineinfile:
     dest: "{{ nfs_root }}/root/home/pi/.bashrc"
     insertafter: '^unset color_prompt force_color_prompt'
-    line: 'PS1="\D{%T} $PS1"'
+    line: 'PS1="\D\\{%T\\} $PS1"'
+  when: true
+  tags:
+    - bashrc
 
 # the rest of these tasks config the server to monitor client boot spew
 
@@ -104,7 +107,7 @@
     groups: dialout
     append: true
 
-# we don't need a getty snooping on the boot messages over the serial console
+# don't let getty mess up boot messages over the serial console
 - name: disable (mask) getty systemd service
   systemd:
     enabled: false
