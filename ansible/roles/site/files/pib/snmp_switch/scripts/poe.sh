@@ -58,6 +58,7 @@ port=$1
 if [ $# -eq 2 ]; then
     val=$2
     /srv/www/pib/venv/bin/python3 /srv/www/pib/venv/lib/python3.11/site-packages/snmp_switch/utils.py $port $val
+fi
 
 exit
 
