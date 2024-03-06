@@ -62,7 +62,7 @@
   lineinfile:
     dest: "{{ nfs_root }}/root/home/pi/.bashrc"
     insertafter: '^unset color_prompt force_color_prompt'
-    line: 'PS1="\D\\{%T\\} $PS1"'
+    line: '{% raw %}PS1="\D{%T} $PS1"{% endraw %}'
   when: true
   tags:
     - bashrc
