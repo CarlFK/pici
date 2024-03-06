@@ -1,4 +1,12 @@
 ---
+- name: apt update/upgrade
+  apt:
+    # name: "*"
+    upgrade: true
+    state: latest
+    update_cache: true
+    cache_valid_time: 86400
+
 - name: install gst packages
   apt:
     name:
