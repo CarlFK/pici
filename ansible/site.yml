@@ -12,6 +12,6 @@
 
 - hosts: pi
   roles:
-  - onpi
   - cam/pi
+  - onpi
 

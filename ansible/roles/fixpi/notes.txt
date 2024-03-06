@@ -22,3 +22,8 @@ BOOT_UART=1 in the eeprom config file, via rpi-eeprom-config --edit
 
 1. add host box's ssh keys on pi so host can issue shutdown command.
 
+https://www.kernel.org/doc/Documentation/networking/netconsole.txt
+if you have wired networking hooked up, add this to cmdline.txt netconsole=@/,@10.21.0.1/
+10.21.0.1 being your 'work' computer, like whatever you are chatting on.
+on that box, run:
+nc -u -l 6666
