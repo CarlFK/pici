@@ -27,6 +27,9 @@ function PiStatus(PiID) {
 	logSocket.onmessage = function(e) {
 	    const data = JSON.parse(e.data);
 	    addTextAndScrollToBottom(data.message);
+	    if (data.message == "piview: cam") {
+	    	document.getElementById("my-video"+PiID).player.load();
+	    };
 		    };
 
 	document.querySelector('#reconnect'+PiID).onclick = function(e) {
