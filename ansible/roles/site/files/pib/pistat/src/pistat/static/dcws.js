@@ -9,7 +9,14 @@ function PiStatus(PiID) {
         textBox.scrollTop = textBox.scrollHeight; // Scroll to bottom
     };
 
+
+    function refresh_video_player(){
+        const o = document.getElementById("video-player"+PiID);
+	o.player.load();
+    };
+
     function connect(){
+
 	const logSocket = new WebSocket(
 	    'wss://'
 	    + window.location.host
@@ -28,15 +35,35 @@ function PiStatus(PiID) {
 	    const data = JSON.parse(e.data);
 	    addTextAndScrollToBottom(data.message);
 	    if (data.message == "piview: cam") {
-	    	document.getElementById("my-video"+PiID).player.load();
+    	       refresh_video_player();
 	    };
-		    };
+        };
 
 	document.querySelector('#reconnect'+PiID).onclick = function(e) {
 	    logSocket.close();
 	    connect();
 	};
 
+        function check_status(){
+
+	    logSocket.send(
+		JSON.stringify({ 'message': 'status: '+PiID })
+	    );
+
+	    fetch('/snmp/status', {
+	      method: 'POST',
+		// name="port" value="2"
+		// { "port": PiID }
+	      body: new FormData(document.querySelector('#form-reset'+PiID))
+	      // body: JSON.stringify({ port: [PiID,] }),
+	      // headers: { "Content-type": "application/json; charset=UTF-8" }
+	      }
+	    )
+	      .then((response) => response.json())
+	      .then((json) => console.log(json));
+	    // .then((error) => console.log(error))
+        }
+	
 	document.querySelector('#submit-reset'+PiID).onclick = function(e) {
 
 	    e.preventDefault();
@@ -59,37 +86,24 @@ function PiStatus(PiID) {
 
 
 	document.querySelector('#submit-status'+PiID).onclick = function(e) {
-
 	    e.preventDefault();
-
-	    logSocket.send(
-		JSON.stringify({ 'message': 'status: '+PiID })
-	    );
-
-	    fetch('/snmp/status', {
-	      method: 'POST',
-		// name="port" value="2"
-		// { "port": PiID }
-	      body: new FormData(document.querySelector('#form-reset'+PiID))
-	      // body: JSON.stringify({ port: [PiID,] }),
-	      // headers: { "Content-type": "application/json; charset=UTF-8" }
-	      }
-	    )
-	      .then((response) => response.json())
-	      .then((json) => console.log(json));
-	    // .then((error) => console.log(error))
+	    check_status();
 	};
 
 	document.querySelector('#log-submit'+PiID).onclick = function(e) {
-	    const messageInputDom = document.querySelector('#log-input'+PiID);
-	    const message = 'send: ' + messageInputDom.value;
+	    const o = document.querySelector('#log-input'+PiID);
+	    message = o.value;
+	    if (message == ''){ message=o.placeholder };
 	    logSocket.send(JSON.stringify({
 		'message': message
 	    }));
-	    messageInputDom.value = '';
+	    o.value = '';
 	};
 
         addTextAndScrollToBottom("connected");
+
+	// show PoE on/off status on page (re)load.
+	check_status();
 
     };
     
@@ -99,6 +113,10 @@ function PiStatus(PiID) {
         if (e.key === 'Enter') {  // enter, return
             document.querySelector('#log-submit'+PiID).click();
         }
+    };
+
+    document.getElementById("refresh-video-player"+PiID).onclick = function(e) {
+    	refresh_video_player(e);
     };
 
 };
