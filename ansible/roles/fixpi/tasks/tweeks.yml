@@ -6,8 +6,11 @@
 
 - name: don't manage a swap file
   file:
-    path: "{{ nfs_root }}/etc/systemd/system/multi-user.target.wants/dphys-swapfile.service"
+    path: "{{ nfs_root }}/{{ item }}"
     state: absent
+  with_items:
+    - etc/systemd/system/multi-user.target.wants/dphys-swapfile.service
+    - etc/systemd/system/dphys-swapfile.service
 
 - name: avoid [FAILED] Failed to start Set console font and keymap.
   file:
