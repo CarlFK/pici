@@ -16,3 +16,11 @@
     - cam
     - django
     - index.html
+
+- name: favicon
+  copy:
+    src: files/static/fpga.png
+    dest: "{{ static_dir }}/fpga.png"
+  tags:
+    - index.html
+
