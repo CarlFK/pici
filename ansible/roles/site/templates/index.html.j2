@@ -43,6 +43,7 @@ The Pi/Arty boards:
     <input id="log-input{{pi.port}}" type="text" size="20" placeholder="web socket test message">
     <input id="log-submit{{pi.port}}" type="button" value="Send">
     <input id="reconnect{{pi.port}}" type="submit" value="reconnect {{pi.port}}" class=reset_button>
+    <input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" class=reset_button>
   </div>
 
   <a href="https://{{ domain_name }}/wssh/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password={{pi_pw|b64encode}}">
@@ -50,7 +51,7 @@ The Pi/Arty boards:
   </a>
 
   <video
-    id="my-video"
+    id="video-player{{pi.port}}"
     class="video-js"
     controls
     preload="auto"
