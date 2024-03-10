@@ -1,6 +1,7 @@
 mkdir ~/.ansible
 scp ~/.ansible/pw_file.txt videoteam@val2:.ansible
 tmux
+sudo maintenance.sh
 tio /dev/ttyUSB0
 sudo journalctl -f -u dnsmasq.service
 poe.sh 2 2
