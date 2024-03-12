@@ -20,6 +20,7 @@
     dest: "{{ static_dir }}/dcws.js"
   tags:
     - pistat
+    - index.html
 
 - name: Install nginx streaming conf
   ansible.builtin.copy:

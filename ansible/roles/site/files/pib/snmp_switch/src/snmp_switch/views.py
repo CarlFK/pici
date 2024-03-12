@@ -11,17 +11,12 @@ from pysnmp import hlapi
 
 from snmp_switch.utils import mk_params, snmp_set_state, snmp_status, snmp_toggle
 
-def all_to_str(o):
-    return o.__str__()
-
 @csrf_exempt
 def toggle(request):
     # turn the port off and on again
 
-    port = request.POST['port']
-
-    # o = json.loads(request.body)
-    # port = o['port']
+    o = json.loads(request.body)
+    port = o['port']
 
     params = mk_params()
     params['port'] = port
@@ -37,7 +32,7 @@ def toggle(request):
     ret[port].append(d['state'])
 
     response = HttpResponse(content_type="application/json")
-    json.dump(ret, response, indent=2, default=all_to_str)
+    json.dump(ret, response, indent=2)
 
     return response
 
@@ -64,7 +59,7 @@ def toggle_all(request):
         ret['was'][port] = d['state']
 
     response = HttpResponse(content_type="application/json")
-    json.dump(ret, response, indent=2, default=all_to_str)
+    json.dump(ret, response, indent=2)
 
     return response
 
@@ -84,7 +79,7 @@ def off_all(request):
         ret[port].append(d['state'])
 
     response = HttpResponse(content_type="application/json")
-    json.dump(ret, response, indent=2, default=all_to_str)
+    json.dump(ret, response, indent=2)
 
     return response
 
@@ -102,6 +97,6 @@ def status(request):
 
     d = {'state':d['state']}
     response = HttpResponse(content_type="application/json")
-    json.dump(d, response, indent=2, default=all_to_str)
+    json.dump(d, response)
 
     return response
