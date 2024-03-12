@@ -58,19 +58,15 @@ function PiStatus(PiID) {
 
 	    fetch('/snmp/status', {
 	      method: 'POST',
-		// name="port" value="2"
-		// { "port": PiID }
-	      body: new FormData(document.querySelector('#form-reset'+PiID))
-	      // body: JSON.stringify({ port: [PiID,] }),
-	      // body: JSON.stringify({ port: "2" }),
-	      // headers: { "Content-type": "application/json; charset=UTF-8" }
+	      body: JSON.stringify({ port: PiID }),
+	      headers: { "Content-type": "application/json; charset=UTF-8" }
 	      }
 	    )
 	      .then((response) => response.json())
 	      .then((json) => console.log(json));
 	    // .then((error) => console.log(error))
         }
-	
+
 	document.querySelector('#submit-reset'+PiID).onclick = function(e) {
 
 	    e.preventDefault();
@@ -111,7 +107,7 @@ function PiStatus(PiID) {
 	check_status();
 
     };
-    
+
     connect();
 
     document.querySelector('#log-input'+PiID).onkeyup = function(e) {
