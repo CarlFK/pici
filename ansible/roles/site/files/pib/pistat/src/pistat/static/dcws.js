@@ -18,12 +18,17 @@ function PiStatus(PiID) {
     function connect(){
 
 	const logSocket = new WebSocket(
-	    'wss://'
+	    'WSS://'
 	    + window.location.host
 	    + '/ws/pistat/'
 	    + 'pi'+PiID
 	    + '/'
 	);
+
+	logSocket.onopen = function(e) {
+	    addTextAndScrollToBottom("connected");
+	    check_status();
+	};
 
 	logSocket.onclose = function(e) {
 	    const errortext = 'socket was closed.';
@@ -38,6 +43,7 @@ function PiStatus(PiID) {
     	       refresh_video_player();
 	    };
         };
+
 
 	document.querySelector('#reconnect'+PiID).onclick = function(e) {
 	    logSocket.close();
@@ -56,6 +62,7 @@ function PiStatus(PiID) {
 		// { "port": PiID }
 	      body: new FormData(document.querySelector('#form-reset'+PiID))
 	      // body: JSON.stringify({ port: [PiID,] }),
+	      // body: JSON.stringify({ port: "2" }),
 	      // headers: { "Content-type": "application/json; charset=UTF-8" }
 	      }
 	    )
@@ -99,8 +106,6 @@ function PiStatus(PiID) {
 	    }));
 	    o.value = '';
 	};
-
-        addTextAndScrollToBottom("connected");
 
 	// show PoE on/off status on page (re)load.
 	check_status();
