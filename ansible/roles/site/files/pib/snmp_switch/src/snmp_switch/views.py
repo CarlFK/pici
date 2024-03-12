@@ -20,6 +20,9 @@ def toggle(request):
 
     port = request.POST['port']
 
+    # o = json.loads(request.body)
+    # port = o['port']
+
     params = mk_params()
     params['port'] = port
 
@@ -90,10 +93,13 @@ def off_all(request):
 def status(request):
 
     params = mk_params()
-    params['port'] = request.POST['port']
+
+    o = json.loads(request.body)
+    port = o['port']
+    params['port'] = port
+
     d=snmp_status( **params )
 
-    # d = {'snmp_status': d, 'raw': d.__str__() }
     d = {'state':d['state']}
     response = HttpResponse(content_type="application/json")
     json.dump(d, response, indent=2, default=all_to_str)
