@@ -36,12 +36,11 @@
   tags:
   - hostname
 
-- name: etc/hosts # 127.0.1.1 raspberrypi
+- name: etc/hosts # 127.0.1.1 rpN
   lineinfile:
     path: "{{ nfs_root }}/root/etc/hosts"
-    regexp: ^(127\.0\.1\.1.*)
-    line: "# \\g<1>"
-    backrefs: yes
+    line: "127.0.1.1 pi{{ item.port }}"
+  with_items: nos
   tags:
   - hostname
 
