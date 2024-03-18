@@ -1,0 +1,2 @@
+---
+- {include_tasks: f4pga.yml, tags: [f4pga, ]}

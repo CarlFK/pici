@@ -1,0 +1,19 @@
+---
+- name: f4pga_setup.sh
+  copy:
+    src: "files/f4pga_setup.sh"
+    dest: "/home/{{ user_name }}/f4pga_setup.sh"
+  tags:
+  - f4pga
+
+- name: set perms
+  ansible.builtin.file:
+    path: "/home/{{ user_name }}/{{item}}"
+    owner: "{{user_name}}"
+    group: "{{user_name}}"
+    mode: "u+x"
+  with_items:
+    - f4pga_setup.sh
+  tags:
+  - f4pga
+

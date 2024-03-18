@@ -9,6 +9,7 @@
   - site
   - wssh
   - cam/stream-server
+  - ci
 
 - hosts: pi
   roles:
