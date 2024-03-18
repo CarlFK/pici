@@ -2,4 +2,6 @@
 - include_tasks: apt.yml
 - include_tasks: nonfs.yml
 - {include_tasks: pistat.yml, tags: pistat}
+- {include_tasks: tftpd.yml, tags: tftpd}
+- {include_tasks: shhkeys.yml, tags: shhkeys}
 

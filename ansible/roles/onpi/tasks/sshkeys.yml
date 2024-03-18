@@ -1,0 +1,8 @@
+---
+- name: add ssh keys
+  command: "ssh-import-id {{ item }}"
+  with_items:
+    - carlfk
+    - gh:mithro
+    - gh:asinghani
+    - gh:bjonnh

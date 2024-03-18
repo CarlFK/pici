@@ -1,0 +1,37 @@
+- name: tweek tftpd conf ports
+  template:
+    src: "files/{{ item }}.socket"
+    dest: "/etc/systemd/system/{{ item }}.service"
+  notify: reload-systemd
+  with_items:
+    - pistat_ssh
+    - pistat_cam
+  tags:
+    - pistat
+
+- name: enable and start services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items:
+    - pistat_ssh
+    - pistat_cam
+  tags:
+    - pistat
+
+- name: tftpd port systemd
+  lineinfile:
+    path: /usr/lib/systemd/system/atftpd.socket
+    regexp: "ListenDatagram=69"
+    line: "ListenDatagram={{ tftpd_port }}"
+  tags:
+  - tftpd
+
+- name: tftpd port conf
+  lineinfile:
+    path: /etc/default/atftpd
+    regexp: "--port=69"
+    replace: "-port={{ tftpd_port }}"
+  tags:
+  - tftpd
