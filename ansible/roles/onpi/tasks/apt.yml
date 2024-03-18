@@ -22,26 +22,32 @@
     name:
       - overlayroot
       - ssh-import-id
+      - software-properties-common
       - vim
       - tmux
       - screen
-      - git
-      - etckeeper
-      - sshfs
-      - atftpd
       - tio
       - minicom
+      - git
+      - sshfs
       - rsync
+      - atftpd
+      - atftp
+      - nmap
       - openocd
-      - fxload
       - openfpgaloader
+      - fxload
       - openwince-jtag
       - python3-full
       - python3-venv
       - python3-pip
       - python3-tqdm
       - python3-numpy
-      - software-properties-common
+      - python3-rpi.gpio
+      - python3-serial
+      - build-essential
+      - dkms
+      - raspberrypi-kernel-headers
     install_recommends: yes
   tags:
     - img
