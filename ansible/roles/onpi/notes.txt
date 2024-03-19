@@ -1,12 +1,18 @@
+sudo apt install ssh-import-id
+sudo ssh-import-id carlfk
+
+tmux
+
 mkdir ~/.ansible
 scp ~/.ansible/pw_file.txt videoteam@val2:.ansible
-tmux
-sudo maintenance.sh
-tio /dev/ttyUSB0
-sudo journalctl -f -u dnsmasq.service
-poe.sh 2 2
-poe.sh 2 1
 
+tio /dev/ttyUSB0
+sudo maintenance.sh
+sudo journalctl -f -u dnsmasq.service
+
+allpoe.sh 2
+poe.sh 2 1
+cd pici/
 time ansible-playbook ansible/site.yml  --inventory-file ansible/inventory/hosts --limit pi --user root --vault-password-file ~/.ansible/pw_file.txt
 ssh root@10.21.0.102 shutdown
 sudo production.sh
