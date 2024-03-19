@@ -1,0 +1,16 @@
+---
+- name: create home/pi/updownload
+  ansible.builtin.file:
+    path: "/home/pi/{{ item }}"
+    state: directory
+    owner: pi
+    group: pi
+      # mode: "0755"
+  with_items:
+    - "Uploads"
+    - "Downloads"
+  tags:
+    - tweeks
+
+
+

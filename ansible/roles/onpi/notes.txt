@@ -15,4 +15,6 @@ poe.sh 2 1
 cd pici/
 time ansible-playbook ansible/site.yml  --inventory-file ansible/inventory/hosts --limit pi --user root --vault-password-file ~/.ansible/pw_file.txt
 ssh root@10.21.0.102 shutdown
+poe.sh 2 2
 sudo production.sh
+poe.sh 2 1
