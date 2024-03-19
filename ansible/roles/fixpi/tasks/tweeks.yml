@@ -36,11 +36,11 @@
   tags:
   - hostname
 
-- name: etc/hosts # 127.0.1.1 rpN
+- name: etchosts
   lineinfile:
     path: "{{ nfs_root }}/root/etc/hosts"
     line: "127.0.1.1 pi{{ item.port }}"
-  with_items: nos
+  with_items: switch.nos
   tags:
   - hostname
 
