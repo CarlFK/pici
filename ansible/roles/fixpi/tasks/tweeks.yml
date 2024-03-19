@@ -36,11 +36,11 @@
   tags:
   - hostname
 
-- name: etchosts
+- name: pi etc/hosts
   lineinfile:
     path: "{{ nfs_root }}/root/etc/hosts"
     line: "127.0.1.1 pi{{ item.port }}"
-  with_items: switch.nos
+  with_items: "{{ switch.nos }}"
   tags:
   - hostname
 
