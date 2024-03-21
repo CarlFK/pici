@@ -3,14 +3,14 @@
     path: /usr/lib/systemd/system/atftpd.socket
     regexp: "ListenDatagram=69"
     line: "ListenDatagram={{ tftpd_port }}"
+  notify: reload-systemd
   tags:
   - tftpd
 
 - name: tftpd port conf
   replace:
     path: /etc/default/atftpd
-    regexp: "--port=69"
-    replace: "--port={{ tftpd_port }}"
-  notify: reload-systemd
+    regexp: "--port 69"
+    replace: "--port {{ tftpd_port }}"
   tags:
   - tftpd
