@@ -1,0 +1,6 @@
+[Match]
+Path=platform-3f980000.usb-usb-0:1.2:1.0
+Type=ether
+
+[Link]
+Name=eth-fpga
