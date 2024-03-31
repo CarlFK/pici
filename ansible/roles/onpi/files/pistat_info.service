@@ -1,0 +1,13 @@
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=pi status pi type
+After=systemd-user-sessions.target
+# After=network-online.target
+Wants=network-online.target
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStart=/usr/bin/bash -c '/usr/bin/curl --silent https://${pistat_host}/pistat/stat/%l/$(/usr/bin/tr \" \" \"_\" < /sys/firmware/devicetree/base/model)/'
+Type=oneshot

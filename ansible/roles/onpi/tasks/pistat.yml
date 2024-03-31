@@ -6,6 +6,8 @@
   with_items:
     - pistat_ssh
     - pistat_cam
+    - pistat_info
+    - pistat_shutdown
   tags:
     - pistat
 
@@ -17,6 +19,8 @@
   with_items:
     - pistat_ssh
     - pistat_cam
+    - pistat_info
+    - pistat_shutdown
   tags:
     - pistat
 

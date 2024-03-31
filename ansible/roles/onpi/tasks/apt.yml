@@ -36,6 +36,7 @@
       - nmap
       - tree
       - ack
+      - tcpdump
       - openocd
       - openfpgaloader
       - fxload

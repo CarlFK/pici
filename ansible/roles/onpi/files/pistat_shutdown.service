@@ -1,0 +1,11 @@
+[Unit]
+Description=pistat: shutdown
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/curl --silent https://${pistat_host}/pistat/stat/%l/shutdown/
+
+[Install]
+WantedBy=shutdown.target
