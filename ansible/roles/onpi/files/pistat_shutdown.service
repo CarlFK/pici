@@ -1,11 +1,13 @@
 [Unit]
 Description=pistat: shutdown
-Before=shutdown.target
-
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/bin/curl --silent https://${pistat_host}/pistat/stat/%l/shutdown/
+After=multi-user.target
+# Before=shutdown.target # maybe needed to make sure curl finishes before the network is stopped?
 
 [Install]
-WantedBy=shutdown.target
+WantedBy=multi-user.target
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStop=/usr/bin/curl https://${pistat_host}/pistat/stat/%l/shutdown/
+Type=oneshot
+RemainAfterExit=yes
