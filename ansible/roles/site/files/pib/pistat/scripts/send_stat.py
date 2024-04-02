@@ -3,7 +3,8 @@
 # send_stat.py - called from dnsmasq --dhcp-script=/usr/local/bin/send_stat.py
 
 """
-man dnsmasq
+https://thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html
+
 --dhcp-script=<path>
   Whenever a new DHCP lease is created, or an old  one  destroyed,
   or  a  TFTP file transfer completes, the executable specified by
@@ -17,12 +18,16 @@ man dnsmasq
   lease  length  or expiry and client-id, if leasefile-ro is set).
   If the MAC address is from a network type other  than  ethernet,
   it    will    have    the    network    type    prepended,    eg
-  "06-01:23:45:67:89:ab" for token ring. The  process  is  run  as
-  root  (assuming that dnsmasq was originally run as root) even if
-  dnsmasq is configured to change UID to an unprivileged user.
+  "06-01:23:45:67:89:ab" for token ring.
 
   The environment is inherited from the invoker of  dnsmasq,  with
   some or all of the following variables added
+
+ At dnsmasq startup, the script will be invoked for all existing leases as they are read from the lease file. Expired leases will be called with "del" and others with "old". When dnsmasq receives a HUP signal, the script will be invoked for existing leases with an "old" event.
+
+There are five further actions which may appear as the first argument to the script, "init", "arp-add", "arp-del", "relay-snoop" and "tftp". More may be added in the future, so scripts should be written to ignore unknown actions. "init" is described below in --leasefile-ro
+
+The "tftp" action is invoked when a TFTP file transfer completes: the arguments are the file size in bytes, the address to which the file was sent, and the complete pathname of the file.
 
   If the client provides a hostname, DNSMASQ_SUPPLIED_HOSTNAME
 
@@ -33,11 +38,13 @@ man dnsmasq
 """
 
 import argparse
+import collections
+
 import os
 
 import send
 
-DEBUG=True
+DEBUG=False
 
 def get_args():
 
@@ -48,6 +55,8 @@ def get_args():
     IP address,
     hostname, if known.
     """
+    # unless the first arg is tftp,
+    # then it's: file size in bytes, the address to which the file was sent, and the complete pathname of the file.
 
     parser = argparse.ArgumentParser(
             description="""called from dnsmasq""")
@@ -55,6 +64,7 @@ def get_args():
     parser.add_argument('action',
             help='What the server is doing.')
 
+    """
     parser.add_argument('mac',
             help='MAC address of the host.')
 
@@ -64,10 +74,33 @@ def get_args():
     parser.add_argument('hostname',
             nargs='?',
             default="wut?")
+    """
+
+    # next 3 args - the purpose/meaning/name is dependant on the first parameter (like "add" vs "tftp")
+    parser.add_argument('p2')
+    parser.add_argument('p3')
+    parser.add_argument('p4', nargs='?',)
 
     args = parser.parse_args()
 
-    return args
+    if args.action in ["add", "old", "del"]:
+        newargs = collections.namedtuple("Args", "type action mac ip hostname dsh")
+        newargs.type = "dhcp"
+        newargs.action = args.action
+        newargs.mac = args.p2
+        newargs.ip = args.p3
+        newargs.hostname = args.p4 if args.p4 is not None else "(none)"
+        newargs.dsh = os.getenv('DNSMASQ_SUPPLIED_HOSTNAME', "(none)")
+
+    elif args.action in ["tftp"]:
+        newargs = collections.namedtuple("Args", "type action size ip pathname")
+        newargs.type = "tftp"
+        newargs.action = "get"
+        newargs.size = int(args.p2)
+        newargs.ip = args.p3
+        newargs.pathname = args.p4
+
+    return newargs
 
 
 def mk_name(ip):
@@ -97,13 +130,11 @@ def mk_name(ip):
 def main():
     args = get_args()
 
-    dsh = os.getenv('DNSMASQ_SUPPLIED_HOSTNAME', "(none)")
-    ash = args.hostname if args.hostname is not None else "(none)"
-
     if DEBUG:
         with open('/tmp/foo','a') as f:
-            f.write(args.__repr__())
-            f.write(f' {dsh=}\n')
+            # f.write(args.__repr__())
+            # f.write(f' {dsh=}\n')
+            pass
 
     grp_name=mk_name(args.ip)
     if grp_name is not None:
@@ -113,7 +144,11 @@ def main():
                 django_settings_module="pib.settings",
                 )
 
-        message=f"dnsmasq: {args.action} {args.mac} {args.ip} {ash}/{dsh}"
+        if args.type == 'dhcp':
+            message=f"dnsmasq: {args.type} {args.action} {args.mac} {args.ip} {args.hostname} {args.dsh}"
+        elif args.type == 'tftp':
+            message=f"dnsmasq: {args.type} {args.action} {args.pathname} sent {args.size:,} bytes"
+
         send.send_message(
                 group=grp_name,
                 message_type="stat.message",
