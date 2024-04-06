@@ -94,7 +94,8 @@ arm_64bit=1
 # Automatically load initramfs files, if found
 auto_initramfs=1
 
-core_freq=250
+# core_freq=250
+
 enable_uart=1
 uart_2ndstage=1
 dtoverlay=disable-bt
