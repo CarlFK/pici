@@ -5,7 +5,8 @@ function PiStatus(PiID) {
 
     function addTextAndScrollToBottom(newText){
         const o = document.getElementById("log"+PiID);
-        o.value += (newText + '\n');
+        d=new Date();
+        o.value += (d.toLocaleTimeString() + ': ' + newText + '\n');
         o.scrollTop = o.scrollHeight; // Scroll to bottom
     };
 
