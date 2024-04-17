@@ -48,9 +48,12 @@
       - python3-numpy
       - python3-rpi.gpio
       - python3-serial
-      - build-essential
       - dkms
       - raspberrypi-kernel-headers
+      - python-dev
+      - libfreetype6-dev
+      - libjpeg-dev
+      - build-essential
     install_recommends: yes
   tags:
     - img
