@@ -14,3 +14,12 @@
     replace: "--port {{ tftpd_port }}"
   tags:
   - tftpd
+
+- name: pi tftp dir user writable
+  ansible.builtin.file:
+    dest: /srv/tftp
+    owner: "pi"
+    mode: "u+w"
+    state: directory
+  tags:
+  - tftpd
