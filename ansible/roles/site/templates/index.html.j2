@@ -14,11 +14,11 @@
 
 <p>
 Welcome to PiCI - pronounced: Pie sea eye.<br>
-Jump in!  <a href="https://github.com/CarlFK/pici/wiki/Getting-Started">Getting Started</a><br>
-Details: Goals, wiring diagarms and pictures of the setup, etc.:<br>
-<a href="https://github.com/CarlFK/pici/blob/main/README.md">https://github.com/CarlFK/pici/blob/main/README.md</a>
-</p>
-Server and boot files setup: <a href="https://github.com/CarlFK/pici">https://github.com/CarlFK/pici</a>
+<ul>
+<li> Use what is here: <a href="https://github.com/CarlFK/pici/wiki/Getting-Started">Getting Started</a>
+<li> Learn what is here: Details: Goals, wiring diagarms, pictures of the setup, etc. <a href="https://github.com/CarlFK/pici/blob/main/README.md">https://github.com/CarlFK/pici/blob/main/README.md</a>
+<li> The scripts that build what is here: Server and pi boot files setup <a href="https://github.com/CarlFK/pici">https://github.com/CarlFK/pici</a>
+</ul>
 
 <p>
 The Pi/Arty boards:
@@ -44,9 +44,9 @@ The Pi/Arty boards:
     <input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" >
   </div>
 
-  <a href="https://{{ domain_name }}/wssh/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password={{pi_pw|b64encode}}">
-    ssh -p {{100+pi.port}}22 pi@{{ domain_name }}<br>
-  </a>
+  Easy: <a href="https://{{ domain_name }}/wssh/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password={{pi_pw|b64encode}}">wssh</a>.
+  Better: use your own ssh client. user: pi, host: {{ domain_name }}, port {{100+pi.port}}22, <br>
+  linux cheatsheet: <div class="highlight-bash notranslate"><div class="highlight">ssh -p {{100+pi.port}}22 pi@{{ domain_name }}</div></div><br>
 
   <video
     id="video-player{{pi.port}}"
@@ -70,6 +70,7 @@ The Pi/Arty boards:
 
 {% endfor %}
 
+  <script src="https://f4pga-examples.readthedocs.io/en/latest/_static/javascripts/f4pga.js"></script>
 
 </body>
 </html>
