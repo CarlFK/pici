@@ -18,6 +18,7 @@
       - gstreamer1.0-plugins-base-apps
       - libcamera0
       - jq
+      - rpicam-apps-lite
   tags:
     - streaming
 
