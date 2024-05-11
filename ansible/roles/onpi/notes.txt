@@ -1,4 +1,5 @@
-sudo apt install ssh-import-id
+ssh videoteam@val2
+# sudo apt install ssh-import-id;
 sudo ssh-import-id carlfk
 
 tmux
@@ -6,11 +7,12 @@ tmux
 mkdir ~/.ansible
 scp ~/.ansible/pw_file.txt videoteam@val2:.ansible
 
+allpoe.sh 2;
 tio /dev/ttyUSB0
 sudo maintenance.sh
 sudo journalctl -f -u dnsmasq.service
+nc -l -u -p 6666
 
-allpoe.sh 2
 poe.sh 2 1
 cd pici/
 time ansible-playbook ansible/site.yml  --inventory-file ansible/inventory/hosts --limit pi --user root --vault-password-file ~/.ansible/pw_file.txt

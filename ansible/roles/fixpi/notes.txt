@@ -27,3 +27,17 @@ if you have wired networking hooked up, add this to cmdline.txt netconsole=@/,@1
 10.21.0.1 being your 'work' computer, like whatever you are chatting on.
 on that box, run:
 nc -u -l 6666
+
+Path=platform-3f980000.usb-usb-0:1.1.1:1.0
+Name=eth-uplink
+
+Path=platform-3f980000.usb-usb-0:1.2:1.0
+Name=eth-fpga
+
+(08:55:23 PM) clever: [350402.826263] input: Corsair CORSAIR DARK CORE RGB PRO Gaming Dongle as /devices/pci0000:00/0000:00:14.0/usb1/1-12/1-12.1/1-12.1:1.0/0003:1B1C:1B81.0021/input/input26
+(08:55:30 PM) clever: [350419.504849] input: Corsair CORSAIR DARK CORE RGB PRO Gaming Dongle as /devices/pci0000:00/0000:00:14.0/usb1/1-12/1-12.2/1-12.2:1.0/0003:1B1C:1B81.0026/input/input29
+(08:55:43 PM) clever: [350430.174400] input: Corsair CORSAIR DARK CORE RGB PRO Gaming Dongle as /devices/pci0000:00/0000:00:14.0/usb1/1-9/1-9:1.0/0003:1B1C:1B81.002B/input/input32
+(08:55:55 PM) clever: CarlFK1: as an example, i moved my mouse dongle between 3 ports on my desktop
+(08:56:23 PM) clever: [350466.823809] input: Corsair CORSAIR DARK CORE RGB PRO Gaming Dongle as /devices/pci0000:00/0000:00:14.0/usb1/1-10/1-10:1.0/0003:1B1C:1B81.0030/input/input35
+(08:56:38 PM) clever: it looks like the usb2 ports are ports 1/2, on a hub i think
+(08:56:54 PM) clever: while the usb2 lanes of the usb3 ports, appear to be ports 9/10 on the root hub maybe?

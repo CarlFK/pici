@@ -138,3 +138,4 @@ dmypy.json
 .pyre/
 
 db.sqlite3
+ansible/inventory/host_vars/mk_secrets.sh
