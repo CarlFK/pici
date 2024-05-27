@@ -28,6 +28,7 @@
       - screen
       - tio
       - minicom
+      - picocom
       - git
       - sshfs
       - rsync
