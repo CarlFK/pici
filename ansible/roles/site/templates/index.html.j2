@@ -44,7 +44,7 @@ The Pi/Arty boards:
     <input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" >
   </div>
 
-  Easy: <a href="https://{{ domain_name }}/wssh/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password={{pi_pw|b64encode}}">wssh</a>.
+  Easy: <a href="https://{{ domain_name }}/wssh/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password={{pi_pw|b64encode}}">wssh</a>.<br>
   Better: use your own ssh client. user: pi, host: {{ domain_name }}, port {{100+pi.port}}22, <br>
   linux cheatsheet: <div class="highlight-bash notranslate"><div class="highlight">ssh -p {{100+pi.port}}22 pi@{{ domain_name }}</div></div><br>
 
