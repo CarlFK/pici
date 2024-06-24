@@ -51,7 +51,7 @@
       - python3-serial
       - dkms
       - raspberrypi-kernel-headers
-      - python-dev
+      - python3-dev
       - libfreetype6-dev
       - libjpeg-dev
       - build-essential
