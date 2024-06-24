@@ -16,9 +16,11 @@
       - gstreamer1.0-plugins-bad
       - gstreamer1.0-plugins-ugly
       - gstreamer1.0-plugins-base-apps
+      - gstreamer1.0-libcamera
       - libcamera0
       - jq
       - rpicam-apps-lite
+      - rpicam-apps
   tags:
     - streaming
 
