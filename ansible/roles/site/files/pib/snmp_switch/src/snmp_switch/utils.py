@@ -339,6 +339,8 @@ def get_args():
             default = "pib.settings",
             help="DJANGO_SETTINGS_MODULE")
 
+    parser.add_argument('-v', '--verbose', action="store_true")
+
     args = parser.parse_args()
 
     return args
@@ -369,12 +371,15 @@ def main():
     params['port'] = args.port
 
     o = snmp_status( **params )
+    if args.verbose: pprint(o)
+
     i = transform_ret(o)
     state={1:'on',2:'off'}[i]
     print(f"{args.port=} {state=}")
 
     if args.state is not None:
         o = snmp_set_state( state=args.state, **params )
+        if args.verbose: pprint(o)
         i = transform_ret(o)
         state={1:'on',2:'off'}[i]
         print(f"{args.port=} {state=}")
