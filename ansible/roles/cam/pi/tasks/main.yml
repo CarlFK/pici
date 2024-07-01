@@ -10,6 +10,7 @@
 - name: install gst packages
   apt:
     name:
+      - jq
       - gstreamer1.0-tools
       - gstreamer1.0-plugins-base
       - gstreamer1.0-plugins-good
@@ -17,10 +18,10 @@
       - gstreamer1.0-plugins-ugly
       - gstreamer1.0-plugins-base-apps
       - gstreamer1.0-libcamera
-      - libcamera0
-      - jq
+        # - libcamera0
       - rpicam-apps-lite
-      - rpicam-apps
+        # - rpicam-apps
+# Tenkawa: this combination seems to work   rpicam-apps  libcamera-ipa libcamera0.3 gstreamer1.0-libcamera
   tags:
     - streaming
 
