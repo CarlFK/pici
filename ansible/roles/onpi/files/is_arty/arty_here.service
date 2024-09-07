@@ -1,0 +1,15 @@
+# Ansible Managed
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=check for Arty board
+After=network-online.target
+Wants=network-online.target
+StartLimitInterval=0
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStart=/usr/local/bin/arty_here.sh ${pistat_host} %l
+Type=oneshot

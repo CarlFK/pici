@@ -1,0 +1,9 @@
+#!/usr/bin/expect
+
+spawn lsusb
+expect "Future Technology Devices International"
+expect eof
+spawn openFPGALoader -b arty --reset --verbose
+expect "found 1 devices"
+expect "family artix a7 35t"
+expect eof

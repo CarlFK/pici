@@ -1,0 +1,34 @@
+---
+- name: install packages for arty_here
+  apt:
+    name:
+      - expect
+  tags:
+  - ia
+
+- name: arty_here
+  copy:
+    src: "files/is_arty/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: u+x
+  with_items:
+    - arty_here.sh
+    - arty_here.exp
+  tags:
+  - ia
+
+- name: install systemd arty_here service
+  copy:
+    src: files/is_arty/arty_here.service
+    dest: /etc/systemd/system/arty_here.service
+  notify: reload-systemd
+  tags:
+  - ia
+
+- name: enable arty_here.service
+  systemd:
+    name: arty_here.service
+    enabled: yes
+  tags:
+  - ia
+
