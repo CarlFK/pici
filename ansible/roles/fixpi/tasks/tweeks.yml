@@ -48,7 +48,7 @@
   lineinfile:
     dest: "{{ nfs_root }}/root/etc/environment"
     state: present
-    line: "pistat_host={{ domain_name}}"
+    line: "pistat_host={{domain_name}}"
 
 - name: etc overrides
   copy:
