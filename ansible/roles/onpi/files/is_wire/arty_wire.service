@@ -1,0 +1,15 @@
+# Ansible Managed
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=check for pi to Arty wired
+After=network-online.target
+Wants=network-online.target
+StartLimitInterval=0
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStart=/usr/local/bin/arty_wire.sh ${pistat_host} %l
+Type=oneshot

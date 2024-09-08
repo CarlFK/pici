@@ -1,0 +1,25 @@
+---
+- name: arty_wire
+  copy:
+    src: "files/is_wire/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: u+x
+  with_items:
+    - arty_wire.sh
+  tags:
+  - ia
+
+- name: install systemd arty_wire service
+  copy:
+    src: files/is_wire/arty_wire.service
+    dest: /etc/systemd/system/arty_wire.service
+  notify: reload-systemd
+  tags:
+  - ia
+
+- name: enable arty_wire.service
+  systemd:
+    name: arty_wire.service
+    enabled: yes
+  tags:
+  - ia
