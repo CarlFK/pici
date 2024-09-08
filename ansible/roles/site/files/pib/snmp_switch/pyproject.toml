@@ -18,7 +18,11 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-dependencies=['pysnmplib', 'django']
+dependencies=[
+    'pysnmp==5.1.0',
+    'pysnmplib',
+    'django',
+]
 
 [project.optional-dependencies]
 cli = [
