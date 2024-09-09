@@ -33,7 +33,7 @@ table.button {
     <td colspan=2 style="text-align: center;"><h1>Access an FPGA right now!</h1></td>
   </tr><tr>
     <td>
-      <p>On this page anyone (including you!) can remotely access and control an FPGA development board!</p>
+      <p>On this page anyone (including you!) can remotely access and control an FPGA development board! There is even a camera to see the LEDs.</p>
       <table class="button">
         <tr>
 	  <td><a href="">See demo</a></td>
@@ -49,54 +49,35 @@ table.button {
   </tr>
 </table>
 
-
-<hr>
+<div style="width: 100%;">
 
 {% for pi in switch.nos %}
 
-  pi{{pi.port}}<br>
-
- Check PoE:
- <input id="status{{pi.port}}" type="submit" value="PoE {{pi.port}}" >
-
- Turn it off and on again:
- <input id="reset{{pi.port}}" type="submit" value="Reset {{pi.port}}" >
-
-  <div>
-    <textarea id="log{{pi.port}}" cols="85" rows="4" placeholder="pi status" readonly></textarea><br>
-    <input id="log-text{{pi.port}}" type="text" size="20" placeholder="web socket test message">
-    <input id="log-submit{{pi.port}}" type="button" value="Send">
-    <input id="reconnect{{pi.port}}" type="submit" value="reconnect {{pi.port}}" >
-    <input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" >
-  </div>
-
-  Easy: <a href="https://{{ domain_name }}/wssh/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password={{pi_pw|b64encode}}">wssh</a>.<br>
-  Better: use your own ssh client. user: pi, host: {{ domain_name }}, port {{100+pi.port}}22, <br>
-  linux cheatsheet: <div class="highlight-bash notranslate"><div class="highlight">ssh -p {{100+pi.port}}22 pi@{{ domain_name }}</div></div><br>
-
-  <video
-    id="video-player{{pi.port}}"
-    class="video-js"
-    controls
-    preload="auto"
-    data-setup="{}"
-  >
-    <source
-        src="https://{{ domain_name }}/live/pi{{pi.port}}.m3u8"
-        type='application/x-mpegURL'
-    />
-  </video>
-
-  vlc https://{{ domain_name }}/live/pi{{pi.port}}.m3u8<br>
-
-  <script>PiStatus("{{pi.port}}"); </script>
-
-  Pi location and patch cable color: {{pi.loc}} {{pi.cable_color}} <br>
-  <hr>
+<table style="width: 100px; float: left;">
+ <tr><td><h1>FPGA pi{{pi.port}}</h1></td></tr>
+ <tr><td>CURRENT STATUS</td></tr>
+ <tr><td><a href="">Use this FPGA</a></td></tr>
+ <tr>
+  <td>
+    <video
+      id="video-player{{pi.port}}"
+      class="video-js"
+      controls
+      preload="auto"
+      data-setup="{}"
+    >
+      <source
+          src="https://{{ domain_name }}/live/pi{{pi.port}}.m3u8"
+          type='application/x-mpegURL'
+      />
+    </video>
+  </td>
+ </tr>
+</table>
 
 {% endfor %}
 
-  <script src="https://f4pga-examples.readthedocs.io/en/latest/_static/javascripts/f4pga.js"></script>
+</div>
 
 </body>
 </html>
