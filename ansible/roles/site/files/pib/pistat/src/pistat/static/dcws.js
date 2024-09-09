@@ -72,6 +72,9 @@ function PiStatus(PiID) {
 
             e.preventDefault();
 
+            logSocket.close();
+            connect();
+
             logSocket.send(
                 JSON.stringify({ 'message': 'reset: '+PiID })
             );
@@ -84,7 +87,6 @@ function PiStatus(PiID) {
             )
             .then((error) => console.log(error));
         };
-
 
         document.getElementById('status'+PiID).onclick = function(e) {
             e.preventDefault();
