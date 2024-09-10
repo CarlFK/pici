@@ -27,6 +27,7 @@ def run_on_pi(port,cmd):
     # cmd: the shell command to run on the pi
 
     client = paramiko.client.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.load_system_host_keys()
     o=100+port
     ip=f'10.21.0.{o}'
