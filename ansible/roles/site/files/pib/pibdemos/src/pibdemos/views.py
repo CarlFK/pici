@@ -9,15 +9,12 @@ from pibdemos.utils import run_on_pi
 
 @csrf_exempt
 def blink(request):
-    cmd = '/usr/bin/openFPGALoader -b arty /home/pi/tests/counter_test/top.bit'.split()
+    cmd = '/usr/bin/openFPGALoader -b arty /home/pi/tests/counter_test/top.bit'
 
     o = json.loads(request.body)
-    port = o['port']
+    port = int(o['port'])
 
-    stdin, stdout, stderr = run_on_pi(port,cmd)
-    ret={}
-    ret['stdout']=list(stdout)
-    ret['stderr']=list(stderr)
+    ret = run_on_pi(port,cmd)
 
     response = HttpResponse(content_type="application/json")
     json.dump(ret, response, indent=2)

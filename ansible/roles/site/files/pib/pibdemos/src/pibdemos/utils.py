@@ -26,11 +26,20 @@ def run_on_pi(port,cmd):
     client.load_system_host_keys()
     o=100+port
     ip=f'10.21.0.{o}'
-    # client.connect(ip, username='pi')
-    client.connect('ps1.fpgas.mithis.com', port=10322, username='pi')
-    stdin, stdout, stderr = client.exec_command('ls -l')
+    client.connect(ip, username='pi')
+    # client.connect('ps1.fpgas.mithis.com', port=10322, username='pi')
+    stdin, stdout, stderr = client.exec_command(cmd)
 
-    return (stdin, stdout, stderr)
+    ret={}
+    ret['stdout']=list(stdout)
+    ret['stderr']=list(stderr)
+
+    for k in ret:
+      for l in ret[k]:
+        msg=f"{k}: {l}".strip()
+        notify_dcws(port,msg)
+
+    return ret
 
 
 def get_args():
@@ -65,8 +74,7 @@ def get_args():
 
 def test(port, cmd):
     ret = run_on_pi(port,cmd)
-    for l in ret[1]:
-        print(l)
+    pprint(ret)
 
 def init_dcwc(site_path, django_settings_module):
     sys.path.insert(0, site_path)
