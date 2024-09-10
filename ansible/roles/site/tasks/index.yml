@@ -17,10 +17,23 @@
     - django
     - index.html
 
-- name: favicon
+- name: pages of pis
+  template:
+    src: templates/fpga.html.j2
+    dest: "{{ static_dir }}/pi{{ item.port }}.html"
+  with_items: "{{ switch.nos }}"
+  tags:
+    - cam
+    - django
+    - index.html
+
+- name: assets
   copy:
-    src: files/static/fpga.png
-    dest: "{{ static_dir }}/fpga.png"
+    src: "files/static/{{item}}"
+    dest: "{{ static_dir }}/{{item}}"
+  with_items:
+    - fpga.png
+    - intro.png
   tags:
     - index.html
 
