@@ -46,7 +46,7 @@ switch:
         model: "Raspberry_Pi_4_Model_B_Rev_1",
         loc: "",  cable_color: "yellow" }
 
-    - { port: 44, mac: "dc:a6:32:b4:5e:c9", sn: "329205c6", loc: "", cable_color: "gray" }
+    # - { port: 44, mac: "dc:a6:32:b4:5e:c9", sn: "329205c6", loc: "", cable_color: "gray" }
     - { port: 46, mac: "e4:5f:01:97:32:d2", sn: "8483b266", loc: "", cable_color: "gray/white" }
     - { port: 48, mac: "e4:5f:01:96:f8:a5", sn: "ce8e3593", loc: "", cable_color: "blue" }
 
