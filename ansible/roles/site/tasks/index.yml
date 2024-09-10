@@ -20,8 +20,10 @@
 - name: pages of pis
   template:
     src: templates/fpga.html.j2
-    dest: "{{ static_dir }}/pi{{ item.port }}.html"
-  with_items: "{{ switch.nos }}"
+    dest: "{{static_dir}}/pi{{pi.port}}.html"
+  with_items: "{{switch.nos}}"
+  loop_control:
+    loop_var: pi
   tags:
     - cam
     - django
