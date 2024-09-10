@@ -22,12 +22,16 @@ def notify_dcws(port,msg):
 
 
 def run_on_pi(port,cmd):
+
+    # port: rj45 port the pi is connected to
+    # cmd: the shell command to run on the pi
+
     client = paramiko.client.SSHClient()
     client.load_system_host_keys()
     o=100+port
     ip=f'10.21.0.{o}'
     client.connect(ip, username='pi')
-    # client.connect('ps1.fpgas.mithis.com', port=10322, username='pi')
+
     stdin, stdout, stderr = client.exec_command(cmd)
 
     ret={}
@@ -37,6 +41,9 @@ def run_on_pi(port,cmd):
     for k in ret:
       for l in ret[k]:
         msg=f"{k}: {l}".strip()
+        # send stdio to the web page
+        # (I wish this happened somewhere else.
+        # having it here makes this module hard to test.)
         notify_dcws(port,msg)
 
     return ret
@@ -54,7 +61,6 @@ def get_args():
 
     parser.add_argument('cmd',
             help='shell command to run on pi',
-            nargs='?',
             )
 
     parser.add_argument('--site-path', '-p',

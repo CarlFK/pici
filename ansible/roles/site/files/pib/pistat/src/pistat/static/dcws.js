@@ -129,5 +129,18 @@ function PiStatus(PiID) {
         .then((error) => console.log(error));
     };
 
+    document.getElementById('linux'+PiID).onclick = function(e) {
+
+        e.preventDefault();
+
+        fetch('/demos/linux', {
+          method: 'POST',
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+          body: JSON.stringify({ port: PiID })
+          }
+        )
+        .then((error) => console.log(error));
+    };
+
 
 };

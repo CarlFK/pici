@@ -83,7 +83,7 @@
 	  <td><h2>Demos:</h2></td>
       <td><input id="blink_leds{{pi.port}}" type="submit" value="Blink LEDs" ></td>
 	  <td>Boot MicroPython</td>
-	  <td>Boot Linux</td>
+      <td><input id="linux{{pi.port}}" type="submit" value="Boot Linux" ></td>
 	 </tr>
 	</table>
     </td>
@@ -93,6 +93,8 @@
         id="video-player{{pi.port}}"
         class="video-js"
         controls
+        autoplay
+        muted
         preload="auto"
         data-setup="{}"
 	style="width: 100%;"
