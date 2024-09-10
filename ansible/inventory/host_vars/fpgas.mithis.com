@@ -1,19 +1,20 @@
+---
 
-eth_uplink_mac_address: b8:27:eb:cb:1f:f7
+eth_uplink_mac_address: 0c:c4:7a:16:3b:4b
 eth_uplink_static: false
+# for the firewall:
 eth_uplink_static_address: 198.0.220.197
-eth_uplink_dns_server: 8.8.8.8
 
-eth_local_mac_address: 60:38:e0:e3:56:a0
+eth_local_mac_address: 0c:c4:7a:16:3b:4a
 eth_local_address: 10.21.0.1
 eth_local_netmask: 24
 dhcp_range: 10.21.0.128,10.21.0.254,6h
 
-firewall_internal_networks: [10.21.0.0/24]
-
 pib_network: 10.21.0
 
-user_name: fpgadmin
+firewall_internal_networks: [10.21.0.0/24]
+
+user_name: videoteam
 
 conference_name: pib
 room_name: k207
@@ -41,8 +42,11 @@ switch:
     - { port: 34, mac: "b8:27:eb:6d:27:f6", sn: "7a6d27f6", loc: "",  cable_color: "white" }
     - { port: 36, mac: "b8:27:eb:86:39:63", sn: "80863963", loc: "", cable_color: "blue" }
     - { port: 40, mac: "e4:5f:01:97:1f:7e", sn: "613a4524", loc: "", cable_color: "gray" }
-    - { port: 42, mac: "e4:5f:01:8d:f7:17", sn: "f77b8415", loc: "",  cable_color: "yellow" }
-    - { port: 44, mac: "dc:a6:32:b4:5e:c9", sn: "329205c6", loc: "", cable_color: "gray + red" }
+    - { port: 42, mac: "e4:5f:01:8d:f7:17", sn: "f77b8415",
+        model: "Raspberry_Pi_4_Model_B_Rev_1",
+        loc: "",  cable_color: "yellow" }
+
+    - { port: 44, mac: "dc:a6:32:b4:5e:c9", sn: "329205c6", loc: "", cable_color: "gray" }
     - { port: 46, mac: "e4:5f:01:97:32:d2", sn: "8483b266", loc: "", cable_color: "gray/white" }
     - { port: 48, mac: "e4:5f:01:96:f8:a5", sn: "ce8e3593", loc: "", cable_color: "blue" }
 

@@ -1,7 +1,4 @@
 ---
-eth_local_mac_address: 00:25:90:22:c4:91
-eth_local_address: 10.21.0.1
-eth_local_netmask: 24
 
 eth_uplink_mac_address: 00:25:90:22:c4:90
 eth_uplink_static: true
@@ -9,6 +6,10 @@ eth_uplink_static_address: 76.227.131.147
 eth_uplink_static_netmask: 26
 eth_uplink_static_gateway: 76.227.131.254
 eth_uplink_dns_server: 8.8.8.8
+
+eth_local_mac_address: 00:25:90:22:c4:91
+eth_local_address: 10.21.0.1
+eth_local_netmask: 24
 
 dhcp_range: 10.21.0.128,10.21.0.254,6h
 
