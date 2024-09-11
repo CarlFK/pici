@@ -1,9 +1,31 @@
 ---
 # Install zsh and tmux
+
+- name: Install packages
+  apt:
+    name:
+      - tmux
+      - zsh
+  tags:
+  - tmux
+
 # Copy zprofile to ~/.zprofile
 # Copy tmux.conf to ~/.tmux.conf
+
+- name:
+  copy:
+    src: "files/tmux/{{item}}"
+    dest: "/home/pi/.{{item}}"
+    mode: u+x
+  with_items:
+    - zshrc
+    - zprofile
+    - tmux.conf
+  tags:
+  - tmux
+
 # Set shell for pi user to zsh
 - name: set shell to zsh
-  become: true
-  become_user: pi
-  command: "chsh --shell /usr/bin/zsh"
+  command: "chsh --shell /usr/bin/zsh pi"
+  tags:
+  - tmux
