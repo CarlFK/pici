@@ -1,0 +1,9 @@
+---
+# Install zsh and tmux
+# Copy zprofile to ~/.zprofile
+# Copy tmux.conf to ~/.tmux.conf
+# Set shell for pi user to zsh
+- name: set shell to zsh
+  become: true
+  become_user: pi
+  command: "chsh --shell /usr/bin/zsh"
