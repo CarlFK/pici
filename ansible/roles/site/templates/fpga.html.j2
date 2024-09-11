@@ -81,9 +81,12 @@
         <table class="buttons">
 	 <tr>
 	  <td><h2>Demos:</h2></td>
-      <td><input id="blink_leds{{pi.port}}" type="submit" value="Blink LEDs" ></td>
-	  <td>Boot MicroPython</td>
-      <td><input id="linux{{pi.port}}" type="submit" value="Boot Linux" ></td>
+
+      <td><input id="blink_leds" type="submit" value="Blink LEDs" ></td>
+      <td><input id="boot_micro_python" type="submit" value="Load MicroPython"></td>
+      <td><input id="boot_linux" type="submit" value="Boot Linux" ></td>
+      <td><input id="check_wire" type="submit" value="Check Wire" ></td>
+
 	 </tr>
 	</table>
     </td>
@@ -105,7 +108,7 @@
         />
       </video>
     </td><td colspan=2>
-      <iframe style="width: 100%;" src="https://{{ domain_name }}/wssh/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password={{pi_pw|b64encode}}">
+      <iframe id="wssh_if" style="width: 100%;" src="https://{{ domain_name }}/wssh/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password={{pi_pw|b64encode}}">
       SSH TERMINAL GOES HERE.
       </iframe>
     </td>
@@ -132,6 +135,7 @@
 </table>
 
 <script>PiStatus("{{pi.port}}"); </script>
+<script src="demos.js"></script>
 
 <h1>Useful links</h1>
 <ul>
