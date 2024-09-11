@@ -24,7 +24,7 @@ time_zone: America/Chicago
 conference_name: pib
 room_name: catwalk
 
-domain_name: ps1.fpgas.mithis.com
+domain_name: ps1.fpgas.online
 letsencrypt_account_email: carl@NextDayVideo.com
 
 # snmpget -v 3 -u  -l authPriv -a MD5 -x DES -A wordpass -X wordpass -c pib \

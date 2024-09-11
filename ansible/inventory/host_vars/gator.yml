@@ -17,13 +17,14 @@ user_name: videoteam
 conference_name: pib
 room_name: 3242
 
-common_name: mithis.com
+common_name: fpgas.online
 subject_alt_names:
   - fpgas.mithis.com
   - k207.fpgas.mithis.com
+  - k207.fpgas.online
 
 streaming_frontend_aliases: []
-  # streaming_frontend_hostname: fpgas.mithis.com
+  # streaming_frontend_hostname: fpgas.online
 streaming_frontend_hostname: willyou.servebeer.com
 domain_name: "{{ streaming_frontend_hostname}}"
 letsencrypt_account_email: carl@NextDayVideo.com
