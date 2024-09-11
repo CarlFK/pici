@@ -1,0 +1,61 @@
+#!/bin/zsh
+
+# We store the ssh connection multiplexer sockets in this directory.
+mkdir /tmp/ssh
+
+# This setup is designed so that you can "use tmux as your shell" but still
+# preserve support for rsync and scp. Instead we set zsh as our shell and have
+# the following .zprofile file which starts tmux if it's an interactive session.
+#
+# How does this tmux setup work?
+#  * There is one "default" session called default.
+#  * When you connect you clone the "default" session (your session will be
+#    given a numeric ID and I refer to them as "unnamed sessions") and a new
+#    window is created.
+#  * These "unnamed sessions" are reaped after they no longer have real
+#    terminals connected to them.
+#  * The "default" session has help listed on window 0. This stops this session
+#    from exiting even after all other windows are closed.
+#
+# This means that all sessions will have the same windows in them.
+#
+# If I want to keep a session around (because I have a nice tiled setup or
+# something) rename the session from a numeric ID to something human usable.
+
+if tmux -V; then
+	echo "tmux found!"
+else
+	exec bash -l
+fi
+
+# Environment variables to update.
+UPDATE_ENV="DISPLAY SSH_ASKPATH SSH_AUTH_SOCK SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY XDG_SESSION_COOKIE DBUS_SESSION_BUS_ADDRESS GNOME_KEYRING_CONTROL GNOME_KEYRING_PID GNOME_KEYRING_SOCKET ORBIT_SOCKETDIR KRB5CCNAME SSH_AGENT_PID SESSION_MANAGER"
+# File to save them too
+ENVFILE="$HOME/.update-env"
+
+# Dump them into a form which can be used
+echo > $ENVFILE
+for env in `echo $UPDATE_ENV`; do
+	if [ x"${(P)env}" = x ]; then
+		echo "unset $env" >> $ENVFILE
+	else
+		echo "export $env=\"${(P)env}\"" >> $ENVFILE
+	fi
+done
+
+if [[ ( -z "$STY" ) && (( ! -z "$SSH_CONNECTION" ) || ( x"$TERM" == x"xterm-256color" ) || ( x"$TERM" == x"xterm" ) || ( x"$TERM" == x"linux" )) ]]; then
+        if ! tmux has-session -t default; then
+	else
+		# Create the default session that all our windows will be in...
+		tmux new-session -d -s default -n h "tail -f ~/.tmux-help" \; setw remain-on-exit\; send-keys C-c
+        fi
+	# Reap any unamed sessions which don't have anything attached
+	for session in `tmux list-sessions | grep -v attached | grep '^[0-9]*:' | sed -e's/:.*//'`; do
+		tmux kill-session -t $session;
+	done
+	# Start a new window.
+	exec tmux new-session -t default\; new-window
+else
+        echo "Not starting tmux!"
+	echo "STY='$STY' SSH_CONNECTION='$SSH_CONNECTION' TERM='$TERM'"
+fi
