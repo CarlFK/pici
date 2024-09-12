@@ -5,8 +5,10 @@ WantedBy=multi-user.target
 
 [Unit]
 Description=check for pi to Arty wired
-After=network-online.target
+
+After=network-online.target arty_here.target
 Wants=network-online.target
+
 StartLimitInterval=0
 
 [Service]
