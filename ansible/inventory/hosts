@@ -1,14 +1,15 @@
 [pxe]
-ps1.fpgas.mithis.com ansible_host=76.227.131.206
-fpgas.mithis.com
+ps1.fpgas.online ansible_host=76.227.131.206
+fpgas.online
 
 [pib]
-ps1.fpgas.mithis.com ansible_host=76.227.131.206
-fpgas.mithis.com
+ps1.fpgas.online ansible_host=76.227.131.206
+fpgas.online
 
 [onpi]
 # pi ansible_host=10.21.0.134
 # pi ansible_host=10.21.0.102
 # pi ansible_host=192.168.1.121 ansible_port=10022
 # pi ansible_host=fpgas.mithis.com ansible_port=13422
-pi ansible_host=ps1.fpgas.mithis.com ansible_port=10322
+# pi ansible_host=fpgas.online ansible_port=13622
+pi ansible_host=ps1.fpgas.online ansible_port=10322

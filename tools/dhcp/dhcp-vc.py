@@ -22,7 +22,7 @@ def get_answers(logs):
 
     def remove_roages(logs):
         """
-        fn='/home/carl/src/tv/pib/pici/ansible/inventory/host_vars/ps1.fpgas.mithis.com'
+        fn='/home/carl/src/tv/pib/pici/ansible/inventory/host_vars/ps1.fpgas.online'
         s=open(fn).read()
 
         pi_macs=['b8:27:eb:2f:5d:08', 'dc:a6:32:05:32:45', 'b8:27:eb:d4:f1:74', 'b8:27:eb:33:51:27', 'b8:27:eb:a3:51:b4', 'b8:27:eb:51:01:df', 'b8:27:eb:68:fc:e7', 'b8:27:eb:69:79:a0', 'b8:27:eb:5f:de:85', 'b8:27:eb:0c:f8:43']
