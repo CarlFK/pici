@@ -54,7 +54,7 @@ if [[ ( -z "$STY" ) && (( ! -z "$SSH_CONNECTION" ) || ( x"$TERM" == x"xterm-256c
 		tmux kill-session -t $session;
 	done
 	# Start a new window.
-	exec tmux new-session -t default\; new-window
+	exec tmux new-session -t default\;
 else
         echo "Not starting tmux!"
 	echo "STY='$STY' SSH_CONNECTION='$SSH_CONNECTION' TERM='$TERM'"
