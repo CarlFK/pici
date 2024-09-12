@@ -17,7 +17,7 @@ symbiflow_write_bitstream -d artix7 -f top.fasm -p xc7a35tcsg324-1 -b top.bit
 
 # openFPGALoader -b arty_a7_35t top.bit
 
-# scp -P 10222 top.bit pi@ps1.fpgas.mithis.com:Uploads/t1.bit
-# scp -P 10222 t1.py pi@ps1.fpgas.mithis.com:Uploads
-# ssh -p 10222 pi@ps1.fpgas.mithis.com
+# scp -P 10222 top.bit pi@ps1.fpgas.online:Uploads/t1.bit
+# scp -P 10222 t1.py pi@ps1.fpgas.online:Uploads
+# ssh -p 10222 pi@ps1.fpgas.online
 

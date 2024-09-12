@@ -21,13 +21,14 @@ room_name: k207
 
 time_zone: America/Los_Angeles
 
-common_name: mithis.com
+common_name: fpgas.online
 subject_alt_names:
   - fpgas.mithis.com
   - k207.fpgas.mithis.com
+  - k207.fpgas.online
 
 streaming_frontend_aliases: []
-streaming_frontend_hostname: fpgas.mithis.com
+streaming_frontend_hostname: fpgas.online
 domain_name: "{{ streaming_frontend_hostname}}"
 
 # Tim's
