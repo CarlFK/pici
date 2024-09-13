@@ -27,7 +27,7 @@ def mk_params():
     # the protocol deails get mapped to pysnmp.hlapi constants
     # and what physical ports are used.
 
-    # put all the thigns here and return it
+    # put all the snmp parameters in params dict and return it
     params = {}
 
     # get local switch settings and secrets from env vars
@@ -105,7 +105,10 @@ def mk_params():
     return params
 
 def transform_ret(o):
-    # if o['errorIndication'] is None:
+    """
+    Extract the interesting info out of what we get from snmp
+    """
+
     try:
         v = o['varBinds']
         v0=v[0]
@@ -120,6 +123,8 @@ def transform_ret(o):
 
 def notify_dcws(port,state):
 
+    # send message to browser via web socket
+
     pi_name=f"pi{port}"
     group = f"pistat_{pi_name}"
     message_type="stat.message"
@@ -133,8 +138,8 @@ def snmp_set_state(host, username, authKey, privKey, oid, port, state,
 
     """
     state:
-    1=on
-    2=off
+        1=on
+        2=off
     """
 
     connectto = hlapi.UdpTransportTarget((host, 161))
