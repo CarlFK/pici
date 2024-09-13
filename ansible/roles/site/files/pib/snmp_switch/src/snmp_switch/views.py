@@ -9,7 +9,7 @@ from pprint import pprint
 
 from pysnmp import hlapi
 
-from snmp_switch.utils import mk_params, snmp_set_state, snmp_status, snmp_toggle
+from snmp_switch.utils import mk_params, snmp_set_state, snmp_status
 
 @csrf_exempt
 def toggle(request):
@@ -26,7 +26,7 @@ def toggle(request):
     d = snmp_set_state( state='2', **params )
     ret[port].append(d['state'])
 
-    time.sleep(1)
+    time.sleep(.5)
 
     d = snmp_set_state( state='1', **params )
     ret[port].append(d['state'])

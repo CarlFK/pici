@@ -182,68 +182,6 @@ def snmp_set_state(host, username, authKey, privKey, oid, port, state,
     return ret
 
 
-def snmp_toggle(host, username, authKey, privKey, oid, port,
-        authProtocol, privProtocol):
-
-    connectto = hlapi.UdpTransportTarget((host, 161))
-    obj_id = hlapi.ObjectIdentity(oid + '.' + port)
-    obj_off = hlapi.ObjectType(obj_id, rfc1902.Integer(2))
-    obj_on = hlapi.ObjectType(obj_id, rfc1902.Integer(1))
-
-    auth = hlapi.UsmUserData(
-        userName=username,
-        authKey=authKey,
-        authProtocol=authProtocol, #usmHMACSHAAuthProtocol,
-        privKey=privKey,
-        privProtocol=privProtocol #usmAesCfb256Protocol
-    )
-
-    engine = hlapi.SnmpEngine()
-
-    iterator = hlapi.setCmd(
-        engine,
-        auth,
-        connectto,
-        hlapi.ContextData(),
-        obj_off
-    )
-    errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
-
-    pi_name=f"pi{port}"
-    group = f"pistat_{pi_name}"
-    message_type="stat.message"
-
-    message_text="snmp: power off"
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)( group, {"type": message_type, "message": message_text} )
-
-    sleep(2)
-
-    iterator = hlapi.setCmd(
-        engine,
-        auth,
-        connectto,
-        hlapi.ContextData(),
-        obj_on
-    )
-    errorIndication2, errorStatus2, errorIndex2, varBinds2 = next(iterator)
-
-    message_text="snmp: power on"
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)( group, {"type": message_type, "message": message_text} )
-
-    return {
-            'errorIndication': errorIndication,
-            'errorStatus': errorStatus,
-            'errorIndex': errorIndex,
-            'varBinds': varBinds,
-            'errorIndication2': errorIndication2,
-            'errorStatus2': errorStatus2,
-            'errorIndex2': errorIndex2,
-            'varBinds2': varBinds2
-    }
-
-
 def snmp_status(host, username, authKey, privKey, oid, port,
         authProtocol, privProtocol):
 
@@ -301,21 +239,6 @@ def check_iterator(iterator):
     if varBinds:
         print(varBinds[0].prettyPrint())
 
-"""
-check_iterator(get_cmd(obj_get))
-#print(obj_id.getOid(), ' - ', obj_id.getLabel(), ' - ', obj_id.getMibSymbol())
-
-# Turn the port off.
-check_iterator(set_cmd(obj_off))
-sleep(2)
-check_iterator(get_cmd(obj_get))
-sleep(2)
-
-# Turn the port on.
-check_iterator(set_cmd(obj_on))
-sleep(2)
-check_iterator(get_cmd(obj_get))
-"""
 
 def get_args():
 
@@ -352,7 +275,6 @@ def test_mkparams():
     pprint(params)
     o = snmp_status( **params )
     # o = snmp_set_state( state=1, **params )
-    # o = snmp_toggle( **params )
     pprint(o)
 
 def test():
