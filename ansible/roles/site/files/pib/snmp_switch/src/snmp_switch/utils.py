@@ -8,11 +8,6 @@ from time import sleep
 from pysnmp import hlapi
 from pysnmp.proto import rfc1902
 
-# so we can send the browser a message when the power goes off and on:
-# tangle up this code with the django-connect web socket code :(
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
-
 
 def mk_params():
     # construct params: a dictionary of parameters
@@ -121,18 +116,6 @@ def transform_ret(o):
 
     return ret
 
-def notify_dcws(port,state):
-
-    # send message to browser via web socket
-
-    pi_name=f"pi{port}"
-    group = f"pistat_{pi_name}"
-    message_type="stat.message"
-    message_text=f"snmp: power {state}"
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)( group, {"type": message_type, "message": message_text} )
-
-
 def snmp_set_state(host, username, authKey, privKey, oid, port, state,
         authProtocol, privProtocol):
 
@@ -173,8 +156,6 @@ def snmp_set_state(host, username, authKey, privKey, oid, port, state,
     except Exception as e:
         print(e)
         state = None
-
-    notify_dcws(port,state)
 
     ret = {
             'errorIndication': errorIndication,
@@ -222,8 +203,6 @@ def snmp_status(host, username, authKey, privKey, oid, port,
         print(e)
         state = None
 
-    notify_dcws(port,state)
-
     return {
         'errorIndication': errorIndication,
         'errorStatus': errorStatus,
@@ -259,14 +238,7 @@ def get_args():
             nargs='?',
             )
 
-    parser.add_argument('--site-path', '-p',
-            default = "/srv/www/pib",
-            help="DJANGO_SETTINGS_MODULE")
-
-    parser.add_argument('--django-settings', '-s',
-            default = "pib.settings",
-            help="DJANGO_SETTINGS_MODULE")
-
+    parser.add_argument('-t', '--test', help="run a test", action="store_true")
     parser.add_argument('-v', '--verbose', action="store_true")
 
     args = parser.parse_args()
@@ -282,17 +254,10 @@ def test_mkparams():
     # o = snmp_set_state( state=1, **params )
     pprint(o)
 
-def test():
+def test(args):
     test_mkparams()
 
-def init_dcwc(site_path, django_settings_module):
-    sys.path.insert(0, site_path)
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", django_settings_module)
-
-def main():
-    args = get_args()
-
-    init_dcwc(args.site_path, args.django_settings)
+def main2(args):
 
     params = mk_params()
     params['port'] = args.port
@@ -310,6 +275,15 @@ def main():
         i = transform_ret(o)
         state={1:'on',2:'off'}[i]
         print(f"{args.port=} {state=}")
+
+def main():
+    args = get_args()
+
+    if args.test:
+        test(args)
+    else:
+        main2(args)
+
 
 
 if __name__=='__main__':

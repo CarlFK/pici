@@ -11,6 +11,23 @@ from pysnmp import hlapi
 
 from snmp_switch.utils import mk_params, snmp_set_state, snmp_status
 
+# so we can send the browser a message when the power goes off and on:
+# tangle up this code with the django-connect web socket code :(
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
+def notify_dcws(port,state):
+
+    # send message to browser via web socket
+
+    pi_name=f"pi{port}"
+    group = f"pistat_{pi_name}"
+    message_type="stat.message"
+    message_text=f"snmp: power {state}"
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)( group, {"type": message_type, "message": message_text} )
+
+
 @csrf_exempt
 def toggle(request):
     # turn the port off and on again
@@ -24,11 +41,13 @@ def toggle(request):
     ret = {port:[]}
 
     d = snmp_set_state( state='2', **params )
+    notify_dcws(port,d['state'])
     ret[port].append(d['state'])
 
     time.sleep(.5)
 
     d = snmp_set_state( state='1', **params )
+    notify_dcws(port,d['state'])
     ret[port].append(d['state'])
 
     response = HttpResponse(content_type="application/json")
@@ -48,6 +67,7 @@ def toggle_all(request):
     for port in range(1,48):
         params['port'] = str(port)
         d = snmp_set_state( state='2', **params )
+        notify_dcws(port,d['state'])
         ret[port].append(d['state'])
 
     time.sleep(1)
@@ -56,6 +76,7 @@ def toggle_all(request):
     for port in range(1,48):
         params['port'] = str(port)
         d = snmp_set_state( state='1', **params )
+        notify_dcws(port,d['state'])
         ret['was'][port] = d['state']
 
     response = HttpResponse(content_type="application/json")
@@ -76,6 +97,7 @@ def off_all(request):
     for port in range(1,48):
         params['port'] = str(port)
         d = snmp_set_state( state='2', **params )
+        notify_dcws(port,d['state'])
         ret[port].append(d['state'])
 
     response = HttpResponse(content_type="application/json")
@@ -96,6 +118,8 @@ def status(request):
     d=snmp_status( **params )
 
     d = {'state':d['state']}
+    notify_dcws(port,d['state'])
+
     response = HttpResponse(content_type="application/json")
     json.dump(d, response)
 
