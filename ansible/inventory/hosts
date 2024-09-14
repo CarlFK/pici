@@ -1,10 +1,12 @@
 [pxe]
 ps1.fpgas.online ansible_host=76.227.131.206
 fpgas.online
+fpgas.mithis.com
 
 [pib]
 ps1.fpgas.online ansible_host=76.227.131.206
 fpgas.online
+fpgas.mithis.com
 
 [onpi]
 # pi ansible_host=10.21.0.134

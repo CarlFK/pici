@@ -36,6 +36,7 @@
   with_items:
     - fpga.png
     - intro.png
+    - clippy.js
   tags:
     - index.html
 

@@ -1,7 +1,7 @@
 ---
 ansible_python_interpreter: /usr/bin/python3
 
-domain: mithis.com
+domain: fpgas.online
 # user_name: videoteam
 
 ssh_password_auth: false

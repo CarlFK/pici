@@ -7,6 +7,7 @@
   <script src="//vjs.zencdn.net/8.4.0/video.min.js"></script>
   <script src="https://f4pga-examples.readthedocs.io/en/latest/_static/javascripts/f4pga.js"></script>
   <script src="dcws.js"></script>
+  <script src="clippy.js"></script>
 
   <style>
   p {
@@ -95,6 +96,7 @@
       <video
         id="video-player{{pi.port}}"
         class="video-js"
+        width=320 height=200
         controls
         autoplay
         muted
@@ -129,7 +131,13 @@
       vlc https://{{ domain_name }}/live/pi{{pi.port}}.m3u8
     </td><td colspan=2>
       Use your own ssh client. user: pi, host: {{ domain_name }}, port {{100+pi.port}}22, <br>
-      linux cheatsheet: <div class="highlight-bash notranslate"><div class="highlight">ssh -p {{100+pi.port}}22 pi@{{ domain_name }}<br>
+      linux cheatsheet: <div class="highlight-bash notranslate"><div id="sshcmd" class="highlight" >ssh -p {{100+pi.port}}22 pi@{{ domain_name }}</div></div>
+
+     <button onclick="clipMe('sshcmd')">
+       <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy js-clipboard-copy-icon m-2"> <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path> </svg>
+     </button>
+
+      <br>
     </td>
   </tr>
 </table>
