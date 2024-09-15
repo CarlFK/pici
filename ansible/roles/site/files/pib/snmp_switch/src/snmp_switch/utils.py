@@ -6,35 +6,11 @@ import os
 from pprint import pprint
 from time import sleep
 
-from pysnmp import hlapi
+import pysnmp
+
+from pysnmp.hlapi import v3arch
 from pysnmp.proto import rfc1902
 from pysnmp.smi.rfc1902 import ObjectIdentity, ObjectType
-
-from pysnmp.hlapi import asyncio as hlapi3
-from pysnmp.hlapi.v3arch import asyncio as terhl # terrible hack
-
-class hlapic:
-    usmNoAuthProtocol = terhl.USM_AUTH_NONE
-    usmHMACMD5AuthProtocol = terhl.USM_AUTH_HMAC96_MD5
-    usmHMACSHAAuthProtocol = terhl.USM_AUTH_HMAC96_SHA
-    usmHMAC128SHA224AuthProtocol = terhl.USM_AUTH_HMAC128_SHA224
-    usmHMAC192SHA256AuthProtocol = terhl.USM_AUTH_HMAC192_SHA256
-    usmHMAC256SHA384AuthProtocol = terhl.USM_AUTH_HMAC256_SHA384
-    usmHMAC384SHA512AuthProtocol = terhl.USM_AUTH_HMAC384_SHA512
-    usmNoPrivProtocol = terhl.USM_PRIV_NONE
-    usm3DESEDEPrivProtocol = terhl.USM_PRIV_CBC168_3DES
-    #'AES': None,
-    usmAesCfb128Protocol = terhl.USM_PRIV_CFB128_AES
-    usmAesCfb192Protocol = terhl.USM_PRIV_CFB192_AES
-    #'AES192BLMT': None,
-    usmAesCfb256Protocol = terhl.USM_PRIV_CFB256_AES
-    #'AES256BLMT': None,
-    usmDESPrivProtocol = terhl.USM_PRIV_CBC56_DES
-
-# so we can send the browser a message when the power goes off and on:
-# tangle up this code with the django-connect web socket code :(
-##from channels.layers import get_channel_layer
-##from asgiref.sync import async_to_sync
 
 
 def mk_params():
@@ -73,51 +49,36 @@ def mk_params():
     ansible inventory will use the strings used by snmpget.py:
     -a AUTH-PROTOCOL      authentication protocol ID (MD5|SHA|SHA224|SHA256|SHA384|SHA512)
 
-    map those strings to pysnmp.hlapi constants:
-
-    usmNoAuthProtocol (default is authKey not given)
-    usmHMACMD5AuthProtocol (default if authKey is given)
-    usmHMACSHAAuthProtocol
-    usmHMAC128SHA224AuthProtocol
-    usmHMAC192SHA256AuthProtocol
-    usmHMAC256SHA384AuthProtocol
-    usmHMAC384SHA512AuthProtocol
+    map those cli strings to pysnmp.hlapi constants:
     """
 
     k = os.environ.get('SNMP_SWITCH_AUTH_PROTOCOL')
     params['authProtocol'] = {
-        'NoAuth': hlapic.usmNoAuthProtocol,
-        'MD5': hlapic.usmHMACMD5AuthProtocol,
-        'SHA': hlapic.usmHMACSHAAuthProtocol,
-        'SHA224': hlapic.usmHMAC128SHA224AuthProtocol,
-        'SHA256': hlapic.usmHMAC192SHA256AuthProtocol,
-        'SHA384': hlapic.usmHMAC256SHA384AuthProtocol,
-        'SHA512': hlapic.usmHMAC384SHA512AuthProtocol,
+        'NoAuth': v3arch.asyncio.USM_AUTH_NONE,
+        'MD5':    v3arch.asyncio.USM_AUTH_HMAC96_MD5,
+        'SHA':    v3arch.asyncio.USM_AUTH_HMAC96_MD5,
+        'SHA224': v3arch.asyncio.USM_AUTH_HMAC128_SHA224,
+        'SHA256': v3arch.asyncio.USM_AUTH_HMAC192_SHA256,
+        'SHA384': v3arch.asyncio.USM_AUTH_HMAC256_SHA384,
+        'SHA512': v3arch.asyncio.USM_AUTH_HMAC384_SHA512,
         }[k]
 
     """
     same for
    -x PRIV-PROTOCOL      privacy protocol ID (3DES|AES|AES128|AES192|AES192BLMT|AES256|AES256BLMT|DES)
-
-    usmNoPrivProtocol (default if privKey not given)
-    usmDESPrivProtocol (default if privKey is given)
-    usm3DESEDEPrivProtocol
-    usmAesCfb128Protocol
-    usmAesCfb192Protocol
-    usmAesCfb256Protocol
     """
 
     k = os.environ.get('SNMP_SWITCH_PRIV_PROTOCOL')
     params['privProtocol'] = {
-        'NoPriv': hlapic.usmNoPrivProtocol,
-        '3DES': hlapic.usm3DESEDEPrivProtocol,
-        'AES': None,
-        'AES128': hlapic.usmAesCfb128Protocol,
-        'AES192': hlapic.usmAesCfb192Protocol,
+        'NoPriv':     v3arch.asyncio.USM_AUTH_HMAC384_SHA512,
+        '3DES':       v3arch.asyncio.USM_PRIV_CBC168_3DES,
+        'AES':        None,
+        'AES128':     v3arch.asyncio.USM_PRIV_CFB128_AES,
+        'AES192':     v3arch.asyncio.USM_PRIV_CFB192_AES,
         'AES192BLMT': None,
-        'AES256': hlapic.usmAesCfb256Protocol,
+        'AES256':     v3arch.asyncio.USM_PRIV_CFB256_AES,
         'AES256BLMT': None,
-        'DES': hlapic.usmDESPrivProtocol,
+        'DES':        v3arch.asyncio.USM_PRIV_CBC56_DES,
         }[k]
 
     # port is the rj45 port on the 24 or 48 or howmanyever port switch.
@@ -144,19 +105,7 @@ def transform_ret(o):
 
     return ret
 
-def notify_dcws(port,state):
-
-    # send message to browser via web socket
-
-    pi_name=f"pi{port}"
-    group = f"pistat_{pi_name}"
-    message_type="stat.message"
-    message_text=f"snmp: power {state}"
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)( group, {"type": message_type, "message": message_text} )
-
-
-def snmp_set_state(host, username, authKey, privKey, oid, port, state,
+async def snmp_set_state(host, username, authKey, privKey, oid, port, state,
         authProtocol, privProtocol):
 
     """
@@ -165,29 +114,29 @@ def snmp_set_state(host, username, authKey, privKey, oid, port, state,
         2=off
     """
 
-    connectto = hlapi.UdpTransportTarget((host, 161))
+    connectto = await v3arch.asyncio.UdpTransportTarget.create((host, 161))
     obj_id = ObjectIdentity(oid + '.' + port)
 
     obj_state = ObjectType(obj_id, rfc1902.Integer(state))
 
-    auth = hlapi.UsmUserData(
+    auth = v3arch.UsmUserData(
         userName=username,
         authKey=authKey,
-        authProtocol=authProtocol, #usmHMACSHAAuthProtocol,
+        authProtocol=authProtocol,
         privKey=privKey,
-        privProtocol=privProtocol #usmAesCfb256Protocol
+        privProtocol=privProtocol,
     )
 
-    engine = hlapi.SnmpEngine()
+    engine = v3arch.SnmpEngine()
 
-    iterator = hlapi.setCmd(
+    iterator = await v3arch.setCmd(
         engine,
         auth,
         connectto,
-        hlapi.ContextData(),
+        v3arch.ContextData(),
         obj_state
     )
-    errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
+    errorIndication, errorStatus, errorIndex, varBinds = iterator
 
     try:
         v0 = varBinds[0]
@@ -196,8 +145,6 @@ def snmp_set_state(host, username, authKey, privKey, oid, port, state,
     except Exception as e:
         print(e)
         state = None
-
-    ###notify_dcws(port,state)
 
     ret = {
             'errorIndication': errorIndication,
@@ -213,12 +160,11 @@ def snmp_set_state(host, username, authKey, privKey, oid, port, state,
 async def snmp_status(host, username, authKey, privKey, oid, port,
         authProtocol, privProtocol):
 
-    #connectto = hlapi.UdpTransportTarget((host, 161))
-    connectto = await hlapi3.UdpTransportTarget.create((host, 161))
+    connectto = await v3arch.asyncio.UdpTransportTarget.create((host, 161))
     obj_id = ObjectIdentity(oid + '.' + port)
     obj_get = ObjectType(obj_id)
 
-    auth = hlapi3.UsmUserData(
+    auth = v3arch.asyncio.UsmUserData(
         userName=username,
         authKey=authKey,
         authProtocol=authProtocol,
@@ -226,17 +172,16 @@ async def snmp_status(host, username, authKey, privKey, oid, port,
         privProtocol=privProtocol
     )
 
-    engine = hlapi3.SnmpEngine()
+    engine = v3arch.asyncio.SnmpEngine()
 
-    iterator = await hlapi3.getCmd(
+    iterator = await v3arch.asyncio.getCmd(
         engine,
         auth,
         connectto,
-        hlapi3.ContextData(),
+        v3arch.asyncio.ContextData(),
         obj_get
     )
 
-    #errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
     errorIndication, errorStatus, errorIndex, varBinds = iterator
 
     try:
@@ -247,8 +192,6 @@ async def snmp_status(host, username, authKey, privKey, oid, port,
         print(e)
         state = None
 
-    ###notify_dcws(port,state)
-
     return {
         'errorIndication': errorIndication,
         'errorStatus': errorStatus,
@@ -258,25 +201,15 @@ async def snmp_status(host, username, authKey, privKey, oid, port,
     }
 
 
-def check_iterator(iterator):
-    errorIndication, errorStatus, errorIndex, varBinds = next(iterator)
-    if errorIndication:
-        print(errorIndication)
-    if errorStatus:
-        print(errorStatus)
-    if errorIndex:
-        print(errorIndex)
-    if varBinds:
-        print(varBinds[0].prettyPrint())
-
 
 def get_args():
 
     parser = argparse.ArgumentParser(
-            description="PoE set and get")
+            description="PoE get and set")
 
     parser.add_argument('port',
             help='Which physical port on the switch.',
+            nargs='?',
             )
 
     parser.add_argument('state',
@@ -284,14 +217,7 @@ def get_args():
             nargs='?',
             )
 
-    parser.add_argument('--site-path', '-p',
-            default = "/srv/www/pib",
-            help="DJANGO_SETTINGS_MODULE")
-
-    parser.add_argument('--django-settings', '-s',
-            default = "pib.settings",
-            help="DJANGO_SETTINGS_MODULE")
-
+    parser.add_argument('-t', '--test', help="run test(s)", action="store_true")
     parser.add_argument('-v', '--verbose', action="store_true")
 
     args = parser.parse_args()
@@ -299,25 +225,17 @@ def get_args():
     return args
 
 
-def test_mkparams():
+def test_mkparams(args):
     params = mk_params()
-    params['port'] = '2'
+    params['port'] = args.port
     pprint(params)
-    o = asyncio.get_event_loop().run_until_complete(snmp_status( **params ))
-    # o = snmp_set_state( state=1, **params )
-    pprint(o)
+    # o = asyncio.get_event_loop().run_until_complete(snmp_status( **params ))
+    # pprint(o)
 
-def test():
-    test_mkparams()
+def test(args):
+    test_mkparams(args)
 
-def init_dcwc(site_path, django_settings_module):
-    sys.path.insert(0, site_path)
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", django_settings_module)
-
-def main():
-    args = get_args()
-
-    init_dcwc(args.site_path, args.django_settings)
+def main2(args):
 
     params = mk_params()
     params['port'] = args.port
@@ -330,12 +248,20 @@ def main():
     print(f"{args.port=} {state=}")
 
     if args.state is not None:
-        o = snmp_set_state( state=args.state, **params )
+        o = asyncio.get_event_loop().run_until_complete(snmp_set_state( state=args.state, **params ))
         if args.verbose: pprint(o)
         i = transform_ret(o)
         state={1:'on',2:'off'}[i]
         print(f"{args.port=} {state=}")
 
+
+def main():
+    args = get_args()
+
+    if args.test:
+        test(args)
+    else:
+        main2(args)
 
 if __name__=='__main__':
     main()
