@@ -24,5 +24,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('snmp/', include('snmp_switch.urls')),
     path('pistat/', include('pistat.urls')),
-    path('demos/', include('pibdemos.urls')),
 ]
