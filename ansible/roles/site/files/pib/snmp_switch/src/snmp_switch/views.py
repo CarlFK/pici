@@ -1,11 +1,15 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 
-from django.views.decorators.csrf import csrf_exempt
-
+import asyncio
 import json
 import time
+
 from pprint import pprint
+
+from asgiref.sync import sync_to_async
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from pysnmp import hlapi
 
@@ -38,8 +42,7 @@ def status(request):
     port = o['port']
     params['port'] = port
 
-    d=snmp_get_state( **params )
-
+    d = async_to_sync(snmp_get_state)( **params )
     d = {'state':d['state']}
     notify_dcws(port,d['state'])
 
@@ -60,13 +63,13 @@ def toggle(request):
 
     ret = {port:[]}
 
-    d = snmp_set_state( state='2', **params )
+    d = async_to_sync(snmp_set_state)(state='2',**params)
     notify_dcws(port,d['state'])
     ret[port].append(d['state'])
 
     time.sleep(.5)
 
-    d = snmp_set_state( state='1', **params )
+    d = async_to_sync(snmp_set_state)(state='1',**params)
     notify_dcws(port,d['state'])
     ret[port].append(d['state'])
 

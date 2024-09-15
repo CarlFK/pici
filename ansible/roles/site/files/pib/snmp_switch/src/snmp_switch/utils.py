@@ -231,6 +231,7 @@ def test_mkparams(args):
     params['port'] = args.port
     pprint(params)
     # o = asyncio.get_event_loop().run_until_complete(snmp_get_state( **params ))
+    # o = asyncio.run( snmp_get_state(**params) )
     # pprint(o)
 
 def test(args):
@@ -241,7 +242,7 @@ def main2(args):
     params = mk_params()
     params['port'] = args.port
 
-    o = asyncio.get_event_loop().run_until_complete(snmp_get_state( **params ))
+    o=asyncio.run( snmp_get_state(**params) )
     if args.verbose: pprint(o)
 
     i = transform_ret(o)
@@ -249,7 +250,7 @@ def main2(args):
     print(f"{args.port=} {state=}")
 
     if args.state is not None:
-        o = asyncio.get_event_loop().run_until_complete(snmp_set_state( state=args.state, **params ))
+        o=asyncio.run( snmp_set_state(**params, state=args.state) )
         if args.verbose: pprint(o)
         i = transform_ret(o)
         state={1:'on',2:'off'}[i]
