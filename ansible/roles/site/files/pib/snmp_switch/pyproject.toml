@@ -25,7 +25,7 @@ dependencies=[
 
 [project.optional-dependencies]
 cli = [
-  "snmpclitools",
+  # "snmpclitools",
 ]
 [project.urls]
 Repository =  "https://github.com/CarlFK/pib"
