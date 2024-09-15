@@ -9,7 +9,7 @@ from pprint import pprint
 
 from pysnmp import hlapi
 
-from snmp_switch.utils import mk_params, snmp_set_state, snmp_status
+from snmp_switch.utils import mk_params, snmp_get_state, snmp_set_state
 
 # so we can send the browser a message when the power goes off and on:
 # tangle up this code with the django-connect web socket code :(
@@ -27,6 +27,26 @@ def notify_dcws(port,state):
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)( group, {"type": message_type, "message": message_text} )
 
+
+@csrf_exempt
+def status(request):
+    # get_state (it's a getter yo.)
+
+    params = mk_params()
+
+    o = json.loads(request.body)
+    port = o['port']
+    params['port'] = port
+
+    d=snmp_get_state( **params )
+
+    d = {'state':d['state']}
+    notify_dcws(port,d['state'])
+
+    response = HttpResponse(content_type="application/json")
+    json.dump(d, response)
+
+    return response
 
 @csrf_exempt
 def toggle(request):
@@ -106,21 +126,3 @@ def off_all(request):
     return response
 
 
-@csrf_exempt
-def status(request):
-
-    params = mk_params()
-
-    o = json.loads(request.body)
-    port = o['port']
-    params['port'] = port
-
-    d=snmp_status( **params )
-
-    d = {'state':d['state']}
-    notify_dcws(port,d['state'])
-
-    response = HttpResponse(content_type="application/json")
-    json.dump(d, response)
-
-    return response
