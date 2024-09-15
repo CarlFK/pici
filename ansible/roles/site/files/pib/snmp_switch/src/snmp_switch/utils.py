@@ -105,6 +105,51 @@ def transform_ret(o):
 
     return ret
 
+async def snmp_get_state(host, username, authKey, privKey, oid, port,
+        authProtocol, privProtocol):
+
+    connectto = await v3arch.asyncio.UdpTransportTarget.create((host, 161))
+    obj_id = ObjectIdentity(oid + '.' + port)
+    obj_get = ObjectType(obj_id)
+
+    auth = v3arch.asyncio.UsmUserData(
+        userName=username,
+        authKey=authKey,
+        authProtocol=authProtocol,
+        privKey=privKey,
+        privProtocol=privProtocol
+    )
+
+    engine = v3arch.asyncio.SnmpEngine()
+
+    iterator = await v3arch.asyncio.getCmd(
+        engine,
+        auth,
+        connectto,
+        v3arch.asyncio.ContextData(),
+        obj_get
+    )
+
+    errorIndication, errorStatus, errorIndex, varBinds = iterator
+
+    try:
+        v0 = varBinds[0]
+        i = v0[1]
+        state={1:'on',2:'off'}[i]
+    except Exception as e:
+        print(e)
+        state = None
+
+    return {
+        'errorIndication': errorIndication,
+        'errorStatus': errorStatus,
+        'errorIndex': errorIndex,
+        'varBinds': varBinds,
+        'state': state,
+    }
+
+
+
 async def snmp_set_state(host, username, authKey, privKey, oid, port, state,
         authProtocol, privProtocol):
 
@@ -157,50 +202,6 @@ async def snmp_set_state(host, username, authKey, privKey, oid, port, state,
     return ret
 
 
-async def snmp_status(host, username, authKey, privKey, oid, port,
-        authProtocol, privProtocol):
-
-    connectto = await v3arch.asyncio.UdpTransportTarget.create((host, 161))
-    obj_id = ObjectIdentity(oid + '.' + port)
-    obj_get = ObjectType(obj_id)
-
-    auth = v3arch.asyncio.UsmUserData(
-        userName=username,
-        authKey=authKey,
-        authProtocol=authProtocol,
-        privKey=privKey,
-        privProtocol=privProtocol
-    )
-
-    engine = v3arch.asyncio.SnmpEngine()
-
-    iterator = await v3arch.asyncio.getCmd(
-        engine,
-        auth,
-        connectto,
-        v3arch.asyncio.ContextData(),
-        obj_get
-    )
-
-    errorIndication, errorStatus, errorIndex, varBinds = iterator
-
-    try:
-        v0 = varBinds[0]
-        i = v0[1]
-        state={1:'on',2:'off'}[i]
-    except Exception as e:
-        print(e)
-        state = None
-
-    return {
-        'errorIndication': errorIndication,
-        'errorStatus': errorStatus,
-        'errorIndex': errorIndex,
-        'varBinds': varBinds,
-        'state': state,
-    }
-
-
 
 def get_args():
 
@@ -229,7 +230,7 @@ def test_mkparams(args):
     params = mk_params()
     params['port'] = args.port
     pprint(params)
-    # o = asyncio.get_event_loop().run_until_complete(snmp_status( **params ))
+    # o = asyncio.get_event_loop().run_until_complete(snmp_get_state( **params ))
     # pprint(o)
 
 def test(args):
@@ -240,7 +241,7 @@ def main2(args):
     params = mk_params()
     params['port'] = args.port
 
-    o = asyncio.get_event_loop().run_until_complete(snmp_status( **params ))
+    o = asyncio.get_event_loop().run_until_complete(snmp_get_state( **params ))
     if args.verbose: pprint(o)
 
     i = transform_ret(o)
