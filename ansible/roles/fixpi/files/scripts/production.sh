@@ -24,7 +24,7 @@ systemctl stop nfs-server.service
 touch ${root}/var/lib/dhcp/dhclient.leases
 rm ${root}/var/lib/dhcp/dhclient.leases
 
-rm ${root}/var/log/journal/*/system.journal
+rm ${root}/var/log/journal/*/system.journal || true # if there is no file, don't error.
 
 # turn on overlayroot
 sed -i -E "/.*/s/overlayroot=(tmpfs)?/overlayroot=tmpfs/" ${boot}/cmdline.txt
