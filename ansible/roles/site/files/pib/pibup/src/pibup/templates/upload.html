@@ -1,0 +1,6 @@
+<form method="post" enctype="multipart/form-data" action="upload?pino={{pino}}">
+  {% csrf_token %}
+  {{form}}
+  <input type="hidden" name=pino value={{pino}}>
+  <input type=submit>
+</form>

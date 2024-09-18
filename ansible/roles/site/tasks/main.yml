@@ -9,6 +9,7 @@
 - {include_tasks: snmp.yml, tags: [snmp, django] }
 - {include_tasks: pistat.yml, tags: [pistat, django, index.html] }
 - {include_tasks: pibdemos.yml, tags: [pibdemos, django, index.html] }
+- {include_tasks: pibup.yml, tags: [pibup, django, index.html] }
 
 - {include_tasks: django.yml, tags: [snmp, django] }
 
