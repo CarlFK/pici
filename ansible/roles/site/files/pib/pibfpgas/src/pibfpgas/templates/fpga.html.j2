@@ -6,7 +6,6 @@
   <link href="//vjs.zencdn.net/8.4.0/video-js.min.css" rel="stylesheet">
   <script src="//vjs.zencdn.net/8.4.0/video.min.js"></script>
   <script src="dcws.js"></script>
-  <script src="clippy.js"></script>
 
   <script src="https://f4pga-examples.readthedocs.io/en/latest/_static/jquery.js"></script>
   <link rel="stylesheet" href="https://f4pga-examples.readthedocs.io/en/latest/_static/stylesheets/f4pga.css"/>
@@ -72,7 +71,7 @@
       Pi location and patch cable color: {{pi.loc}} {{pi.cable_color}} <br>
     </td>
     <td>
-      <a href="pibup/upload/?pino={{pi.port}}">upload</a>
+{% include "upload.html" %}
     </td>
   </tr><tr>
     <td colspan=3>
@@ -114,7 +113,7 @@
         />
       </video>
     </td><td colspan=2>
-      <iframe id="wssh_if" style="width: 100%;" src="https://{{ domain_name }}/wssh/?hostname=10.21.0.{{100+pi.port}}&username=pi&title=pi{{pi.port}}&password={{pi_pw|b64encode}}">
+      <iframe id="wssh_if" style="width: 100%;" src="https://{{ domain_name }}/wssh/?hostname={{ip}}&username=pi&title=pi{{pi.port}}&password={{pw}}">
       SSH TERMINAL GOES HERE.
       </iframe>
     </td>
@@ -140,12 +139,12 @@
       </div>
 
     </td><td colspan=2>
-      Use your own ssh client. user: pi, host: {{ domain_name }}, port {{100+pi.port}}22, <br>
+      Use your own ssh client. user: pi, host: {{ domain_name }}, port {{o}}22, <br>
       linux cheatsheet:
 
       <div class="highlight-bash notranslate">
           <div class=highlight style="position:relative">
-             <pre click-to-copy="click to copy...">ssh -p {{100+pi.port}}22 pi@{{ domain_name }}</pre>
+             <pre click-to-copy="click to copy...">ssh -p {{o}}22 pi@{{ domain_name }}</pre>
           </div>
       </div>
 

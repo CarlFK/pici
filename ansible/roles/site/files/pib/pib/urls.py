@@ -14,15 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
 
+from django.urls import path
 from django.urls import include
 
-# import snmp_switch.urls
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-#     path('snmp/', include('snmp_switch.urls')),
-#    path('pistat/', include('pistat.urls')),
+    path('', view=RedirectView.as_view(url="/pibfpgas/")),
+    path('pibfpgas/', include('pibfpgas.urls')),
+    path('snmp/', include('snmp_switch.urls')),
+    path('pistat/', include('pistat.urls')),
     path('pibup/', include('pibup.urls')),
 ]

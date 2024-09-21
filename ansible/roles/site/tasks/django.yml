@@ -53,7 +53,7 @@
   community.general.django_manage:
     command: loaddata
     app_path: "{{ app_dir }}"
-    fixtures: "{{ fixture_path }}"
+    fixtures: "files/pib/pibfpgas/fixtures{{ fixture_path }}"
     virtualenv: "{{ app_dir }}/venv"
   when: fixture_path is defined
 
@@ -64,6 +64,24 @@
     state: present
     regexp: '^ALLOWED_HOSTS = '
     line: "ALLOWED_HOSTS = ['{{ eth_uplink_static_address }}','{{ domain_name }}']"
+  tags:
+    - django
+
+- name: pass the pi's user pw
+  lineinfile:
+    path: "{{ app_dir }}/{{ django_project_name }}/settings.py"
+    state: present
+    regexp: '^pi_pw = '
+    line: "pi_pw = '{{pi_pw|b64encode}}'"
+  tags:
+    - django
+
+- name: pass the pi's user pw
+  lineinfile:
+    path: "{{ app_dir }}/{{ django_project_name }}/settings.py"
+    state: present
+    regexp: '^domain_name = '
+    line: "domain_name = '{{ domain_name }}'"
   tags:
     - django
 

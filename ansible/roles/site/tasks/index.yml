@@ -4,39 +4,3 @@
     path: "{{ static_dir }}"
     state: directory
 
-# password thing:
-# https://github.com/huashengdun/webssh
-# echo Zeij8shi|base64
-
-- name: page of everything
-  template:
-    src: templates/index.html.j2
-    dest: "{{ static_dir }}/index.html"
-  tags:
-    - cam
-    - django
-    - index.html
-
-- name: pages of pis
-  template:
-    src: templates/fpga.html.j2
-    dest: "{{static_dir}}/pi{{pi.port}}.html"
-  with_items: "{{switch.nos}}"
-  loop_control:
-    loop_var: pi
-  tags:
-    - cam
-    - django
-    - index.html
-
-- name: assets
-  copy:
-    src: "files/static/{{item}}"
-    dest: "{{ static_dir }}/{{item}}"
-  with_items:
-    - fpga.png
-    - intro.png
-    - clippy.js
-  tags:
-    - index.html
-
