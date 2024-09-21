@@ -30,6 +30,16 @@
   tags:
     - django
 
+# set CSRF_TRUSTED_ORIGINS
+- name: add server IP address to allowed hosts
+  lineinfile:
+    path: "{{ django_dir }}/{{ django_project_name }}/local_settings.py"
+    state: present
+    regexp: '^CSRF_TRUSTED_ORIGINS = '
+    line: "CSRF_TRUSTED_ORIGINS = ['https://{{ domain_name }}']"
+  tags:
+    - django
+
 - name: pass the pi's user pw
   lineinfile:
     path: "{{ django_dir }}/{{ django_project_name }}/local_settings.py"
