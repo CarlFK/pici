@@ -1,7 +1,7 @@
 ---
 - name: PIP install pibfpgas site app
   ansible.builtin.pip:
-    name: "pibdemos @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/pibfpgas"
+    name: "pibfpgas @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/pibfpgas"
     virtualenv: "{{ app_dir }}/venv"
     state: forcereinstall
   tags:
