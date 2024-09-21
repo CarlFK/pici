@@ -1,1 +1,181 @@
-fpga.html.j2
+<html>
+<head>
+
+  <link rel="icon" href="fpga.png">
+
+  <link href="//vjs.zencdn.net/8.4.0/video-js.min.css" rel="stylesheet">
+  <script src="//vjs.zencdn.net/8.4.0/video.min.js"></script>
+  <script src="dcws.js"></script>
+
+  <script src="https://f4pga-examples.readthedocs.io/en/latest/_static/jquery.js"></script>
+  <link rel="stylesheet" href="https://f4pga-examples.readthedocs.io/en/latest/_static/stylesheets/f4pga.css"/>
+
+  <style>
+  p {
+    margin: 1px;
+  }
+
+  h1 {
+    padding: 5px;
+    margin: 0px;
+  }
+  h2 {
+    padding: 1px;
+    margin: 0px;
+  }
+
+  ul {
+    margin: 0px;
+  }
+
+  table.buttons {
+    width: fit-content;
+    float: left;
+    height: 100%;
+  }
+  table.buttons td {
+    width: fit-content;
+  }
+
+  table td {
+    padding: 5px;
+    border: 1px solid black;
+    width: 30%;
+    text-align: center;
+  }
+  table {
+    width: 100%;
+    height: 90%;
+    text-align: center;
+  }
+  video {
+    width: 100%;
+    height: 100%;
+  }
+  iframe {
+    width: 100%;
+    height: 100%;
+  }
+  </style>
+
+</head>
+
+<body>
+
+<div style="float: right;"> <a href="https://github.com/CarlFK/pici/edit/main/ansible/roles/site/templates/fpga.html.j2">Edit this page</a> on GitHub.</div>
+
+<table>
+  <tr>
+    <td colspan=2>
+      <h1>Accessing pi{{pi.port}}</h1>
+      Pi location and patch cable color: {{pi.loc}} {{pi.cable_color}} <br>
+    </td>
+    <td>
+{% include "upload.html" %}
+    </td>
+  </tr><tr>
+    <td colspan=3>
+        <table class="buttons">
+	 <tr>
+	  <td><h2>Controls:</h2></td>
+	  <td>Check PoE: <input id="status{{pi.port}}" type="submit" value="PoE {{pi.port}}" ></td>
+          <td>Turn it off and on again: <input id="reset{{pi.port}}" type="submit" value="Reset {{pi.port}}" ></td>
+	 </tr>
+	</table>
+        <table class="buttons">
+	 <tr>
+	  <td><h2>Demos:</h2></td>
+
+      <td><input id="blink_leds" type="submit" value="Blink LEDs" ></td>
+      <td><input id="boot_micro_python" type="submit" value="Load MicroPython"></td>
+      <td><input id="boot_linux" type="submit" value="Boot Linux" ></td>
+      <td><input id="check_wire" type="submit" value="Check Wire" ></td>
+
+	 </tr>
+	</table>
+    </td>
+  </tr><tr height="80%">
+    <td>
+      <video
+        id="video-player{{pi.port}}"
+        class="video-js"
+        width=320 height=200
+        controls
+        autoplay
+        muted
+        preload="auto"
+        data-setup="{}"
+	style="width: 100%;"
+      >
+        <source
+            src="https://{{ domain_name }}/live/pi{{pi.port}}.m3u8"
+            type='application/x-mpegURL'
+        />
+      </video>
+    </td><td colspan=2>
+      <iframe id="wssh_if" style="width: 100%;" src="https://{{ domain_name }}/wssh/?hostname={{ip}}&username=pi&title=pi{{pi.port}}&password={{pw}}">
+      SSH TERMINAL GOES HERE.
+      </iframe>
+    </td>
+  </tr><tr>
+    <td colspan=3>
+      <div>
+        <textarea id="log{{pi.port}}" cols="85" rows="4" placeholder="pi status" readonly style="width:100%;"></textarea><br>
+        <input id="log-text{{pi.port}}" type="text" size="20" placeholder="web socket test message">
+        <input id="log-submit{{pi.port}}" type="button" value="Send">
+        <input id="reconnect{{pi.port}}" type="submit" value="reconnect {{pi.port}}" >
+        <input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" >
+      </div>
+    </td>
+  </tr><tr>
+    <td colspan=3><h1>Accessing directly</h1></td>
+  </tr><tr>
+    <td>
+
+      <div class="highlight-bash notranslate">
+          <div class=highlight style="position:relative">
+             <pre click-to-copy="click to copy...">vlc https://{{ domain_name }}/live/pi{{pi.port}}.m3u8</pre>
+          </div>
+      </div>
+
+    </td><td colspan=2>
+      Use your own ssh client. user: pi, host: {{ domain_name }}, port {{o}}22, <br>
+      linux cheatsheet:
+
+      <div class="highlight-bash notranslate">
+          <div class=highlight style="position:relative">
+             <pre click-to-copy="click to copy...">ssh -p {{o}}22 pi@{{ domain_name }}</pre>
+          </div>
+      </div>
+
+      <br>
+    </td>
+  </tr>
+</table>
+
+<script src="https://f4pga-examples.readthedocs.io/en/latest/_static/javascripts/f4pga.js"></script>
+<script>PiStatus("{{pi.port}}")</script>
+<script src="demos.js"></script>
+
+<h1>Useful links</h1>
+<ul>
+  <li>
+    <h2>Toolchains</h2>
+    <p>The Arty A7 development boards have an AMD/Xilinx Artix 7 FPGA which is supported by multiple different toolchains.</p>
+    <ul>
+      <li><a href="https://f4pga.org">F4PGA open source toolchain for Xilinx 7 series (found on Arty A7 FPGAs)</a></li>
+      <li><a href="">OpenXC7 open source toolchain for Xilinx 7 series (found on Arty A7 FPGAs)</a></li>
+      <li><a href="">AMD / Xilinx official Vitis / Vivado toolchain for Xilinx 7 series.</a></li>
+    </ul>
+   </li>
+  <li>
+    <h2>Arty Development Board</h2>
+    <ul>
+      <li><a href="https://f4pga.org">Demos for Arty A7 FPGA board using the F4PGA open source toolchain</a></li>
+      <li><a href="https://digilent.com/reference/programmable-logic/arty-a7/start">Digilent Reference for Arty A7 FPGA board</a></li>
+    </ul>
+  </li>
+</ul>
+
+</body>
+</html>
