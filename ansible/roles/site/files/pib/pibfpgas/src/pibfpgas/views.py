@@ -37,7 +37,7 @@ def one(request, pino):
                 "pi": pi,
                 "o": o,
                 "ip": ip,
-                "pw": settings.pi_pw,
+                "pw": settings.PI_PW,
                 "domain_name": "fpgas.online",
                 "form": form,
                 })
