@@ -22,8 +22,8 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', view=RedirectView.as_view(url="/pibfpgas/")),
-    path('pibfpgas/', include('pibfpgas.urls')),
+    path('', view=RedirectView.as_view(url="/fpgas/")),
+    path('fpgas/', include('pibfpgas.urls')),
     path('snmp/', include('snmp_switch.urls')),
     path('pistat/', include('pistat.urls')),
     path('pibup/', include('pibup.urls')),
