@@ -34,8 +34,8 @@
   lineinfile:
     path: "{{ django_dir }}/{{ django_project_name }}/local_settings.py"
     state: present
-    regexp: '^pi_pw = '
-    line: "pi_pw = '{{pi_pw|b64encode}}'"
+    regexp: '^PI_PW = '
+    line: "PI_PW = '{{pi_pw|b64encode}}'"
   tags:
     - django
 
@@ -43,8 +43,8 @@
   lineinfile:
     path: "{{ django_dir }}/{{ django_project_name }}/local_settings.py"
     state: present
-    regexp: '^domain_name = '
-    line: "domain_name = '{{ domain_name }}'"
+    regexp: '^DOMAIN_NAME = '
+    line: "DOMAIN_NAME = '{{ domain_name }}'"
   tags:
     - django
 

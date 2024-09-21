@@ -6,6 +6,7 @@
     state: forcereinstall
   tags:
     - pibfpgas
+    - django
 
 - name: Install nginx conf
   ansible.builtin.copy:
@@ -13,3 +14,4 @@
     dest: "/etc/nginx/includes/{{ conference_name }}-pibfpgas.conf"
   tags:
     - pibfpgas
+    - django

@@ -6,6 +6,7 @@
     state: forcereinstall
   tags:
     - pibup
+    - django
 
 - name: nginx/pibup.conf
   copy:
@@ -13,5 +14,6 @@
     dest: "/etc/nginx/includes/{{ conference_name }}-pibup.conf"
   tags:
     - pibup
+    - django
 
 

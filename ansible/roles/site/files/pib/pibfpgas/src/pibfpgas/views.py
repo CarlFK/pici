@@ -35,9 +35,10 @@ def one(request, pino):
     return render(request, "fpga.html",
             {
                 "pi": pi,
+                "pino": pino,
                 "o": o,
                 "ip": ip,
                 "pw": settings.PI_PW,
-                "domain_name": "fpgas.online",
+                "domain_name": settings.DOMAIN_NAME,
                 "form": form,
                 })

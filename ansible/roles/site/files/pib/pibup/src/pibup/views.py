@@ -3,10 +3,13 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
+
 import paramiko
 
 from .forms import UploadFileForm
 
+# @csrf_exempt
 def pibup(request):
     pino=request.GET['pino']
     print(f"{pino=}")

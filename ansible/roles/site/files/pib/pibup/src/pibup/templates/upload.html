@@ -1,5 +1,5 @@
-<form id="upform" method="post" enctype="multipart/form-data" action="/pibup/upload?pino={{pi.port}}">
+<form id="upform" method="post" enctype="multipart/form-data" action="/pibup/upload?pino={{pino}}">
   {% csrf_token %}
   {{form}}
-  <input type=submit>
+  <input type=submit value="upload">
 </form>
