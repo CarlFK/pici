@@ -2,7 +2,7 @@
 - name: PIP install pibfpgas site app
   ansible.builtin.pip:
     name: "pibfpgas @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/pibfpgas"
-    virtualenv: "{{ app_dir }}/venv"
+    virtualenv: "{{ django_dir }}/venv"
     state: forcereinstall
   tags:
     - pibfpgas

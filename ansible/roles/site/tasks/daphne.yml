@@ -4,7 +4,7 @@
   pip:
     name:
     - daphne
-    virtualenv: "{{ app_dir }}/venv"
+    virtualenv: "{{ django_dir }}/venv"
 
 - name: copy daphne socket file to /etc/systemd/system/daphne.socket
   template:

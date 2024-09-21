@@ -2,7 +2,7 @@
 - name: PIP install pibdemos site app
   ansible.builtin.pip:
     name: "pibdemos @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/pibdemos"
-    virtualenv: "{{ app_dir }}/venv"
+    virtualenv: "{{ django_dir }}/venv"
     state: forcereinstall
   tags:
     - pibdemos

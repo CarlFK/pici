@@ -2,7 +2,7 @@
 - name: PIP install pibup site app
   ansible.builtin.pip:
     name: "pibup @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/pibup"
-    virtualenv: "{{ app_dir }}/venv"
+    virtualenv: "{{ django_dir }}/venv"
     state: forcereinstall
   tags:
     - pibup

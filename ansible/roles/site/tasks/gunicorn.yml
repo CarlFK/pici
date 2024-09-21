@@ -4,7 +4,7 @@
   pip:
     name:
     - gunicorn
-    virtualenv: "{{ app_dir }}/venv"
+    virtualenv: "{{ django_dir }}/venv"
 
 - name: copy gunicorn socket file to /etc/systemd/system/gunicorn.socket
   template:

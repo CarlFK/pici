@@ -4,7 +4,7 @@
   pip:
     name:
     - uvicorn
-    virtualenv: "{{ app_dir }}/venv"
+    virtualenv: "{{ django_dir }}/venv"
 
 - name: copy uvicorn systemd file to /etc/systemd/system/uvicorn.service
   template:

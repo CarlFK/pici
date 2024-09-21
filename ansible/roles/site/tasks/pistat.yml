@@ -9,7 +9,7 @@
 - name: PIP install pistat site app
   ansible.builtin.pip:
     name: "pistat @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/pistat"
-    virtualenv: "{{ app_dir }}/venv"
+    virtualenv: "{{ django_dir }}/venv"
     state: forcereinstall
   tags:
     - pistat
