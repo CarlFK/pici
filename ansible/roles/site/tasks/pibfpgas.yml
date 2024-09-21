@@ -1,0 +1,15 @@
+---
+- name: PIP install pibfpgas site app
+  ansible.builtin.pip:
+    name: "pibdemos @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/pibfpgas"
+    virtualenv: "{{ app_dir }}/venv"
+    state: forcereinstall
+  tags:
+    - pibfpgas
+
+- name: Install nginx conf
+  ansible.builtin.copy:
+    src: files/pib/pibfpgas/nginx/pibfpgas.conf
+    dest: "/etc/nginx/includes/{{ conference_name }}-pibfpgas.conf"
+  tags:
+    - pibfpgas
