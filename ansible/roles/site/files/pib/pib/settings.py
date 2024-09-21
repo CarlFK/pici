@@ -144,4 +144,4 @@ CHANNEL_LAYERS = {
     },
 }
 
-# from pib.local_settings import *
+from pib.local_settings import *

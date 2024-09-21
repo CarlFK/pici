@@ -7,8 +7,8 @@ After=network.target
 User={{ user_name }}
 Group=www-data
 EnvironmentFile=/etc/environment
-WorkingDirectory={{ app_dir }}
-ExecStart={{ app_dir }}/venv/bin/gunicorn \
+WorkingDirectory={{ django_dir }}
+ExecStart={{ django_dir }}/venv/bin/gunicorn \
           --access-logfile - \
           --workers 3 \
           --bind unix:/run/gunicorn.sock \

@@ -6,8 +6,8 @@ After=network.target
 User={{ user_name }}
 Group=www-data
 EnvironmentFile=/etc/environment
-WorkingDirectory={{ app_dir }}
-ExecStart={{ app_dir }}/venv/bin/uvicorn \
+WorkingDirectory={{ django_dir }}
+ExecStart={{ django_dir }}/venv/bin/uvicorn \
         --workers=4 \
         --port=8084 \
           {{ django_project_name }}.asgi:application

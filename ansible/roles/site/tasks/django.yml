@@ -4,6 +4,8 @@
   file:
     path: "{{ django_dir }}/pib"
     state: directory
+  tags:
+    - django
 
 - name: copy the core pib site files
   copy:
@@ -14,62 +16,14 @@
     - settings.py
     - urls.py
     - asgi.py
-# - local_settings.py
-  tags:
-    - django
-
-- name: copy manage.py into site dir
-  copy:
-    src: "files/pib/manage.py"
-    dest: "{{ django_dir }}"
-
-- name: chmod u+x manage.py
-  file:
-    path: "{{ django_dir }}/manage.py"
-    mode: 'u+x'
-
-# Run Django collectstatic
-# - name: Run manage.py collectstatic
-#   community.general.django_manage:
-#     command: collectstatic
-#     app_path: "{{ django_dir }}"
-#     virtualenv: "{{ django_dir }}/venv"
-
-# Run Django manage.py makemigrations
-- name: Run manage.py makemigrations
-  community.general.django_manage:
-    command: makemigrations
-    app_path: "{{ django_dir }}"
-    virtualenv: "{{ django_dir }}/venv"
-  tags:
-    - django
-
-# Run Django manage.py migrate
-- name: Run manage.py migrate
-  community.general.django_manage:
-    command: migrate
-    app_path: "{{ django_dir }}"
-    virtualenv: "{{ django_dir }}/venv"
-  tags:
-    - django
-
-- name: Load the initial_data fixture into the application
-  community.general.django_manage:
-    command: loaddata
-    project_path:
-      "{{ django_dir }}"
-    app_path: "{{ django_dir }}"
-    fixtures: "files/pib/pibfpgas/fixtures/{{ fixture_path }}"
-    virtualenv: "{{ django_dir }}/venv"
-    fixtures: "{{ initial_data }}"
-  when: fixture_path is defined
+    - local_settings.py
   tags:
     - django
 
 # Change allowed hosts to include the server IP address
 - name: add server IP address to allowed hosts
   lineinfile:
-    path: "{{ django_dir }}/{{ django_project_name }}/settings.py"
+    path: "{{ django_dir }}/{{ django_project_name }}/local_settings.py"
     state: present
     regexp: '^ALLOWED_HOSTS = '
     line: "ALLOWED_HOSTS = ['{{ eth_uplink_static_address }}','{{ domain_name }}']"
@@ -78,19 +32,88 @@
 
 - name: pass the pi's user pw
   lineinfile:
-    path: "{{ django_dir }}/{{ django_project_name }}/settings.py"
+    path: "{{ django_dir }}/{{ django_project_name }}/local_settings.py"
     state: present
     regexp: '^pi_pw = '
     line: "pi_pw = '{{pi_pw|b64encode}}'"
   tags:
     - django
 
-- name: pass the pi's user pw
+- name: sites's domain name
   lineinfile:
-    path: "{{ django_dir }}/{{ django_project_name }}/settings.py"
+    path: "{{ django_dir }}/{{ django_project_name }}/local_settings.py"
     state: present
     regexp: '^domain_name = '
     line: "domain_name = '{{ domain_name }}'"
+  tags:
+    - django
+
+- name: set static dir
+  lineinfile:
+    path: "{{ django_dir }}/{{ django_project_name }}/local_settings.py"
+    state: present
+    regexp: '^STATIC_ROOT = '
+    line: "STATIC_ROOT = '{{ static_dir }}'"
+  tags:
+    - django
+
+- name: copy manage.py into site dir
+  copy:
+    src: "files/pib/manage.py"
+    dest: "{{ django_dir }}"
+  tags:
+    - django
+
+- name: chmod u+x manage.py
+  file:
+    path: "{{ django_dir }}/manage.py"
+    mode: 'u+x'
+  tags:
+    - django
+
+# Run Django collectstatic
+- name: Run manage.py collectstatic
+  community.general.django_manage:
+    command: collectstatic
+    project_path: "{{ django_dir }}"
+    virtualenv: "{{ django_dir }}/venv"
+  tags:
+    - django
+
+# Run Django manage.py makemigrations
+- name: Run manage.py makemigrations
+  community.general.django_manage:
+    command: makemigrations pibfpgas
+    project_path: "{{ django_dir }}"
+    settings: pib.settings
+    virtualenv: "{{ django_dir }}/venv"
+  tags:
+    - django
+
+# Run Django manage.py migrate
+- name: Run manage.py migrate
+  community.general.django_manage:
+    command: migrate
+    project_path: "{{ django_dir }}"
+    virtualenv: "{{ django_dir }}/venv"
+  tags:
+    - django
+
+- name: copy fixtures to remote box
+  copy:
+    src: "files/pib/pibfpgas/fixtures/{{ fixture_path }}"
+    dest: "/tmp/"
+  when: fixture_path is defined
+  tags:
+    - django
+
+- name: Load the initial_data fixture into the application
+  community.general.django_manage:
+    command: loaddata
+    project_path: "{{ django_dir }}"
+    virtualenv: "{{ django_dir }}/venv"
+    fixtures: "/tmp/{{ fixture_path }}"
+  when: fixture_path is defined
   tags:
     - django
 
