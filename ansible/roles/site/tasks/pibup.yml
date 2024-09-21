@@ -1,16 +1,15 @@
 ---
-# pip install "django[bcrypt] @ git+ssh://git@github.com/django/django.git" should work fine.
-- name: PIP install snmp_switch site app
+- name: PIP install pibup site app
   ansible.builtin.pip:
-    name: "snmp_switch[cli] @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/pibup"
+    name: "pibup @ git+https://github.com/CarlFK/pici.git#subdirectory=ansible/roles/site/files/pib/pibup"
     virtualenv: "{{ app_dir }}/venv"
     state: forcereinstall
   tags:
     - pibup
 
-- name: nginx/snmp_switch.conf
+- name: nginx/pibup.conf
   copy:
-    src: files/pib/snmp_switch/nginx/pibup.conf
+    src: files/pib/pibup/nginx/pibup.conf
     dest: "/etc/nginx/includes/{{ conference_name }}-pibup.conf"
   tags:
     - pibup
