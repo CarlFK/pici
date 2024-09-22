@@ -20,6 +20,7 @@ def home(request):
     return render(request, "index.html",
             {
                 'pis': pis,
+                "domain_name": settings.DOMAIN_NAME,
                 })
 
 
