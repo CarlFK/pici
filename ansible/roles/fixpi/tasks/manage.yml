@@ -15,3 +15,4 @@
 
 - name: put the pi boot system into maintenance mode
   command: maintenance.sh
+  when: False
