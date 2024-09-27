@@ -15,3 +15,12 @@
   tags:
     - pibfpgas
     - django
+
+- name: Install demo code on pi
+  ansible.posix.synchronize:
+    src: files/pib/pibfpgas/Demos
+    dest: "{{nfs_root}}/root/home/pi"
+  tags:
+    - pibfpgas
+    - django
+    - demos
