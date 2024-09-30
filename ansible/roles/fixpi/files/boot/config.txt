@@ -75,31 +75,23 @@ otg_mode=1
 
 [pi4]
 # Run as fast as firmware / board allows
-arm_boost=1
+# arm_boost=1
 
 [all]
 # Switch the CPU from ARMv7 into ARMv8 (aarch64) mode
-arm_64bit=1
-
-# Debian:
-# dtoverlay=pi3-disable-bt
-# enable_uart=1
-# upstream_kernel=1
-
-# For details on the initramfs directive, see
-# https://www.raspberrypi.org/forums/viewtopic.php?f=63&t=10532
-# kernel=vmlinuz-5.10.0-9-arm64
-# initramfs initrd.img-5.10.0-9-arm64
+# leave this off - Pici does not need 64,
+# and maybe it keeps the pi from getting cranky and not booting.
+# arm_64bit=1
 
 # Automatically load initramfs files, if found
 auto_initramfs=1
 
 # core_freq=250
+# gpu_mem=64
 
 enable_uart=1
 uart_2ndstage=1
 dtoverlay=disable-bt
 
-# gpu_mem=64
 
 
