@@ -15,6 +15,11 @@ function PiStatus(PiID) {
         o.player.load();
     };
 
+    function wssh_connect(){
+        const wssh_if = document.getElementById("wssh_if").contentWindow;
+        wssh_if.wssh.connect();
+    };
+
     function connect(){
 
         const logSocket = new WebSocket(
@@ -40,7 +45,13 @@ function PiStatus(PiID) {
         logSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             addTextAndScrollToBottom(data.message);
-            if (data.message == "piview: cam") {
+
+            # reconnect UI clients to the server(s)
+            if (data.message == "piview: ssh ssh server started.") {
+                   console.log("ssh!");
+                   wssh_connect();
+            };
+            if (data.status == "cam") {
                    refresh_video_player();
             };
         };
@@ -114,6 +125,10 @@ function PiStatus(PiID) {
 
     document.getElementById("refresh-video-player"+PiID).onclick = function(e) {
     	refresh_video_player(e);
+    };
+
+    document.getElementById("wssh-connect").onclick = function(e) {
+    	wssh_connect();
     };
 
     document.getElementById('blink_leds'+PiID).onclick = function(e) {

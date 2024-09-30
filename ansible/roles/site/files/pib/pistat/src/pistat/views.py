@@ -39,13 +39,16 @@ def humanize(m):
 @csrf_exempt
 def status(request, pi_name, status):
 
-    status = humanize(status)
 
     group = f"pistat_{pi_name}"
     message_type = "stat.message"
-    message_text = f"piview: {status}"
-    d = {"type": message_type, "message": message_text}
-
+    message = humanize(status)
+    message_text = f"piview: {message}"
+    d = {
+            "type": message_type,
+            "status": status,
+            "message": message_text,
+            }
 
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)( group, d )

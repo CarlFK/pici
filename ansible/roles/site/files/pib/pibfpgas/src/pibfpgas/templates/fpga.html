@@ -69,7 +69,6 @@
   <tr>
     <td colspan=2>
       <h1>Accessing pi{{pi.port}}</h1>
-      Pi location and patch cable color: {{pi.loc}} {{pi.cable_color}} <br>
     </td>
     <td>
 {% include "upload.html" %}
@@ -79,8 +78,12 @@
         <table class="buttons">
 	 <tr>
 	  <td><h2>Controls:</h2></td>
-	  <td>Check PoE: <input id="status{{pi.port}}" type="submit" value="PoE {{pi.port}}" ></td>
-          <td>Turn it off and on again: <input id="reset{{pi.port}}" type="submit" value="Reset {{pi.port}}" ></td>
+          <td>
+            Turn it off and on again: <input id="reset{{pi.port}}" type="submit" value="Reset" >
+        <input id="reconnect{{pi.port}}" type="submit" value="reconnect" >
+        <input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" >
+        <input id="wssh-connect" type="submit" value="reset ssh" >
+          </td>
 	 </tr>
 	</table>
         <table class="buttons">
@@ -124,9 +127,11 @@
         <textarea id="log{{pi.port}}" cols="85" rows="4" placeholder="pi status" readonly style="width:100%;"></textarea><br>
         <input id="log-text{{pi.port}}" type="text" size="20" placeholder="web socket test message">
         <input id="log-submit{{pi.port}}" type="button" value="Send">
-        <input id="reconnect{{pi.port}}" type="submit" value="reconnect {{pi.port}}" >
-        <input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" >
+	      <input id="status{{pi.port}}" type="submit" value="Check PoE" >
       </div>
+
+      Pi patch cable color: {{pi.loc}} {{pi.cable_color}} <br>
+
     </td>
   </tr><tr>
     <td colspan=3><h1>Accessing directly</h1></td>
@@ -157,6 +162,7 @@
 <script src="https://f4pga-examples.readthedocs.io/en/latest/_static/javascripts/f4pga.js"></script>
 <script>PiStatus("{{pi.port}}")</script>
 <script src="/demos.js"></script>
+
 
 <h1>Useful links</h1>
 <ul>
