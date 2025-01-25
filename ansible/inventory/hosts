@@ -1,12 +1,13 @@
 [pxe]
 ps1.fpgas.online
 fpgas.online
-fpgas.mithis.com
+slf.sytes.net
 
 [pib]
-ps1.fpgas.online
 fpgas.online
-fpgas.mithis.com
+ps1.fpgas.online
+slf.sytes.net
+# pis.hopto.org # ansible_host=gator
 
 [onpi]
 # pi ansible_host=10.21.0.134

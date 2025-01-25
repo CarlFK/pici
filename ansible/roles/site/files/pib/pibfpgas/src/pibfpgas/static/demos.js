@@ -13,13 +13,13 @@ document.getElementById('blink_leds').onclick = function(e) {
     wssh_run(e,'./run_demo.sh')
 };
 
-document.getElementById('boot_linux').onclick = function(e) {
-    wssh_run(e,'cd ~/Demos/linux_litex')
+document.getElementById('boot_micro_python').onclick = function(e) {
+    wssh_run(e,'cd ~/Demos/micro_python')
     wssh_run(e,'./run_demo.sh')
 };
 
-document.getElementById('boot_micro_python').onclick = function(e) {
-    wssh_run(e,'cd ~/Demos/micro_python')
+document.getElementById('boot_linux').onclick = function(e) {
+    wssh_run(e,'cd ~/Demos/linux_litex')
     wssh_run(e,'./run_demo.sh')
 };
 

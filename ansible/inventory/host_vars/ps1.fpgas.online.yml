@@ -32,8 +32,13 @@ fixture_path: ps1.fpgas.online.json
 switch:
     # Netgear #2 GS728TPP mac: "b0:39:56:88:22:4c"
 
+    # HP at ps1: ProCurve Switch 2610-24-PWR J9087A
+
     # HP https://support.hpe.com/hpesc/public/docDisplay?docId=c02596727
     # pethMainPseOperStatus .1.3.6.1.2.1.105.1.3.1.1.3
+    # In the factory default configuration,
+    # the default IP (Internet Protocol) address of the switch is 192.168.2.10
+    # and the subnet mask is 255.255.255.0.
 
     # James Netgear:
     # http://kbserver.netgear.com/products/FS728TPv2.asp

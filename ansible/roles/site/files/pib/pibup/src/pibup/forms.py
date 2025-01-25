@@ -2,4 +2,4 @@ from django import forms
 
 class UploadFileForm(forms.Form):
     file = forms.FileField()
-    run = forms.BooleanField(required=False)
+    # run = forms.BooleanField(required=False)

@@ -11,8 +11,10 @@ from .forms import UploadFileForm
 
 # @csrf_exempt
 def pibup(request):
+
     pino=request.GET['pino']
     print(f"{pino=}")
+
     if request.method == "POST":
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -23,8 +25,8 @@ def pibup(request):
         form = UploadFileForm()
     return render(request, "upload.html",
             {
-                "form": form,
                 "pino": pino,
+                "form": form,
                 })
 
 def handle_uploaded_file(f, pino, run):

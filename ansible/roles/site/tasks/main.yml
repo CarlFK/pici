@@ -17,3 +17,5 @@
 - {include_tasks: gunicorn.yml, tags: django}
 - {include_tasks: uvicorn.yml, tags: django}
 - {include_tasks: daphne.yml, tags: django}
+
+- {include_tasks: switch.yml, tags: [switch,] }
