@@ -122,7 +122,7 @@ async def snmp_get_state(host, username, authKey, privKey, oid, port,
 
     engine = v3arch.asyncio.SnmpEngine()
 
-    iterator = await v3arch.asyncio.getCmd(
+    iterator = await v3arch.asyncio.get_cmd(
         engine,
         auth,
         connectto,
@@ -174,7 +174,7 @@ async def snmp_set_state(host, username, authKey, privKey, oid, port, state,
 
     engine = v3arch.SnmpEngine()
 
-    iterator = await v3arch.setCmd(
+    iterator = await v3arch.set_cmd(
         engine,
         auth,
         connectto,
