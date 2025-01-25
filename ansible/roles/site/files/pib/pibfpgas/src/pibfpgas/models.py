@@ -1,4 +1,4 @@
-# roles/site/files/pib/pibfpgas/src/pibup/models.py
+# roles/site/files/pib/pibfpgas/src/pibfpgas/models.py
 
 from django.db import models
 
@@ -9,4 +9,3 @@ class Pi(models.Model):
     location = models.CharField(max_length=30, blank=True)
     model = models.CharField(max_length=30, blank=True)
     cable_color = models.CharField(max_length=10, blank=True)
-
