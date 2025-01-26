@@ -33,6 +33,8 @@ domain_name: "{{ streaming_frontend_hostname}}"
 
 # Tim's
 # Netgear S3300-52X-PoE+
+switch_base: base
+
 switch:
     mac: 08:bd:43:6b:bb:e0
     oid: iso.3.6.1.2.1.105.1.1.1.3.1
@@ -78,6 +80,7 @@ switch:
           63383035303639666362623866316132336537333335333461626662363961396639396130346163
           3336343733323735340a323536626361323362313066636137383561326561303362343338633162
           6633
+
 
 pi_pw: !vault |
           $ANSIBLE_VAULT;1.1;AES256

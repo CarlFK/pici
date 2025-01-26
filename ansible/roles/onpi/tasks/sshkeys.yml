@@ -3,10 +3,5 @@
   become: true
   become_user: pi
   command: "ssh-import-id {{ item }}"
-  with_items:
-    - carlfk
-    - gh:mithro
-    - gh:asinghani
-    - gh:bjonnh
-    - gh:iiie
+  with_items: " {{ ssh_imports }} "
   tags: sshkeys
