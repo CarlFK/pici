@@ -90,17 +90,6 @@
   tags:
     - django
 
-# Run Django manage.py makemigrations
-- name: Run manage.py makemigrations
-  community.general.django_manage:
-    command: makemigrations
-      # pibfpgas
-    project_path: "{{ django_dir }}"
-      # settings: pib.settings
-    virtualenv: "{{ django_dir }}/venv"
-  tags:
-    - django
-
 # Run Django manage.py migrate
 - name: Run manage.py migrate
   community.general.django_manage:
