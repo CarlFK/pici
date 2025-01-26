@@ -57,7 +57,8 @@ def main():
     args = get_args()
     init(args.site_path, args.django_settings)
     send_message(args.group, args.type, args.message)
-    # ret = test_args(args)
+    if args.debug:
+      print("import sys; sys.exit()"); import code; code.interact(local=locals())
 
 
 if __name__=='__main__':
