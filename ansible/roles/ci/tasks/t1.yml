@@ -1,0 +1,33 @@
+---
+- name: create ci dir
+  file:
+    dest: "{{nfs_root}}/root/home/pi/ci"
+    state: directory
+  tags:
+    - t1
+
+- name: copy wire test files
+  copy:
+    src: "files/t1"
+    dest: "{{nfs_root}}/root/home/pi/ci"
+  tags:
+    - t1
+
+- name: copy wire test bit files
+  copy:
+    src: "/home/carl/src/fpga/arty/top.bit"
+    dest: "{{nfs_root}}/root/home/pi/ci/t1"
+  tags:
+    - t1
+
+- name: set perms
+  ansible.builtin.file:
+    path: "{{nfs_root}}/root/home/pi/ci/t1/{{ item }}"
+    owner: "{{user_name}}"
+    group: "{{user_name}}"
+    mode: "u+x"
+  with_items:
+    - t1.sh
+  tags:
+  - t1
+
