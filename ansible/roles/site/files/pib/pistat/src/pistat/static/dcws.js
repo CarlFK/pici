@@ -46,7 +46,7 @@ function PiStatus(PiID) {
             const data = JSON.parse(e.data);
             addTextAndScrollToBottom(data.message);
 
-            # reconnect UI clients to the server(s)
+            // reconnect UI clients to the server(s)
             if (data.message == "piview: ssh ssh server started.") {
                    console.log("ssh!");
                    wssh_connect();
