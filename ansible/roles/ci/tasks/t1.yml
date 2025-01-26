@@ -20,14 +20,20 @@
   tags:
     - t1
 
+- name: set owner
+  ansible.builtin.file:
+    path: "{{nfs_root}}/root/home/pi/ci"
+    owner: "{{user_name}}"
+    group: "{{user_name}}"
+    recurse: true
+  tags:
+  - t1
+
 - name: set perms
   ansible.builtin.file:
     path: "{{nfs_root}}/root/home/pi/ci/t1/{{ item }}"
-    owner: "{{user_name}}"
-    group: "{{user_name}}"
     mode: "u+x"
   with_items:
     - t1.sh
   tags:
   - t1
-
