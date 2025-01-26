@@ -31,6 +31,8 @@ streaming_frontend_aliases: []
 streaming_frontend_hostname: fpgas.online
 domain_name: "{{ streaming_frontend_hostname}}"
 
+fixture_path: fpgas.online.json
+
 # Tim's
 # Netgear S3300-52X-PoE+
 switch_base: base
@@ -42,7 +44,7 @@ switch:
 
     # pi mac n ports
     nos:
-    - { port: 34, mac: "b8:27:eb:6d:27:f6", sn: "7a6d27f6", loc: "",  cable_color: "white" }
+    - { port: 34, mac: "b8:27:eb:6d:27:f6", sn: "7a6d27f6", loc: "", cable_color: "white" }
     - { port: 36, mac: "b8:27:eb:86:39:63", sn: "80863963", loc: "", cable_color: "blue" }
     - { port: 40, mac: "e4:5f:01:97:1f:7e", sn: "613a4524", loc: "", cable_color: "gray" }
     - { port: 42, mac: "e4:5f:01:8d:f7:17", sn: "f77b8415",
