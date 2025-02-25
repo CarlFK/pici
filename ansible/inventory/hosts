@@ -3,16 +3,21 @@ ps1.fpgas.online
 fpgas.online
 slf.sytes.net
 
-[pib]
+[nbp]
 fpgas.online
 ps1.fpgas.online
 slf.sytes.net
-# pis.hopto.org # ansible_host=gator
+
+[uhubctl]
+slf.sytes.net
+
+[pig]
+fpgas.online
+ps1.fpgas.online
 
 [onpi]
 # pi ansible_host=10.21.0.134
 # pi ansible_host=10.21.0.102
 # pi ansible_host=192.168.1.121 ansible_port=10022
 # pi ansible_host=fpgas.mithis.com ansible_port=13422
-# pi ansible_host=fpgas.online ansible_port=13622
-pi ansible_host=ps1.fpgas.online ansible_port=10322
+pi ansible_host=fpgas.online ansible_port=13622

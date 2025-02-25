@@ -1,11 +1,18 @@
 ---
-- hosts: pib
+- hosts: nbp
   roles:
   - firewall
   - nfs
   - img
   - fixpi
   - pxe
+
+- hosts: uhubctl
+  roles:
+  - uhubctl
+
+- hosts: pig
+  roles:
   - site
   - wssh
   - cam/stream-server
