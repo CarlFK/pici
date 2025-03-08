@@ -29,6 +29,9 @@ letsencrypt_account_email: carl@NextDayVideo.com
 
 fixture_path: ps1.fpgas.online.json
 
+# some netgear:
+switch_base: base
+
 switch:
     # Netgear #2 GS728TPP mac: "b0:39:56:88:22:4c"
 
