@@ -1,0 +1,8 @@
+---
+- name: Udev-reload
+  ansible.builtin.shell:
+    cmd: |
+      udevadm control --reload-rules
+      udevadm trigger --action=change \
+                        --subsystem-match=usb
+      udevadm settle

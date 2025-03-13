@@ -29,3 +29,11 @@ document.getElementById('check_wire').onclick = function(e) {
     wssh_run(e,'python3 t1.py')
     wssh_run(e,'echo $?')
 };
+
+document.getElementById('tt910').onclick = function(e) {
+    wssh_run(e,'cd ~/tt-commander-app/src/ttcontrol/cli')
+    wssh_run(e,'python bl.py --serial-port /dev/ttyACM0 --throttle 1 --debug')
+    wssh_run(e,'tio /dev/ttyACM0')
+};
+
+

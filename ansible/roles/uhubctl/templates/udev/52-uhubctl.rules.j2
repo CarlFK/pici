@@ -1,0 +1,5 @@
+# Bus 001 Device 003: ID 2001:f103 D-Link Corp. DUB-H7 7-port USB 2.0 hub
+SUBSYSTEM=="usb", ATTR{idVendor}=="2001", ATTR{idProduct}=="f103", MODE="0666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="2001", ATTR{idProduct}=="f103", \
+  RUN="/bin/sh -c \"chmod -f 666 $sys$devpath/*port*/disable || true\""
+

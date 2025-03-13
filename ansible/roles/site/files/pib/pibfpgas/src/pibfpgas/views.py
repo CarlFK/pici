@@ -24,7 +24,10 @@ def home(request):
                 })
 
 
-def one(request, pino):
+def one(request, pino, template='fpga.html'):
+
+    # pino: Pi Number (the port on the network switch the Pi is plugged into.)
+    # template: the template to render (used to hack in the tt board page.)
 
     pi = get_object_or_404(Pi, port=pino)
 
@@ -33,7 +36,7 @@ def one(request, pino):
 
     form = UploadFileForm()
 
-    return render(request, "fpga.html",
+    return render(request, template,
             {
                 "pi": pi,
                 "pino": pino,
@@ -43,3 +46,8 @@ def one(request, pino):
                 "domain_name": settings.DOMAIN_NAME,
                 "form": form,
                 })
+
+
+def tt(request):
+    return one(request, 21, 'tt.html')
+
