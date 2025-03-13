@@ -28,6 +28,7 @@
       - screen
       - tio
       - minicom
+      - uhubctl
       - picocom
       - git
       - sshfs
