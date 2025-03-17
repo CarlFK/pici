@@ -1,1 +1,69 @@
-[{"model": "pibfpgas.pi", "pk": 1, "fields": {"port": 34, "mac": "b8:27:eb:6d:27:f6", "cable_color": "white", "location": "", "serial_no": "7a6d27f6"}}, {"model": "pibfpgas.pi", "pk": 2, "fields": {"port": 36, "mac": "b8:27:eb:86:39:63", "cable_color": "blue", "location": "", "serial_no": "80863963"}}, {"model": "pibfpgas.pi", "pk": 3, "fields": {"port": 40, "mac": "e4:5f:01:97:1f:7e", "cable_color": "gray", "location": "", "serial_no": "613a4524"}}, {"model": "pibfpgas.pi", "pk": 4, "fields": {"port": 42, "mac": "e4:5f:01:8d:f7:17", "model": "Raspberry_Pi_4_Model_B_Rev_1", "cable_color": "yellow", "location": "", "serial_no": "f77b8415"}}, {"model": "pibfpgas.pi", "pk": 5, "fields": {"port": 46, "mac": "e4:5f:01:97:32:d2", "cable_color": "gray/white", "location": "", "serial_no": "8483b266"}}, {"model": "pibfpgas.pi", "pk": 6, "fields": {"port": 48, "mac": "e4:5f:01:96:f8:a5", "cable_color": "blue", "location": "", "serial_no": "ce8e3593"}}]
+[
+   {
+      "fields": {
+         "cable_color": "white",
+         "location": "",
+         "mac": "b8:27:eb:6d:27:f6",
+         "port": 34,
+         "serial_no": "7a6d27f6"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 1
+   },
+   {
+      "fields": {
+         "cable_color": "blue",
+         "location": "",
+         "mac": "b8:27:eb:86:39:63",
+         "port": 36,
+         "serial_no": "80863963"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 2
+   },
+   {
+      "fields": {
+         "cable_color": "gray",
+         "location": "",
+         "mac": "e4:5f:01:97:1f:7e",
+         "port": 40,
+         "serial_no": "613a4524"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 3
+   },
+   {
+      "fields": {
+         "cable_color": "yellow",
+         "location": "",
+         "mac": "e4:5f:01:8d:f7:17",
+         "model": "Raspberry_Pi_4_Model_B_Rev_1",
+         "port": 42,
+         "serial_no": "f77b8415"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 4
+   },
+   {
+      "fields": {
+         "cable_color": "gray/white",
+         "location": "",
+         "mac": "e4:5f:01:97:32:d2",
+         "port": 46,
+         "serial_no": "8483b266"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 5
+   },
+   {
+      "fields": {
+         "cable_color": "blue",
+         "location": "",
+         "mac": "e4:5f:01:96:f8:a5",
+         "port": 48,
+         "serial_no": "ce8e3593"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 6
+   }
+]
