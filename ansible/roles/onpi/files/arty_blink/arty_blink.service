@@ -1,0 +1,18 @@
+# Ansible Managed
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=Run the Arty Counter demo
+
+After=network-online.target arty_wire.target
+Wants=network-online.target
+
+StartLimitInterval=0
+
+[Service]
+EnvironmentFile=/etc/environment
+WorkingDirectory=/home/pi/Demos/counter_test
+ExecStart=/usr/local/bin/arty_blink.sh ${pistat_host} %l
+Type=oneshot

@@ -4,6 +4,7 @@
 - {include_tasks: pistat.yml, tags: pistat}
 - {include_tasks: arty_here.yml, tags: [ia, ]}
 - {include_tasks: arty_wire.yml, tags: [ia, ]}
+- {include_tasks: arty_blink.yml, tags: [ab, ]}
 - {include_tasks: tftpd.yml, tags: tftpd}
 - {include_tasks: sshkeys.yml, tags: sshkeys}
 - {include_tasks: tweeks.yml, tags: pitweeks}

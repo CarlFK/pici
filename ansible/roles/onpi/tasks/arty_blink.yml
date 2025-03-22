@@ -1,0 +1,25 @@
+---
+- name: arty_blink
+  copy:
+    src: "files/is_blink/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: u+x
+  with_items:
+    - arty_blink.sh
+  tags:
+  - ab
+
+- name: install systemd arty_blink service
+  copy:
+    src: files/is_blink/arty_blink.service
+    dest: /etc/systemd/system/arty_blink.service
+  notify: reload-systemd
+  tags:
+  - ab
+
+- name: enable arty_blink.service
+  systemd:
+    name: arty_blink.service
+    enabled: yes
+  tags:
+  - ab
