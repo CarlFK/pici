@@ -36,4 +36,12 @@ document.getElementById('tt910').onclick = function(e) {
     wssh_run(e,'tio /dev/ttyACM0')
 };
 
+document.getElementById('usb_off').onclick = function(e) {
+    wssh_run(e,'/sbin/uhubctl -S --ports 2 --action off')
+};
+
+
+document.getElementById('usb_on').onclick = function(e) {
+    wssh_run(e,'/sbin/uhubctl -S --ports 2 --action on')
+};
 
