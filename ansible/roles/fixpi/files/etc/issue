@@ -1,8 +1,12 @@
-\S \m
-\v
-\n.\o
-\4
-\6
+system name: \S
+system name: \s
+architecture: \m
+os ver: \v
+release number: \r
+host.domain: \n.\o
+IPv4: \4
+IPv6: \6
 Users logged in: \u
-Raspberry Pi FPGA gateway node.
-https://github.com/CarlFK/pici
+
+time: \t
+
