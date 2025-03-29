@@ -1,0 +1,86 @@
+[
+   {
+      "fields": {
+         "cable_color": "white",
+         "location": "",
+         "mac": "b8:27:eb:6d:27:f6",
+         "model": "Raspberry Pi 3 Model B Plus Rev 1.3",
+         "port": 13422,
+         "serial_no": "7a6d27f6"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 1
+   },
+   {
+      "fields": {
+         "cable_color": "blue",
+         "location": "",
+         "mac": "b8:27:eb:86:39:63",
+         "model": "Raspberry Pi 3 Model B Plus Rev 1.3",
+         "port": 13622,
+         "serial_no": "80863963"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 2
+   },
+   {
+      "fields": {
+         "cable_color": "gray",
+         "location": "",
+         "mac": "e4:5f:01:97:1f:7e",
+         "model": "",
+         "port": 14022,
+         "serial_no": "613a4524"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 3
+   },
+   {
+      "fields": {
+         "cable_color": "yellow",
+         "location": "",
+         "mac": "e4:5f:01:8d:f7:17",
+         "model": "Raspberry Pi 4 Model B Rev 1.5",
+         "port": 14222,
+         "serial_no": "f77b8415"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 4
+   },
+   {
+      "fields": {
+         "cable_color": "gray + red",
+         "location": "",
+         "mac": "dc:a6:32:b4:5e:c9",
+         "model": "",
+         "port": 14422,
+         "serial_no": "329205c6"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 5
+   },
+   {
+      "fields": {
+         "cable_color": "gray/white",
+         "location": "",
+         "mac": "e4:5f:01:97:32:d2",
+         "model": "Raspberry Pi 4 Model B Rev 1.5",
+         "port": 14622,
+         "serial_no": "8483b266"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 6
+   },
+   {
+      "fields": {
+         "cable_color": "blue",
+         "location": "",
+         "mac": "e4:5f:01:96:f8:a5",
+         "model": "Raspberry Pi 4 Model B Rev 1.5",
+         "port": 14822,
+         "serial_no": "ce8e3593"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 7
+   }
+]
