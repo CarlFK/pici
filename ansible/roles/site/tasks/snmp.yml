@@ -28,9 +28,23 @@
       value: "{{ switch.host }}"
     - key: SNMP_SWITCH_OID
       value: "{{ switch.oid }}"
+    - key: mpi_port
+      value: "{{ switch.mpi_port }}"
+    - key: mpi_ip
+      value: "{{ pib_network }}.{{ 100+switch.mpi_port }}"
     - key: pi_ports
       value: "\"{% for pi in switch.nos %}{{pi.port}} {% endfor %}\""
-  tags: snmp
+    - key: pi_dist
+      value: "{{ dist }}"
+    - key: nfs_pth
+      value: "/srv/nfs/rpi/{{ dist }}"
+    - key: nfs_boot
+      value: "/srv/nfs/rpi/{{ dist }}/boot"
+    - key: nfs_root
+      value: "/srv/nfs/rpi/{{ dist }}/root"
+  tags:
+    - snmp
+    - manage
 
 - name: copy poe.sh and allpoe.sh into usr/local/bin
   copy:
@@ -40,7 +54,9 @@
   loop:
     - poe.sh
     - allpoe.sh
-  tags: snmp
+  tags:
+    - snmp
+    - manage
 
 # pip install "django[bcrypt] @ git+ssh://git@github.com/django/django.git" should work fine.
 - name: PIP install snmp_switch site app
