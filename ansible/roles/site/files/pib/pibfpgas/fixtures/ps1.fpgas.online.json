@@ -1,1 +1,146 @@
-[{"model": "pibfpgas.pi", "pk": 1, "fields": {"port": 2, "mac": "b8:27:eb:2f:5d:08", "model": "Raspberry_Pi_3_Model_B_Rev_1", "cable_color": "grey", "location": "front 1", "serial_no": "042f5d08"}}, {"model": "pibfpgas.pi", "pk": 2, "fields": {"port": 3, "mac": "dc:a6:32:05:32:45", "model": "Raspberry_Pi_4_Model_B_Rev_1", "cable_color": "white", "location": "front 2", "serial_no": "f1b7bb5a"}}, {"model": "pibfpgas.pi", "pk": 3, "fields": {"port": 5, "mac": "b8:27:eb:d4:f1:74", "model": "Raspberry_Pi_3_Model_B_Rev_1", "cable_color": "white", "location": "front 4", "serial_no": "9ed4f174"}}, {"model": "pibfpgas.pi", "pk": 4, "fields": {"port": 7, "mac": "b8:27:eb:33:51:27", "model": "Raspberry_Pi_3_Model_B_Plus_Rev_1", "cable_color": "blue", "location": "front 5", "serial_no": 48335127}}, {"model": "pibfpgas.pi", "pk": 5, "fields": {"port": 9, "mac": "b8:27:eb:a3:51:b4", "model": "Raspberry_Pi_3_Model_B_Plus_Rev_1", "cable_color": "blue", "location": "front 6", "serial_no": "8da351b4"}}, {"model": "pibfpgas.pi", "pk": 6, "fields": {"port": 11, "mac": "b8:27:eb:51:01:df", "model": "Raspberry_Pi_3_Model_B_Rev_1", "cable_color": "blue", "location": "front 7", "serial_no": "265101df"}}, {"model": "pibfpgas.pi", "pk": 7, "fields": {"port": 13, "mac": "b8:27:eb:68:fc:e7", "model": "Raspberry_Pi_3_Model_B_Rev_1", "cable_color": "white", "location": "front 8", "serial_no": "f168fce7"}}, {"model": "pibfpgas.pi", "pk": 8, "fields": {"port": 21, "mac": "b8:27:eb:5f:de:85", "model": "", "cable_color": "blue", "location": "back 7", "serial_no": "7d5fde85"}}, {"model": "pibfpgas.pi", "pk": 9, "fields": {"port": 23, "mac": "b8:27:eb:0c:f8:43", "model": "Raspberry_Pi_3_Model_B_Rev_1", "cable_color": "grey", "location": "back 8", "serial_no": "9b0cf843"}}]
+[
+   {
+      "fields": {
+         "cable_color": "grey",
+         "location": "front 1",
+         "mac": "b8:27:eb:2f:5d:08",
+         "model": "Raspberry Pi 3 Model B Rev 1.2",
+         "port": 10222,
+         "serial_no": "042f5d08"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 8
+   },
+   {
+      "fields": {
+         "cable_color": "white",
+         "location": "front 2",
+         "mac": "dc:a6:32:05:32:45",
+         "model": "Raspberry Pi 4 Model B Rev 1.1",
+         "port": 10322,
+         "serial_no": "f1b7bb5a"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 9
+   },
+   {
+      "fields": {
+         "cable_color": "white",
+         "location": "front 4",
+         "mac": "b8:27:eb:d4:f1:74",
+         "model": "Raspberry Pi 3 Model B Rev 1.2",
+         "port": 10522,
+         "serial_no": "9ed4f174"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 10
+   },
+   {
+      "fields": {
+         "cable_color": "blue",
+         "location": "front 5",
+         "mac": "b8:27:eb:33:51:27",
+         "model": "Raspberry Pi 3 Model B Plus Rev 1.3",
+         "port": 10722,
+         "serial_no": "48335127"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 11
+   },
+   {
+      "fields": {
+         "cable_color": "blue",
+         "location": "front 6",
+         "mac": "b8:27:eb:a3:51:b4",
+         "model": "Raspberry Pi 3 Model B Plus Rev 1.3",
+         "port": 10922,
+         "serial_no": "8da351b4"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 12
+   },
+   {
+      "fields": {
+         "cable_color": "blue",
+         "location": "front 7",
+         "mac": "b8:27:eb:51:01:df",
+         "model": "",
+         "port": 11122,
+         "serial_no": "265101df"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 13
+   },
+   {
+      "fields": {
+         "cable_color": "white",
+         "location": "front 8",
+         "mac": "b8:27:eb:68:fc:e7",
+         "model": "Raspberry Pi 3 Model B Rev 1.2",
+         "port": 11322,
+         "serial_no": "f168fce7"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 14
+   },
+   {
+      "fields": {
+         "cable_color": "blue",
+         "location": "back 7",
+         "mac": "b8:27:eb:5f:de:85",
+         "model": "Raspberry Pi 3 Model B Rev 1.2",
+         "port": 12122,
+         "serial_no": "7d5fde85"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 15
+   },
+   {
+      "fields": {
+         "cable_color": "grey",
+         "location": "back 8",
+         "mac": "b8:27:eb:0c:f8:43",
+         "model": "",
+         "port": 12322,
+         "serial_no": "9b0cf843"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 16
+   },
+   {
+      "fields": {
+         "cable_color": "blue",
+         "location": "back 8",
+         "mac": "b8:27:eb:69:79:a0",
+         "model": "",
+         "port": 11922,
+         "serial_no": "426979a0"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 17
+   },
+   {
+      "fields": {
+         "cable_color": "",
+         "location": "",
+         "mac": "b8:27:eb:5a:26:5b",
+         "model": "",
+         "port": null,
+         "serial_no": "035a265b"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 18
+   },
+   {
+      "fields": {
+         "cable_color": "white",
+         "location": "front 3",
+         "mac": "e4:5f:01:64:76:05",
+         "model": "",
+         "port": null,
+         "serial_no": "e897e1d3"
+      },
+      "model": "pibfpgas.pi",
+      "pk": 19
+   }
+]
