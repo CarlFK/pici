@@ -5,6 +5,8 @@
 
 sleep_time=${2:-1}
 
+source /etc/environment
+
 for p in ${pi_ports}
 do
    poe.sh $p $1

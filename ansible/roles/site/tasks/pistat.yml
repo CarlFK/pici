@@ -22,7 +22,7 @@
     - pistat
     - index.html
 
-- name: Install nginx streaming conf
+- name: Install nginx pistat conf
   ansible.builtin.copy:
     src: files/pib/pistat/nginx/pistat.conf
     dest: "/etc/nginx/includes/{{ conference_name }}-pistat.conf"

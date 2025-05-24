@@ -36,7 +36,9 @@
 
 port=$1
 
-. /srv/www/pib/venv/bin/activate
+source /etc/environment
+
+# . /srv/www/pib/venv/bin/activate
 
 #   -u SECURITY-NAME      SNMP USM user security name (e.g. bert)
 #   -l SECURITY-LEVEL     security level (noAuthNoPriv|authNoPriv|authPriv)
