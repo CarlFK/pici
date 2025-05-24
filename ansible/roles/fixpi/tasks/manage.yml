@@ -12,6 +12,8 @@
   with_items:
    - maintenance.sh
    - production.sh
+  tags:
+    manage
 
 - name: put the pi boot system into maintenance mode
   command: maintenance.sh
