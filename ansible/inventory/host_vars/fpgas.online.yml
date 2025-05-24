@@ -43,6 +43,11 @@ switch:
     host: "10.21.0.200"
 
     # pi mac n ports
+
+    # pi for maintenance.sh
+    mpi_port: 42
+    mpi_ip: "{{ pib_network }}.{{ 100+42 }}"
+
     nos:
     - { port: 34, mac: "b8:27:eb:6d:27:f6", sn: "7a6d27f6", loc: "", cable_color: "white" }
     - { port: 36, mac: "b8:27:eb:86:39:63", sn: "80863963", loc: "", cable_color: "blue" }
