@@ -1,4 +1,9 @@
 ---
+- name: create issue.d dir
+  file:
+    path: "{{ nfs_root }}/root/etc/issue.d"
+    state: directory
+
 - name: display IP, pw and things on console
   copy:
     src: "files/etc/issue"
