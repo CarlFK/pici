@@ -93,5 +93,5 @@ enable_uart=1
 uart_2ndstage=1
 dtoverlay=disable-bt
 
-
-
+# sha256=1 tells start.elf (i think, may be a pi4 only thing?) to print the hashes of every file it loads
+sha256=1
