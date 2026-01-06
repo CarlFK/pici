@@ -4,7 +4,7 @@
 hn=$(/usr/bin/hostname --short)
 
 # find the upstream IP and nic dev
-# this is clever, but should probably be an os var manged by ansible.
+# this is clever, but should probably be an os var managed by ansible.
 ip=$(ip -json route show default | jq ".[0].gateway" --raw-output)
 dev=$(ip -json route show default | jq ".[0].dev" --raw-output)
 
@@ -20,10 +20,21 @@ dev=$(ip -json route show default | jq ".[0].dev" --raw-output)
 
 RTMP_DEST=rtmp://${ip}/pib/${hn}
 
+# figure out if we can use v4l2 hardware encoding (pi 5 says No.)
+if (gst-inspect-1.0 --exists v4l2h264enc); then
+    venc="v4l2h264enc extra-controls=controls,video_bitrate_mode=0,video_bitrate=1000000,repeat_sequence_header=1"
+else
+    venc="x264enc bitrate=2000 byte-stream=false key-int-max=60 bframes=0 aud=true tune=zerolatency"
+fi
+
+# example of using encode bin to select encoder
+# gst-launch-1.0 videotestsrc ! video/x-raw,width=640,height=480 ! queue ! \
+#   encodebin ! h264parse ! qtmux ! filesink location=output.mp4
+
 /usr/bin/gst-launch-1.0 libcamerasrc ! \
     video/x-raw,colorimetry=bt709,format=NV12,interlace-mode=progressive,framerate=6/1 ! \
     clockoverlay shaded-background=true !\
-    v4l2h264enc extra-controls=controls,video_bitrate_mode=0,video_bitrate=1000000,repeat_sequence_header=1 ! \
+    ${venc} !\
     video/x-h264,profile=high,level=\(string\)4.2 ! \
     h264parse ! \
     queue ! flvmux ! \
