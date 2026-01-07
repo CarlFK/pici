@@ -34,7 +34,7 @@
     path: "{{ nfs_root }}/root/etc/hostname"
     state: absent
   tags:
-  - hostname
+    - hostname
 
 - name: pi etc/hosts
   lineinfile:
@@ -42,7 +42,7 @@
     line: "127.0.1.1 pi{{ item.port }}"
   with_items: "{{ switch.nos }}"
   tags:
-  - hostname
+    - hostname
 
 - name: set pistat_host in /etc/environment
   lineinfile:
@@ -63,11 +63,27 @@
 - name: add time to bash prompt
   lineinfile:
     dest: "{{ nfs_root }}/root/home/pi/.bashrc"
-    insertafter: '^unset color_prompt force_color_prompt'
+    insertafter: "^unset color_prompt force_color_prompt"
     line: '{% raw %}PS1="\D{%T} $PS1"{% endraw %}'
   when: true
   tags:
     - bashrc
+
+- name: ensure update-motd.d exists
+  file:
+    path: "{{ nfs_root }}/root/etc/update-motd.d"
+    state: directory
+
+- name: install dynamic motd script
+  template:
+    src: templates/99-pici-motd.j2
+    dest: "{{ nfs_root }}/root/etc/update-motd.d/99-pici"
+    mode: "0755"
+
+- name: clear static motd
+  copy:
+    content: ""
+    dest: "{{ nfs_root }}/root/etc/motd"
 
 # the rest of these tasks config the server to monitor client boot spew
 
@@ -76,7 +92,7 @@
     path: /boot/firmware/config.txt
   register: is_pi
   tags:
-  - ispi
+    - ispi
 
 - name: enable /dev/serial0
   ansible.builtin.lineinfile:
@@ -87,7 +103,7 @@
     - dtoverlay=disable-bt
   when: is_pi.stat.exists
   tags:
-  - ispi
+    - ispi
 
 # https://bugs.debian.org/667616
 # brltty greedily grabs serial ports, ftdi_sio loses connection
@@ -117,17 +133,18 @@
     state: stopped
     name: serial-getty@ttyAMA0.service
   tags:
-  - ispi
+    - ispi
 
 - name: Git checkout this repo for safer 2 hour onpi
   ansible.builtin.git:
-    repo: 'https://github.com/CarlFK/pici.git'
+    repo: "https://github.com/CarlFK/pici.git"
     dest: "/home/{{ user_name }}/pici"
     depth: 1
     single_branch: true
     accept_hostkey: true
-    force: true
+    force:
+      true
       #  args:
       # creates: "/home/{{ user_name }}/pici"
 
- # ssh-keyscan -H remote_host.com >> /etc/ssh/ssh_known_hosts
+  # ssh-keyscan -H remote_host.com >> /etc/ssh/ssh_known_hosts

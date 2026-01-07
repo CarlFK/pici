@@ -1,0 +1,16 @@
+#!/bin/bash
+# PICI FPGA Lab Welcome Message
+
+# Get Pi Number from hostname (e.g. pi21 -> 21)
+NUM=$(hostname | grep -o '[0-9]*')
+# Calculate External Port (Prefix 100 + NUM + 22)
+PREFIX=$((100 + NUM))
+EXT_PORT="${PREFIX}22"
+
+cat <<EOF
+Connected to $(hostname)
+
+Prefer your own tools? Use:
+ssh -p ${EXT_PORT} pi@{{ domain_name }}
+
+EOF

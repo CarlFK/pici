@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOCAL CONNECT - Pi21</title>
+  
+  <link rel="icon" href="../static/fpga.png">
+  <link rel="stylesheet" href="../static/pib.css">
+  
+  <!-- Video.js -->
+  <link href="https://vjs.zencdn.net/8.4.0/video-js.min.css" rel="stylesheet">
+  <script src="https://vjs.zencdn.net/8.4.0/video.min.js"></script>
+  
+  <!-- Dependencies -->
+  <script src="https://f4pga-examples.readthedocs.io/en/latest/_static/jquery.js"></script>
+  <link rel="stylesheet" href="https://f4pga-examples.readthedocs.io/en/latest/_static/stylesheets/f4pga.css">
+</head>
+
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-title">
+    <div style="background:red; color:white; padding: 2px 5px; font-weight:bold; border-radius:4px; margin-right:10px;">LOCAL</div>
+    <div>
+      <h1>Pi21 (Real Hardware)</h1>
+      <span class="text-muted">Direct Connection Mode</span>
+    </div>
+  </div>
+
+  <div class="header-center">
+    <span></span>👋 <strong>Welcome.</strong> This provides direct access to an FPGA board connected to a Raspberry Pi. Watch live video, control hardware, and connect via SSH to run your own bitstreams.</span>
+  </div>
+  
+  <div class="header-right">
+    <div class="header-status">
+      <div id="status-badge-21" class="status-badge" onclick="toggleHardwareMenu()" title="System Control Menu">
+        <div id="status-dot-21" class="status-dot"></div>
+        <span id="status-text-21">System Ready</span>
+        <span style="margin-left: 0.5rem; opacity: 0.6; display: inline-flex;">▼</span>
+      </div>
+      
+       <!-- Popover Menu -->
+       <div id="hw-menu" class="status-popover">
+           <div>
+               <div class="popover-section-title">System Status</div>
+               <div style="font-size: 0.8rem; color: #aaa; margin-bottom:0.5rem;">
+                   Connected to Pi21 via WebSocket.<br>
+                   Video Stream: Active
+               </div>
+           </div>
+           <div>
+               <div class="popover-section-title">Hardware Control</div>
+               <div class="popover-grid">
+                   <button class="popover-item danger">⚡ Reset Pi</button>
+                   <button class="popover-item">📹 Reset Video</button>
+                   <button class="popover-item">🔌 USB Power</button>
+                   <button class="popover-item">🔌 Cycle PoE</button>
+               </div>
+           </div>
+       </div>
+    </div>
+  </div>
+</header>
+
+
+<!-- Main Content: Vertical Split Wrapper -->
+<div class="main-vertical-split" id="mainVerticalSplit" style="height: 80vh;">
+
+  <!-- Top Panel: Video + Terminal (Resizable Split) -->
+  <div class="vertical-panel-top" id="topPanel">
+      <div class="split-container" id="splitContainer">
+        
+        <!-- Left Panel: Video + Controls -->
+        <div class="split-panel panel-left video-wrapper" id="panelLeft">
+          <div style="width:100%; height:100%; background:#000;">
+            <video
+                id="video-player21"
+                class="video-js vjs-default-skin vjs-big-play-centered"
+                controls
+                preload="auto"
+                width="100%"
+                height="100%"
+                data-setup='{"fluid": false}'
+                autoplay muted
+            >
+                <!-- REAL VIDEO -->
+                <source src="https://ps1.fpgas.online/hls/21/stream.m3u8" type="application/x-mpegURL">
+                <p class="vjs-no-js">Enable JS for Video</p>
+            </video>
+          </div>
+        </div>
+        
+        <!-- Draggable Gutter (Horizontal) -->
+        <div class="gutter" id="dragGutter"></div>
+
+        <!-- Right Panel: Terminal -->
+        <div class="split-panel panel-right card terminal-container" id="panelRight" style="padding:0; overflow:hidden; display: flex; flex-direction: row;">
+          
+           <!-- Sidebar Menu -->
+           <div class="sidebar-container" id="term-menu" style="width: 250px; background: #1e1e1e; border-right: 1px solid #333; display: flex; flex-direction: column;">
+              <div class="sidebar-header panel-title">
+                  SSH Terminal
+              </div>
+              <div class="sidebar-menu" style="flex-grow: 1; overflow-y: auto; padding: 0.5rem 0;">
+                <!-- 1. Tutorials (Default) -->
+                <div class="menu-category" data-category="tutorials">
+                  <div class="menu-item category-header" tabindex="0">
+                     <span class="indicator">▼</span> Tutorials
+                  </div>
+                  <div class="menu-children" style="display:block;">
+                     <div class="menu-item special active" tabindex="0" id="btn-hello-world" style="color: #00ff00;" data-cmd="cd ~/01_simple_test/v && make load">👋 Hello World (Start Here)</div>
+                  </div>
+                </div>
+
+                <!-- 2. Demos -->
+                <div class="menu-category" data-category="demos">
+                  <div class="menu-item category-header" tabindex="0">
+                     <span class="indicator">▶</span> Demos
+                  </div>
+                  <div class="menu-children" style="display:none;">
+                     <div class="menu-item" tabindex="0" data-cmd="cd ~/01_simple_test/v && make load" data-desc="Blink LEDs">Blink LEDs</div>
+                     <div class="menu-item" tabindex="0" data-cmd="cd ~/02_micropython && make load" data-desc="MicroPython">MicroPython</div>
+                     <div class="menu-item" tabindex="0" data-cmd="cd ~/03_linux_litex && make load" data-desc="Linux on Litex">Linux on Litex</div>
+                  </div>
+                </div>
+                
+                <!-- 3. Command Line -->
+                <div class="menu-item" tabindex="0" id="btn-term-free">>_ Command Line</div>
+              </div>
+            </div>
+
+           <!-- Terminal / Content Area -->
+           <div class="terminal-wrapper" style="flex-grow: 1; position: relative; display: flex; flex-direction: column;">
+               <div class="term-toolbar" style="height: 48px; border-bottom: 1px solid #333; background: #252526; display: flex; align-items: center; justify-content: flex-end; padding: 0 1rem;">
+                    <button id="wssh-connect" onclick="window.location.reload()" class="btn-sm btn-icon">
+                        Reset SSH
+                    </button>
+               </div>
+
+               <!-- Shared Terminal -->
+               <div id="shared-terminal" style="flex-grow: 1; position: relative;">
+                    <iframe id="wssh_if" style="width: 100%; height: 100%; border:0;" src=""></iframe>
+               </div>
+               
+
+               <!-- 2. BYO Guide (Hidden) -->
+               <div id="view-byo" style="padding: 2rem; display: none; overflow-y: auto; background: #000; color: #00ff00; font-family: 'Courier New', monospace; height: 100%;">
+                    <h2 style="border-bottom: 1px solid #00ff00; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">> MANUAL_OVERRIDE.exe</h2>
+                    
+                    <div class="instruction-step">
+                        <h3>1. Initialize Connection</h3>
+                        <p>Open your local terminal emulator.</p>
+                    </div>
+
+                    <div class="instruction-step">
+                        <h3>2. Execute Protocol</h3>
+                        <div class="cmd-block">ssh -p 12122 pi@ps1.fpgas.online</div>
+                    </div>
+
+                    <div class="instruction-step">
+                        <h3>3. Authenticate</h3>
+                        <div style="border: 1px dashed #00ff00; padding: 10px; margin-top: 10px;">
+                            User: pi<br>
+                            Pass: [Functionality Password]<br>
+                            Port: 12122
+                        </div>
+                    </div>
+               </div>
+
+                <!-- 3. Contribute Guide (Hidden) -->
+               <div id="view-contrib" style="padding: 2rem; display: none; overflow-y: auto; background: #1e1e1e; height: 100%;">
+                    <h2>🤝 Contribute a Demo</h2>
+                    <p>Join the library of FPGA examples.</p>
+                    
+                    <div class="instruction-step">
+                        <h3>Step 1: Fork & Clone</h3>
+                        <div class="cmd-block">git clone https://github.com/CarlFK/pici-demos.git</div>
+                    </div>
+                    
+                     <div class="instruction-step">
+                        <h3>Step 4: Self-Documentation</h3>
+                        <p>Create a `run_demo.sh` to automate the user experience.</p>
+                        <div class="cmd-block">#!/bin/bash
+echo "Loading My Cool Design..."
+make load
+echo "Done! Look at the LEDs."</div>
+                    </div>
+               </div>
+           </div>
+        </div>
+        
+      </div>
+  </div>
+
+</div>
+
+<!-- Logic -->
+<script>
+    const PORT = 21;
+    const HOST = "ps1.fpgas.online";
+    
+    // 1. Password Management
+    const savedPw = localStorage.getItem('pi_local_pw');
+    // Default password (Empty for commit safety - User can set locally)
+    const defaultPw = ""; 
+    
+    let pw = savedPw || defaultPw;
+    
+    if (!pw) {
+        // Fallback prompt
+        pw = prompt("Enter functionality password for Pi" + PORT + " (Leave empty for Mock Mode):");
+        if (pw && confirm("Save password locally?")) {
+            localStorage.setItem('pi_local_pw', pw);
+        }
+    }
+
+    // 2. Initialize WSSH
+    const wsshFrame = document.getElementById('wssh_if');
+    if (pw) {
+        console.log("Connecting to Real Hardware...");
+        const wsshUrl = `https://${HOST}/wssh/?hostname=10.${PORT}.0.1${PORT}&username=pi&title=pi${PORT}&password=${encodeURIComponent(pw)}`;
+        wsshFrame.src = wsshUrl;
+    } else {
+        console.log("Mock Mode Active");
+        wsshFrame.srcdoc = "<html><body style='background:#1e1e1e; color:#00ff00; font-family:monospace; padding:10px;'>pi@pi21:~$ # MOCK MODE<br># Enter password next time for real connection.<br></body></html>";
+    }
+
+    // 3. Patched PiStatus (from dcws.js)
+    // Overrides relative paths with absolute production URLs
+    function PiStatus(PiID) {
+        console.log("Initializing PiStatus for Pi" + PiID);
+        
+        function updateStatus(status, text) {
+            const badge = document.getElementById("status-text-" + PiID);
+            const dot = document.getElementById("status-dot-" + PiID);
+            if (badge) badge.innerText = text;
+            if (dot) dot.className = "status-dot " + status;
+        }
+
+        // Connect to Production WebSocket
+        const wsUrl = `wss://${HOST}/ws/pistat/pi${PiID}/`;
+        console.log("Connecting WS to:", wsUrl);
+        
+        let logSocket;
+        try {
+            logSocket = new WebSocket(wsUrl);
+        } catch(e) {
+            console.error("WS Error:", e);
+            updateStatus("disconnected", "WS Error");
+            return;
+        }
+
+        logSocket.onopen = function() {
+            console.log("WS Connected");
+            updateStatus("connected", "System Ready");
+        };
+
+        logSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            console.log("[WS]", data.message);
+            // We could append to a log div here if we added one
+        };
+        
+        logSocket.onclose = function() {
+            updateStatus("disconnected", "WS Closed");
+        };
+        
+        // Expose for buttons
+        window.remoteApp = {
+            resetPi: function() {
+                if(!confirm("Reboot the physical Pi?")) return;
+                logSocket.send(JSON.stringify({ message: "reset: " + PiID }));
+                // Trigger SNMP toggle via POST (Might fail due to CORS)
+                fetch(`https://${HOST}/snmp/toggle`, {
+                    method: "POST",
+                    headers: { "Content-type": "application/json" },
+                    body: JSON.stringify({ port: PiID }),
+                }).catch(err => console.warn("SNMP Toggle failed (CORS?):", err));
+            },
+            reconnect: function() {
+                logSocket.close();
+                PiStatus(PiID);
+            }
+        };
+    }
+    
+    // Auto-init
+    PiStatus(PORT);
+
+    // Hardware Menu Helpers
+    function toggleHardwareMenu() {
+        document.getElementById('hw-menu').classList.toggle('active');
+    }
+    
+    // Bind Popover Buttons
+    document.addEventListener('click', function(e) {
+        if(e.target.closest('.danger')) { window.remoteApp.resetPi(); }
+        // Add other bindings as needed
+    });
+    
+     // Split Panes (Simple version)
+     const leftPanel = document.getElementById('panelLeft');
+     const hGutter = document.getElementById('dragGutter');
+     let isDraggingH = false;
+     
+     hGutter.addEventListener('mousedown', (e) => { isDraggingH = true; e.preventDefault(); });
+     document.addEventListener('mousemove', (e) => {
+         if(isDraggingH) {
+             const percent = (e.clientX / window.innerWidth) * 100;
+             leftPanel.style.flexBasis = percent + "%";
+             const sshContainer = document.getElementById('ssh-container');
+             if(sshContainer) sshContainer.style.pointerEvents = 'none';
+         }
+     });
+     document.addEventListener('mouseup', () => { 
+         isDraggingH = false; 
+         const sshContainer = document.getElementById('ssh-container');
+         if(sshContainer) sshContainer.style.pointerEvents = 'auto'; 
+     });
+</script>
+
+<!-- Load logic from local file -->
+<script src="../static/demos.js"></script>
+
+<script>
+// Sidebar Navigation Logic
+document.addEventListener('DOMContentLoaded', function() {
+    const views = {
+        'btn-term-free': 'shared-terminal',
+        'btn-byo': 'view-byo',
+        'btn-contrib': 'view-contrib',
+        'btn-hello-world': 'shared-terminal'
+    };
+    
+    // Select all clickable items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            
+            const id = this.id;
+            const targetViewId = views[id];
+
+            if (targetViewId) {
+                // Switch View
+                document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Hide all views
+                document.getElementById('shared-terminal').style.display = 'none';
+                document.getElementById('view-byo').style.display = 'none';
+                document.getElementById('view-contrib').style.display = 'none';
+                
+                // Show target
+                const target = document.getElementById(targetViewId);
+                if(target) target.style.display = 'block';
+
+            } else if (this.dataset.cmd) {
+                // Demo Command
+                document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+
+                document.getElementById('shared-terminal').style.display = 'block';
+                document.getElementById('view-byo').style.display = 'none';
+                document.getElementById('view-contrib').style.display = 'none';
+                
+                // Try sending to iframe
+                const cmd = this.dataset.cmd;
+                const iframe = document.getElementById('wssh_if');
+                if (iframe && iframe.contentWindow && iframe.contentWindow.wssh) {
+                    iframe.contentWindow.wssh.send(cmd);
+                } else {
+                    console.log("Command:", cmd, "(No wssh connection found)");
+                }
+
+            } else if (this.classList.contains('category-header')) {
+                // Toggle Category
+                const children = this.nextElementSibling;
+                if(children && children.classList.contains('menu-children')) {
+                    children.style.display = (children.style.display === 'none') ? 'block' : 'none';
+                    const indicator = this.querySelector('.indicator');
+                    if(indicator) indicator.innerText = (children.style.display === 'none') ? '▶' : '▼';
+                }
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

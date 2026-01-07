@@ -1,40 +1,1271 @@
-  p {
-    margin: 1px;
-  }
+/* ===========================================
+   PICI FPGA Lab - PS1 Branded Styles
+   =========================================== */
 
-  h1 {
-    padding: 5px;
-    margin: 0px;
-  }
-  h2 {
-    padding: 1px;
-    margin: 0px;
-  }
+/* CSS Variables - PS1 Color Palette */
+:root {
+  --ps1-coral: #e84a5f;
+  --ps1-coral-dark: #d43f52;
+  --ps1-teal: #2aa4b4;
+  --ps1-teal-dark: #238d9b;
+  --ps1-charcoal: #2d3436;
+  --ps1-light: #f5f5f5;
+  --ps1-white: #ffffff;
+  --ps1-text: #333333;
+  --ps1-text-light: #666666;
+  --ps1-border: #e0e0e0;
 
-  ul {
-    margin: 0px;
-  }
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, sans-serif;
+  --font-mono: "SF Mono", Monaco, "Cascadia Code", "Courier New", monospace;
 
-  table.buttons {
-    width: fit-content;
-    float: left;
-    height: 100%;
-  }
-  table.buttons td {
-    width: fit-content;
-  }
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --radius: 8px;
+}
 
-  table td {
-    padding: 5px;
-    border: 1px solid black;
-    text-align: center;
-  }
-  table {
+/* Reset & Base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--ps1-light);
+  color: var(--ps1-text);
+  margin: 0;
+  padding: 20px; /* Restored padding */
+  line-height: 1.6;
+  min-height: 100vh; /* Allow growth */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Restore scroll */
+}
+
+/* Shared Panel Title Utility */
+.panel-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ps1-white);
+  /* text-transform: uppercase; REMOVED per user request */
+  letter-spacing: 0.05em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Typography */
+h1 {
+  color: var(--ps1-charcoal);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.1;
+}
+
+h2 {
+  color: var(--ps1-teal);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  border-bottom: 2px solid var(--ps1-teal);
+  padding-bottom: 0.5rem;
+}
+
+/* Header */
+/* (Header styles are defined further down, but we leave this space if needed, or just clean up) */
+
+.header-title img {
+  width: 72px;
+  height: 72px;
+  mix-blend-mode: multiply; /* Removes white background on light bg */
+}
+
+h3 {
+  color: var(--ps1-charcoal);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+p {
+  margin: 0 0 1rem 0;
+}
+
+a {
+  color: var(--ps1-teal);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--ps1-teal-dark);
+  text-decoration: underline;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--ps1-border);
+  background: var(--ps1-light);
+  margin-bottom: 1.5rem; /* Restored margin */
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.header-center {
+  flex: 1;
+  font-size: 10pt;
+  color: var(--ps1-charcoal);
+  line-height: 1.4;
+  padding: 0 1rem;
+  border-left: 1px solid var(--ps1-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-center-content {
+  width: 100%;
+  max-width: 453px;
+  text-align: left;
+}
+
+.header-right {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  border-left: 1px solid var(--ps1-border);
+  padding-left: 1rem;
+}
+
+/* Footer Styles */
+.footer-layout {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--ps1-border);
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem 0 1.5rem;
+  background: transparent;
+}
+
+.footer-title {
+  color: var(--ps1-charcoal);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem; /* Tighter layout */
+  text-align: left;
+  display: inline-block;
+  width: fit-content;
+  border-bottom: none; /* Remove teal underline from global h2 */
+  padding-bottom: 0;
+}
+
+.footer-hr {
+  border: 0;
+  border-top: 1px solid var(--ps1-border); /* Match header border style */
+  margin-bottom: 1.5rem; /* Reduced space before links */
+}
+
+.footer-cols {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  font-size: 0.9rem;
+}
+
+.footer-col {
+  flex: 1;
+  padding: 0 5%;
+}
+
+.footer-col:not(:first-child) {
+  border-left: 1px solid var(--ps1-border);
+}
+
+.footer-col h3 {
+  color: var(--ps1-charcoal); /* Keep contrast */
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  border-bottom: none; /* Cleaner look */
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-col a {
+  color: var(--ps1-text-light); /* Grayscale links */
+  text-decoration: none;
+}
+
+.footer-col a:hover {
+  color: var(--ps1-teal); /* Color on hover */
+  text-decoration: underline;
+}
+
+.footer-col .description {
+  font-size: 0.8em;
+  color: #999;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.header-links {
+  font-size: 0.875rem;
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ps1-charcoal);
+  background: var(--ps1-white);
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--ps1-border);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.status-badge:hover {
+  background: #f0f0f0;
+  border-color: #adb5bd;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #bdbdbd; /* Default gray */
+  transition: background-color 0.3s ease;
+}
+
+.status-dot.connected {
+  background-color: #2ecc71; /* Green */
+  box-shadow: 0 0 4px rgba(46, 204, 113, 0.4);
+}
+
+.status-dot.disconnected {
+  background-color: #e74c3c; /* Red */
+}
+
+/* Redundant log styles removed */
+
+
+.header-status textarea {
+  border: none;
+  background: transparent;
+  width: 300px;
+  height: 1.5em;
+  resize: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ps1-text-light);
+  padding: 0;
+  line-height: 1.5em;
+  outline: none;
+}
+
+/* --- New Layout Structure --- */
+
+/* Main vertical container that takes remaining height */
+.main-vertical-split {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* The Top Panel (Top Half of Vertical Split) */
+/* Vertical Panel Sizing - Consolidating logic */
+.vertical-panel-top {
+  flex-grow: 1;
+  flex-basis: 70%; 
+  min-height: 100px; /* Reduced from 300px to allow more resize flexibility */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Vertical Panel Sizing central logic at end of file */
+
+/* Vertical Split Gutter (Horizontal Bar) */
+.gutter-vertical {
+  height: 10px;
+  width: 100%;
+  cursor: row-resize;
+  background-color: var(--ps1-light);
+  border-top: 1px solid var(--ps1-border);
+  border-bottom: 1px solid var(--ps1-border);
+  flex-shrink: 0;
+  transition: background-color 0.2s;
+  background-image: linear-gradient(to bottom, transparent 4px, #ccc 4px, #ccc 6px, transparent 6px);
+  margin: 0;
+  z-index: 100; /* Ensure on top */
+}
+
+.gutter-vertical:hover, .gutter-vertical:active {
+  background-color: #e0e0e0;
+  background-image: linear-gradient(to bottom, transparent 4px, var(--ps1-teal) 4px, var(--ps1-teal) 6px, transparent 6px);
+}
+
+/* Existing Horizontal Split (Now inside .vertical-panel-top) */
+.split-container {
+  display: flex;
+  width: 100%;
+  height: 100%; /* Fill the top panel */
+  margin-bottom: 0;
+  overflow: hidden; /* Prevent spillover during resize */
+}
+
+.split-panel {
+  /* Default sizing, JS will override */
+  min-width: 300px; 
+}
+
+/* Left Panel (Video) */
+.panel-left {
+  flex-basis: 40%; /* Initial width */
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+/* Right Panel (Terminal) */
+.panel-right {
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 300px;
+}
+
+/* Draggable Gutter (Horizontal split) */
+.gutter {
+  width: 10px;
+  cursor: col-resize;
+  background-color: var(--ps1-light);
+  border-left: 1px solid var(--ps1-border);
+  border-right: 1px solid var(--ps1-border);
+  flex-shrink: 0;
+  transition: background-color 0.2s;
+  background-image: linear-gradient(to right, transparent 4px, #ccc 4px, #ccc 6px, transparent 6px); /* Grip lines */
+  z-index: 100; /* Ensure on top */
+}
+
+.gutter:hover, .gutter:active {
+  background-color: #e0e0e0;
+  background-image: linear-gradient(to right, transparent 4px, var(--ps1-teal) 4px, var(--ps1-teal) 6px, transparent 6px);
+}
+
+/* Mobile Media Query moved to end of file for cascade priority */
+
+/* Cards */
+.card {
+  background: var(--ps1-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 1.25rem;
+}
+
+.card-header {
+  background: var(--ps1-teal);
+  color: var(--ps1-white);
+  margin: -1.25rem -1.25rem 1rem -1.25rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius) var(--radius) 0 0;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-header {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: var(--ps1-white);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-header:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--ps1-white);
+}
+
+/* Bottom Section (Logs & Admin) */
+.bottom-section {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Take remaining height in bottom panel */
+  overflow: hidden;
+  background: #2d3436;
+}
+
+.bottom-log-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Bottom Section (Workspace Bottom) */
+.bottom-section {
+  width: 100%;
+  margin-top: 0; 
+  flex-basis: 180px; 
+  min-height: 48px; 
+  display: flex;
+  flex-direction: column;
+  background: transparent; /* Essential for accordion to not show empty dark box */
+  overflow: hidden;
+}
+
+.bottom-log-header {
+  background: var(--ps1-charcoal);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid #444;
+  border-radius: 0 0 0 0; /* Header itself is square inside the rounded container */
+}
+
+.bottom-section {
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.bottom-log-header:hover {
+  background: #353b3d;
+}
+
+.header-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.log-container {
+  background: #000;
+  display: none; /* Toggled via JS to flex */
+  flex-direction: column;
+  flex-grow: 1; /* MUST fill available space in bottom panel */
+  padding: 0;
+  /* Remove min-height from here, apply to the whole section when open */
+}
+
+/* Ensure flex display is used when visible, overridden by JS inline style usually, 
+   but we want it to flex-grow. */
+
+.bottom-log-textarea {
+  width: 100%;
+  flex: 1 1 auto; /* Grow and shrink as needed */
+  min-height: 80px; /* Give logs some space */
+  background: #000;
+  color: #00ff00;
+  border: none;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  resize: none;
+  outline: none;
+  border-bottom: 1px solid #333;
+}
+
+/* Debug Input Row */
+.debug-input-row {
+  display: flex;
+  flex: 0 0 auto; /* Do not shrink! This keeps it visible */
+  border-top: 1px solid #333;
+  background: #222;
+}
+
+.debug-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  font-family: monospace;
+  outline: none;
+}
+
+.debug-input:focus {
+  background: #333;
+}
+
+.btn-arrow {
+  background: var(--ps1-teal);
+  color: white;
+  border: none;
+  padding: 0 1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-arrow:hover {
+  background: var(--ps1-teal-dark);
+}
+.admin-tools-container {
+  padding: 1rem;
+  background: var(--ps1-charcoal); /* Matches requested dark theme look */
+  border-radius: var(--radius);
+  border-top: 2px solid var(--ps1-teal);
+}
+
+.admin-tools-header {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem; 
+  margin-bottom: 0.75rem; 
+  text-transform: uppercase; 
+  letter-spacing: 1px;
+}
+
+/* Video Player Overlay UI */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  /* Removed height: 100% to allow flex stretch to work */
+  /* min-height: 400px;  Keep min-height if needed, but let stretch rule */
+  border-radius: var(--radius) 0 0 0;
+  overflow: hidden;
+  background: #000; /* Black background for seamless video look */
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0.75rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 10;
+  opacity: 1; /* Always visible */
+}
+
+/* Removed hover opacity rule since it's always visible now */
+
+.overlay-title {
+  /* Inherits .panel-title via HTML or mixin if using SASS, but here we just align properties or expect class to be added */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+.overlay-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-overlay {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: var(--ps1-white);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s;
+}
+
+.btn-overlay:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: var(--ps1-white);
+}
+
+.btn-overlay.danger {
+  background: rgba(232, 74, 95, 0.6); /* PS1 Coral */
+  border-color: rgba(232, 74, 95, 0.8);
+}
+
+.btn-overlay.danger:hover {
+  background: rgba(232, 74, 95, 0.9);
+}
+
+/* Tooltips */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ps1-charcoal);
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 20;
+  pointer-events: none;
+  margin-top: 0.5rem;
+}
+
+.video-js {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 4/3;
+  display: block;
+}
+
+.terminal-container iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: none;
+  border-radius: 0; /* Inner content must be square */
+}
+
+.terminal-container {
+     border-radius: 0 var(--radius) 0 0 !important;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+  background: #252526; /* Match toolbar color */
+}
+
+/* Controls Grid */
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Buttons */
+.btn {
+  font-family: var(--font-main);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-sm {
+  font-family: var(--font-main);
+  background: var(--ps1-white);
+  border: 1px solid var(--ps1-border);
+  color: var(--ps1-charcoal);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  vertical-align: middle;
+}
+
+.btn-sm:hover {
+  background: #f0f0f0;
+  border-color: #adb5bd;
+}
+
+.btn-sm.success {
+  background: #2ecc71;
+  color: white;
+  border-color: #27ae60;
+}
+
+.btn-sm.danger {
+  background: var(--ps1-coral);
+  color: white;
+  border-color: var(--ps1-coral-dark);
+}
+
+.btn-primary {
+  background: var(--ps1-coral);
+  color: var(--ps1-white);
+}
+
+.btn-primary:hover {
+  background: var(--ps1-coral-dark);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--ps1-teal);
+  color: var(--ps1-white);
+}
+
+.btn-secondary:hover {
+  background: var(--ps1-teal-dark);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--ps1-text);
+  border: 1px solid var(--ps1-border);
+}
+
+.btn-outline:hover {
+  border-color: var(--ps1-teal);
+  color: var(--ps1-teal);
+}
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Icon Utilities */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  width: 1.1em;
+  height: 1.1em;
+  stroke-width: 2.5px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* Code Blocks */
+.code-block {
+  background: var(--ps1-charcoal);
+  color: #f8f8f2;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  position: relative;
+  margin: 0.5rem 0;
+}
+
+.code-block:hover {
+  cursor: pointer;
+}
+
+.code-block::after {
+  content: "Click to copy";
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  color: var(--ps1-text-light);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.code-block:hover::after {
+  opacity: 1;
+}
+
+/* Status Log */
+.status-log {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background: var(--ps1-charcoal);
+  color: #f8f8f2;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  resize: vertical;
+}
+
+/* Resources Section */
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.resource-card {
+  background: var(--ps1-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 1.25rem;
+  border-left: 4px solid var(--ps1-teal);
+}
+
+.resource-card h3 {
+  margin-bottom: 0.75rem;
+}
+
+.resource-card ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.resource-card li {
+  margin-bottom: 0.5rem;
+}
+
+.resource-card .description {
+  font-size: 0.875rem;
+  color: var(--ps1-text-light);
+  margin-top: 0.25rem;
+}
+
+/* Info Box */
+.info-box {
+  background: #e3f2fd;
+  border-left: 4px solid var(--ps1-teal);
+  padding: 1rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 1rem 0;
+}
+
+.info-box label {
+  font-weight: 600;
+  color: var(--ps1-charcoal);
+}
+
+/* Footer */
+.footer {
+  background: var(--ps1-charcoal);
+  color: var(--ps1-white);
+  margin: 2rem -20px -20px -20px;
+  padding: 1.5rem 20px;
+  text-align: center;
+}
+
+.footer a {
+  color: var(--ps1-coral);
+}
+
+/* Utility Classes */
+.text-muted {
+  color: var(--ps1-text-light);
+  font-size: 0.875rem;
+}
+
+.mt-1 {
+  margin-top: 0.5rem;
+}
+.mt-2 {
+  margin-top: 1rem;
+}
+.mb-1 {
+  margin-bottom: 0.5rem;
+}
+.mb-2 {
+  margin-bottom: 1rem;
+}
+
+/* Tabs */
+.tab-header {
+  display: flex;
+  background: var(--ps1-teal);
+  border-bottom: 1px solid var(--ps1-border);
+  border-radius: var(--radius) var(--radius) 0 0;
+  overflow: hidden;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 1rem 1.5rem;
+  font-family: var(--font-main);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ps1-white);
+}
+
+.tab-btn.active {
+  color: var(--ps1-white);
+  border-bottom-color: var(--ps1-white);
+  background: var(--ps1-teal-dark);
+}
+
+.tab-content {
+  display: none;
+  position: relative;
+  background: var(--ps1-white);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* SSH Sidebar & Menu */
+#ssh-sidebar {
+  user-select: none;
+  font-size: 14px;
+}
+
+#ssh-sidebar ::-webkit-scrollbar {
+  width: 8px;
+  background: #111;
+}
+
+#ssh-sidebar ::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+.menu-item {
+  padding: 4px 10px; /* Reduced vertical padding */
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.1s;
+  color: var(--ps1-teal); /* Default Teal text on dark bg */
+  font-size: 0.85rem; /* Match terminal size */
+  font-weight: 400;   /* Match terminal weight */
+}
+
+.menu-item:hover {
+  background: rgba(42, 164, 180, 0.1); /* Subtle Teal tint */
+}
+
+.menu-item:focus, .menu-item.active {
+  background: var(--ps1-teal); /* Full Teal Background */
+  color: #fff; /* White Text */
+  outline: none;
+  border-left-color: #fff; /* White Indicator */
+  font-weight: 400; /* Keep weight consistent */
+}
+
+.category-header {
+  font-weight: 400;
+  text-transform: none; /* Remove caps */
+  letter-spacing: normal;
+  color: #fff;
+  border-bottom: 1px dashed #444;
+  margin-top: 10px;
+  font-size: 0.85rem; /* Match terminal size */
+}
+
+.menu-item.disabled {
+  cursor: default;
+  color: #999; /* Lightened from #666 for better readability */
+  font-style: italic;
+}
+
+.menu-item.special {
+    color: #00bcd4; /* Cyan for visibility */
+    font-weight: bold;
+}
+
+/* Ensure special items turn white when active */
+.menu-item.special.active {
+    color: #fff !important;
+}
+
+.menu-children {
+  margin-left: 10px;
+  border-left: 1px solid #333;
+}
+
+/* Hide old tab styles if they exist or repurposed */
+.tab-header, .tab-content {
+  /* display: none; */ 
+  /* Removed in HTML, safe to ignore or clean up later */
+}
+
+/* Terminal Views (BYO & Contribute) */
+#view-byo, #view-contrib {
+  font-size: 0.85rem !important; /* Force match sidebar */
+  line-height: 1.4;
+  color: #d4d4d4; /* High contrast light grey */
+}
+
+#view-byo h2, #view-contrib h2 {
+  font-size: 1.1rem !important;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom-width: 1px;
+  font-weight: 600;
+}
+
+#view-byo h3, #view-contrib h3 {
+  font-size: 0.95rem !important; /* Slightly larger than body */
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: inherit; /* Use parent color (Green/White) */
+}
+
+/* Specific overrides for the green terminal look */
+#view-byo h3 { color: #00ff00; }
+#view-contrib h3 { color: #fff; }
+
+.instruction-step {
+  margin-bottom: 1rem; /* Tighter spacing */
+  border-left: 2px solid #333;
+  padding-left: 0.75rem;
+}
+
+.instruction-step p {
+  font-size: 0.85rem !important;
+  margin-bottom: 0.5rem;
+  color: #b0b0b0; /* Slightly dimmer but legible grey */
+  opacity: 1; /* Remove opacity to prevent double-dimming */
+}
+
+.cmd-block {
+    background: #111;
+    padding: 8px;
+    border: 1px solid #333;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    font-size: 0.8rem; /* Even smaller for code */
+    margin-top: 5px;
+}
+
+.contribute-item {
+  display: block;
+  background: rgba(0, 188, 212, 0.05);
+  border: 1px solid var(--ps1-border);
+  border-left: 4px solid var(--ps1-teal);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: var(--ps1-text);
+  position: relative;
+}
+
+.contribute-item:hover {
+  border-color: var(--ps1-teal);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transform: translateY(-2px);
+}
+
+.contribute-item h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--ps1-teal);
+  font-size: 1rem;
+}
+
+.contribute-item p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #636e72;
+}
+
+/* Collapsible Description */
+.panel-description {
+  margin: 0;
+  padding: 0.75rem 1.25rem;
+  background: #E3F2FD;
+  border-bottom: 1px solid var(--ps1-border);
+}
+
+.desc-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ps1-charcoal);
+  cursor: pointer;
+}
+
+.desc-toggle::after {
+  content: '▼';
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+}
+
+.desc-toggle.collapsed::after {
+  transform: rotate(-90deg);
+}
+
+.desc-content {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--ps1-text);
+  line-height: 1.5;
+}
+
+.desc-content.collapsed {
+  display: none;
+}
+
+/* Status Popover Menu */
+.header-status {
+  position: relative; /* Anchor for popover */
+}
+
+.status-badge {
+    cursor: pointer;
+}
+
+.status-popover {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  width: 280px;
+  background: var(--ps1-charcoal);
+  border: 1px solid var(--ps1-teal);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  z-index: 2000;
+  padding: 1rem;
+  display: none; /* Toggled by JS */
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.status-popover.active {
+    display: flex;
+}
+
+.popover-section-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 0.25rem;
+}
+
+.popover-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.popover-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--ps1-white);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
     width: 100%;
-    height: 90%;
-    text-align: center;
+}
+
+.popover-item:hover {
+    background: var(--ps1-teal-dark);
+    border-color: var(--ps1-teal);
+}
+
+.popover-item.danger:hover {
+    background: #c0392b;
+    border-color: #e74c3c;
+}
+
+/* --- Mobile Responsive Overrides (Placed at end for specificity) --- */
+@media (max-width: 900px) {
+  .split-container {
+    flex-direction: column;
+    overflow-y: visible; /* Allow content to flow */
   }
-  iframe {
-    width: 100%;
-    height: 100%;
+  .main-vertical-split {
+      overflow-y: visible;
+      display: block; /* Stack vertically */
+      height: auto !important; /* Let content dictate height */
   }
+  .vertical-panel-top {
+      height: auto !important;
+      flex-basis: auto !important;
+      overflow: visible;
+  }
+  .bottom-section {
+      height: auto !important;
+      flex-basis: auto !important;
+      overflow: visible;
+      margin-top: 0;
+  }
+  .gutter, .gutter-vertical {
+    display: none !important;
+  }
+  .panel-left, .panel-right {
+    flex-basis: auto !important;
+    width: 100% !important;
+    margin-bottom: 0;
+  }
+  
+  /* --- Mobile Specific Rounding & Sizing --- */
+  
+  /* Video: Top corners rounded, min-height enforced */
+  .video-wrapper {
+      border-radius: var(--radius) var(--radius) 0 0 !important;
+      min-height: 300px; 
+      width: 100% !important;
+  }
+  
+  /* SSH Terminal: No corners, stacked in middle (Crucial: Overrides desktop Rule) */
+  .terminal-container {
+      border-radius: 0 !important; /* SQUARE TOP RIGHT for mobile */
+      width: 100% !important;
+      border-left: none !important; /* Remove separator */
+      min-height: 500px; /* Wise default for mobile terminal usage */
+  }
+  
+  /* Debug Panel: Bottom corners remain rounded (default), ensure width */
+  .bottom-section {
+      width: 100% !important;
+      border-radius: 0 0 var(--radius) var(--radius) !important;
+  }
+  
+  /* Hide resize handles effectively */
+  #dragGutter, #verticalGutter {
+      display: none;
+  }
+}
