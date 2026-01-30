@@ -1,18 +1,18 @@
 ---
 
 eth_uplink_mac_address: 0c:c4:7a:16:3b:4b
-eth_uplink_static: false
-# for the firewall:
-eth_uplink_static_address: 198.0.220.197
+eth_uplink_static: true
+eth_uplink_static_address: 10.31.0.2
+eth_uplink_static_netmask: 16
 
 eth_local_mac_address: 0c:c4:7a:16:3b:4a
-eth_local_address: 10.21.0.1
-eth_local_netmask: 24
-dhcp_range: 10.21.0.128,10.21.0.254,6h
+eth_local_address: 10.31.0.3
+eth_local_netmask: 16
+dhcp_range: 10.31.0.128,10.31.0.254,6h
 
-pib_network: 10.21.0
+pib_network: 10.31.0
 
-firewall_internal_networks: [10.21.0.0/24]
+firewall_internal_networks: [10.31.0.0/16]
 
 user_name: videoteam
 
@@ -40,54 +40,26 @@ switch_base: base
 switch:
     mac: 08:bd:43:6b:bb:e0
     oid: iso.3.6.1.2.1.105.1.1.1.3.1
-    host: "10.21.0.200"
-
-    # pi mac n ports
+    host: "10.1.5.11"
 
     # pi for maintenance.sh
-    mpi_port: 42
-    mpi_ip: "{{ pib_network }}.{{ 100+42 }}"
+    mpi_port: 3
+    mpi_ip: "{{ pib_network }}.{{ 100+switch.mpi_port }}"
 
     nos:
-    - { port: 34, mac: "b8:27:eb:6d:27:f6", sn: "7a6d27f6", loc: "", cable_color: "white" }
-    - { port: 36, mac: "b8:27:eb:86:39:63", sn: "80863963", loc: "", cable_color: "blue" }
-    - { port: 40, mac: "e4:5f:01:97:1f:7e", sn: "613a4524", loc: "", cable_color: "gray" }
-    - { port: 42, mac: "e4:5f:01:8d:f7:17", sn: "f77b8415",
+    - { port: 3, mac: "e4:5f:01:8d:f7:17", sn: "f77b8415",
         model: "Raspberry_Pi_4_Model_B_Rev_1",
-        loc: "",  cable_color: "yellow" }
+        loc: "", cable_color: "yellow" }
+    - { port: 5, mac: "e4:5f:01:97:1f:7e", sn: "613a4524",
+        loc: "", cable_color: "gray" }
+    - { port: 7, mac: "e4:5f:01:97:32:d2", sn: "8483b266",
+        loc: "", cable_color: "gray/white" }
+    - { port: 25, mac: "b8:27:eb:47:9f:d1", sn: "",
+        loc: "", cable_color: "" }
+    - { port: 35, mac: "b8:27:eb:fc:4d:f8", sn: "",
+        loc: "", cable_color: "" }
 
-    # - { port: 44, mac: "dc:a6:32:b4:5e:c9", sn: "329205c6", loc: "", cable_color: "gray" }
-    - { port: 46, mac: "e4:5f:01:97:32:d2", sn: "8483b266", loc: "", cable_color: "gray/white" }
-    - { port: 48, mac: "e4:5f:01:96:f8:a5", sn: "ce8e3593", loc: "", cable_color: "blue" }
-
-    SNMP_SWITCH_SECURITY_LEVEL: authNoPriv
-    SNMP_SWITCH_AUTH_PROTOCOL: SHA512
-    SNMP_SWITCH_PRIV_PROTOCOL: AES128
-
-    SNMP_SWITCH_USERNAME: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          37643964613063613332653435376138376663643138343863623665613365343063393135653766
-          6463636537633165333130626535336562343665363236330a356333356139636566623837383062
-          35393239643665663231323032353966363237666430363532383837316532366130343537653962
-          3964363135333235610a623863653634626564623339356237623666626531623962623237336433
-          3066
-
-    SNMP_SWITCH_AUTHKEY: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          37636536383562356232393666656666363635306135633864393462353163336139633138633139
-          3734333630663761313862323631653831386463353834360a303334653832313437386239613265
-          61616564373862643232643831623637363164343837313933653134313131646261363935636631
-          6438633838633633330a316363396531353065636336643564373861383661376463336665646634
-          3562
-
-    SNMP_SWITCH_PRIVKEY: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          38336562353536613663393435303836373863303330636138656263376365306338633961656132
-          6365383331376264653561383662633539323533383964660a623034333737356262346332333439
-          63383035303639666362623866316132336537333335333461626662363961396639396130346163
-          3336343733323735340a323536626361323362313066636137383561326561303362343338633162
-          6633
-
+    SNMP_SWITCH_COMMUNITY: pib
 
 pi_pw: !vault |
           $ANSIBLE_VAULT;1.1;AES256
