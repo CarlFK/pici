@@ -1,0 +1,2 @@
+# {{ ansible_managed }}
+root=/dev/nfs nfsroot={{ eth_local_address }}:{{ nfs_root }}/root,nfsvers=3 ro ip=dhcp rootwait consoleblank=0 netconsole=@/,@{{ eth_local_address }}/ overlayroot=tmpfs console=serial0,115200

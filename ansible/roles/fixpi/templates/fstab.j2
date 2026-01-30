@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+# proc            /proc           proc    defaults          0       0
+{{ eth_local_address }}:{{ nfs_root }}/boot /boot/firmware nfs defaults,noauto,ro,nfsvers=3 0 0
+{{ eth_local_address }}:{{ nfs_root }}/root / nfs defaults,noauto,ro,nfsvers=3 0 0

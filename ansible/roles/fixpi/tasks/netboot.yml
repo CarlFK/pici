@@ -22,15 +22,17 @@
     - config.txt
     - cmdline.txt
 
-- name: replace config/cmdline with netbootie versions
+- name: replace config.txt with netbootie version
   copy:
-    src: "files/boot/{{ item }}"
-    dest: "{{ nfs_root }}/boot/{{ item }}"
-  with_items:
-    - config.txt
-    - cmdline.txt
+    src: "files/boot/config.txt"
+    dest: "{{ nfs_root }}/boot/config.txt"
+
+- name: replace cmdline.txt with netbootie version
+  template:
+    src: "cmdline.txt.j2"
+    dest: "{{ nfs_root }}/boot/cmdline.txt"
 
 - name: replace local SD card with nfs mount point
-  copy:
-    src: "files/etc/fstab"
+  template:
+    src: "fstab.j2"
     dest: "{{ nfs_root }}/root/etc/fstab"
