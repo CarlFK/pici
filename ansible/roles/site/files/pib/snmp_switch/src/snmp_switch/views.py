@@ -42,7 +42,7 @@ def status(request):
     port = o['port']
     params['port'] = port
 
-    d = async_to_sync(snmp_get_state)( **params )
+    d = async_to_sync(snmp_get_state)( params )
     d = {'state':d['state']}
     notify_dcws(port,"get", d['state'])
 
@@ -63,13 +63,13 @@ def toggle(request):
 
     ret = {port:[]}
 
-    d = async_to_sync(snmp_set_state)(state='2',**params)
+    d = async_to_sync(snmp_set_state)(params, state='2')
     notify_dcws(port, "set", d['state'])
     ret[port].append(d['state'])
 
     time.sleep(.5)
 
-    d = async_to_sync(snmp_set_state)(state='1',**params)
+    d = async_to_sync(snmp_set_state)(params, state='1')
     notify_dcws(port, "set", d['state'])
     ret[port].append(d['state'])
 
@@ -89,7 +89,7 @@ def toggle_all(request):
     # all off:
     for port in range(1,48):
         params['port'] = str(port)
-        d = snmp_set_state( state='2', **params )
+        d = snmp_set_state( params, state='2' )
         notify_dcws(port, "get", d['state'])
         ret[port].append(d['state'])
 
@@ -98,7 +98,7 @@ def toggle_all(request):
     # all on:
     for port in range(1,48):
         params['port'] = str(port)
-        d = snmp_set_state( state='1', **params )
+        d = snmp_set_state( params, state='1' )
         notify_dcws(port, "set", d['state'])
         ret['was'][port] = d['state']
 
@@ -119,7 +119,7 @@ def off_all(request):
     # all off:
     for port in range(1,48):
         params['port'] = str(port)
-        d = snmp_set_state( state='2', **params )
+        d = snmp_set_state( params, state='2' )
         notify_dcws(port, "set", d['state'])
         ret[port].append(d['state'])
 
