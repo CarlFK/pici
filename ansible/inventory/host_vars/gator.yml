@@ -20,8 +20,8 @@ room_name: 3242
 common_name: fpgas.online
 subject_alt_names:
   - fpgas.mithis.com
-  - k207.fpgas.mithis.com
-  - k207.fpgas.online
+  - welland.fpgas.mithis.com
+  - welland.fpgas.online
 
 streaming_frontend_aliases: []
   # streaming_frontend_hostname: fpgas.online

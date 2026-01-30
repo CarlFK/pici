@@ -17,15 +17,15 @@ firewall_internal_networks: [10.21.0.0/24]
 user_name: videoteam
 
 conference_name: pib
-room_name: k207
+room_name: welland
 
 time_zone: America/Los_Angeles
 
 common_name: fpgas.online
 subject_alt_names:
   - fpgas.mithis.com
-  - k207.fpgas.mithis.com
-  - k207.fpgas.online
+  - welland.fpgas.mithis.com
+  - welland.fpgas.online
 
 streaming_frontend_aliases: []
 streaming_frontend_hostname: fpgas.online
