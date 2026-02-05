@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pi{{pi.port}} - FPGA Lab | Pumping Station One</title>
+  <title>Pi21 - FPGA Lab | Pumping Station One (Preview)</title>
   
-  <link rel="icon" href="/fpga.png">
-  <link rel="stylesheet" href="/pib.css">
+  <!-- Changed paths for local preview -->
+  <link rel="icon" href="../static/fpga.png">
+  <link rel="stylesheet" href="../static/pib.css">
   
   <!-- Video.js -->
   <link href="https://vjs.zencdn.net/8.4.0/video-js.min.css" rel="stylesheet">
   <script src="https://vjs.zencdn.net/8.4.0/video.min.js"></script>
   
   <!-- Dependencies -->
-  <script src="/dcws.js"></script>
+  <script src="../static/dcws.js"></script> <!-- Mock path -->
   <script src="https://f4pga-examples.readthedocs.io/en/latest/_static/jquery.js"></script>
   <link rel="stylesheet" href="https://f4pga-examples.readthedocs.io/en/latest/_static/stylesheets/f4pga.css">
 </head>
@@ -23,9 +24,9 @@
 <!-- Header -->
 <header class="header">
   <div class="header-title">
-    <img src="/fpga.png" alt="FPGA Icon">
+    <img src="../static/fpga.png" alt="FPGA Icon">
     <div>
-      <h1>Pi{{pi.port}}</h1>
+      <h1>Pi21</h1>
       <span class="text-muted">Remote FPGA Development Lab</span>
     </div>
   </div>
@@ -36,60 +37,57 @@
   
   <div class="header-right">
     <div class="header-links">
-      <a href="/" class="btn-icon" style="display: inline-flex;">← Home</a>
+      <a href="#" class="btn-icon" style="display: inline-flex;">← Home</a>
       &nbsp;|&nbsp;
-      <a href="https://github.com/CarlFK/pici/blob/main/ansible/roles/site/files/pib/pibfpgas/src/pibfpgas/templates/tt.html">Edit on GitHub</a>
+      <a href="#">Edit on GitHub</a>
     </div>
     
     <!-- Compact Status System -->
     <div class="header-status">
-      <div id="status-badge-{{pi.port}}" class="status-badge" onclick="toggleHardwareMenu()" title="System Control Menu">
-        <div id="status-dot-{{pi.port}}" class="status-dot"></div>
-        <span id="status-text-{{pi.port}}">Connecting...</span>
+      <div id="status-badge-21" class="status-badge" onclick="toggleHardwareMenu()" title="System Control Menu">
+        <div id="status-dot-21" class="status-dot"></div>
+        <span id="status-text-21">System Ready</span>
         <span style="margin-left: 0.5rem; opacity: 0.6; display: inline-flex;">▼</span>
       </div>
+      
+      <!-- Popover Menu -->
+      <div id="hw-menu" class="status-popover">
+          <div>
+              <div class="popover-section-title">System Status</div>
+              <div style="font-size: 0.8rem; color: #aaa; margin-bottom:0.5rem;">
+                  Connected to Pi21 via WebSocket.<br>
+                  Video Stream: Active
+              </div>
+          </div>
 
-       <!-- Popover Menu -->
-       <div id="hw-menu" class="status-popover">
-           <div>
-               <div class="popover-section-title">System Status</div>
-               <div style="font-size: 0.8rem; color: #aaa; margin-bottom:0.5rem;">
-                   Connected to Pi{{pi.port}} <br>
-                   Video Stream: Active
-               </div>
-           </div>
- 
-           <div>
-               <div class="popover-section-title">Hardware Control</div>
-               <div class="popover-grid">
-                   <button onclick="document.getElementById('reset{{pi.port}}').click()" class="popover-item danger">
-                       ⚡ Reset Pi
-                   </button>
-                   <button onclick="document.getElementById('refresh-video-player{{pi.port}}').click()" class="popover-item">
-                       📹 Reset Video
-                   </button>
-                    <!-- Using hidden input triggers -->
-                   <button class="popover-item" onclick="document.getElementById('usb_on').click()">
-                       🔌 USB On
-                   </button>
-                   <button class="popover-item" onclick="document.getElementById('usb_off').click()">
-                       🔌 USB Off
-                   </button>
-                    <button onclick="document.getElementById('status{{pi.port}}').click()" class="popover-item">
-                       🔌 Cycle PoE
-                   </button>
-               </div>
-           </div>
-           
-           <div>
-               <div class="popover-section-title">Connection</div>
-                <button onclick="document.getElementById('reconnect{{pi.port}}').click()" class="popover-item" style="width:100%">
-                   ↻ Reconnect WebSocket
-               </button>
-           </div>
-       </div>
+          <div>
+              <div class="popover-section-title">Hardware Control</div>
+              <div class="popover-grid">
+                  <button onclick="document.getElementById('reset21').click()" class="popover-item danger">
+                      ⚡ Reset Pi
+                  </button>
+                  <button onclick="document.getElementById('refresh-video-player21').click()" class="popover-item">
+                      📹 Reset Video
+                  </button>
+                  <button id="btn-usb-toggle" class="popover-item" onclick="toggleUsb()">
+                      🔌 USB Power
+                  </button>
+                   <button onclick="document.getElementById('status21').click()" class="popover-item">
+                      🔌 Cycle PoE
+                  </button>
+              </div>
+          </div>
+          
+          <div>
+              <div class="popover-section-title">Connection</div>
+               <button onclick="document.getElementById('reconnect21').click()" class="popover-item" style="width:100%">
+                  ↻ Reconnect WebSocket
+              </button>
+          </div>
+      </div>
 
-      <input id="reconnect{{pi.port}}" type="submit" value="↻" style="display: none;">
+      <!-- Hidden Original Buttons for binding -->
+      <input id="reconnect21" type="submit" value="↻" style="display: none;">
     </div>
   </div>
 </header>
@@ -131,22 +129,9 @@
               </div>
           </div>
 
-          <!-- Video Player -->
-          <div style="width:100%; height:100%; background:#000;">
-            <video
-                id="video-player21"
-                class="video-js vjs-default-skin vjs-big-play-centered"
-                controls
-                preload="auto"
-                width="100%"
-                height="100%"
-                data-setup='{"fluid": false}'
-            >
-                <source src="https://{{domain_name}}/hls/{{pi.port}}/stream.m3u8" type="application/x-mpegURL">
-                <p class="vjs-no-js">
-                    To view this video please enable JavaScript, and consider upgrading to a web browser that supports HTML5 video
-                </p>
-            </video>
+          <!-- Placeholder for video in preview -->
+          <div style="width:100%; height:100%; background:#000; display:flex; align-items:center; justify-content:center; color:white;">
+            [Live Video Feed Mock]
           </div>
         </div>
         
@@ -215,9 +200,27 @@
 
                <!-- Views -->
                
-                <!-- 1. Shared Terminal (Default) -->
+               <!-- 1. Shared Terminal (Default) -->
                <div id="shared-terminal" style="flex-grow: 1; position: relative;">
-                    <iframe id="wssh_if" style="width: 100%; height: 100%; border:0;" src="https://{{ domain_name }}/wssh/?hostname={{ip}}&username=pi&title=pi{{pi.port}}&password={{pw}}"></iframe>
+                    <iframe id="wssh_if" style="width: 100%; height: 100%; border:0;" srcdoc="
+                        <html>
+                        <body style='background:#1e1e1e; color:#00ff00; font-family:monospace; margin:0; padding:10px; overflow:hidden;'>
+                            <div id='term-output'>
+                                pi@pi21:~$ <span style='opacity:0.5'># Connected to Local Simulator</span><br>
+                            </div>
+                            <script>
+                                window.wssh = {
+                                    send: function(cmd) {
+                                        const term = document.getElementById('term-output');
+                                        term.innerHTML += '<br>pi@pi21:~$ ' + cmd;
+                                        term.innerHTML += '<br><span style=\'color:#aaa\'>[SIM] Executing... Done.</span>';
+                                        window.scrollTo(0, document.body.scrollHeight);
+                                    }
+                                };
+                            </script>
+                        </body>
+                        </html>
+                    "></iframe>
                </div>
 
                <!-- 2. BYO Guide (Hidden) -->
@@ -231,7 +234,7 @@
 
                     <div class="instruction-step">
                         <h3>2. Execute Protocol</h3>
-                        <div class="cmd-block">ssh -p {{pi.port|int + 12101}} pi@{{domain_name}}</div>
+                        <div class="cmd-block">ssh -p 12122 pi@localhost</div>
                     </div>
 
                     <div class="instruction-step">
@@ -239,7 +242,7 @@
                         <div style="border: 1px dashed #00ff00; padding: 10px; margin-top: 10px;">
                             User: pi<br>
                             Pass: [Check MOTD]<br>
-                            Port: {{pi.port|int + 12101}}
+                            Port: 12122
                         </div>
                     </div>
                </div>
@@ -265,6 +268,7 @@ echo "Done! Look at the LEDs."</div>
                </div>
 
            </div>
+        </div>
         
       </div>
   </div>
@@ -283,24 +287,27 @@ echo "Done! Look at the LEDs."</div>
                   <div class="header-controls" onclick="event.stopPropagation()">
                     <!-- Hidden: Moved to System Status Popover -->
                     <div style="display:none;">
-                       <button id="reconnect{{pi.port}}" type="submit" class="btn-sm btn-icon">Reconnect</button>
-                       <button id="status{{pi.port}}" type="submit" class="btn-sm btn-icon">PoE</button>
+                       <button id="reconnect21" type="submit" class="btn-sm btn-icon">Reconnect</button>
+                       <button id="status21" type="submit" class="btn-sm btn-icon">PoE</button>
                        <input id="usb_off" type="submit" value="USB Off" class="btn-sm danger">
                        <input id="usb_on" type="submit" value="USB On" class="btn-sm success">
                     </div>
-                      
-                      <input id="log-submit{{pi.port}}" type="button" value="Test WS" class="btn-sm"> 
+
+                      <input id="log-submit21" type="button" value="Test WS" class="btn-sm"> 
                   </div>
               </div>
               <span id="log-toggle-icon" style="font-size: 0.8em">▼</span>
           </div>
           
           <div id="log-container" class="log-container" style="display: flex; flex-direction: column;">
-              <textarea id="log{{pi.port}}" class="bottom-log-textarea" readonly style="flex-grow: 1; margin-bottom: 0.5rem;"></textarea>
+              <textarea id="log21" class="bottom-log-textarea" readonly style="flex-grow: 1; margin-bottom: 0.5rem;">Time: 2026-01-06 16:08:45
+System Load: 0.45 0.52 0.48
+CORE Temp: 42.5'C
+Connected.</textarea>
               
               <div class="debug-input-row" style="display: flex; gap: 0;">
-                  <input id="log-text{{pi.port}}" type="text" placeholder="WS test message" class="debug-input">
-                  <button class="btn-arrow" onclick="document.getElementById('log-submit{{pi.port}}').click()">➜</button>
+                  <input id="log-text21" type="text" placeholder="WS test message" class="debug-input">
+                  <button class="btn-arrow" onclick="console.log('Send mock')">➜</button>
               </div>
 
                <!-- Hidden inputs kept for compatibility -->
@@ -328,11 +335,11 @@ echo "Done! Look at the LEDs."</div>
       <h3 class="btn-icon">🎓 Tiny Tapeout</h3>
       <ul>
         <li>
-          <a href="https://tinytapeout.com">Tiny Tapeout</a>
+          <a href="#">Tiny Tapeout</a>
           <span class="description">Educational project for manufacturing real chips!</span>
         </li>
         <li>
-          <a href="https://commander.tinytapeout.com/">TT Commander</a>
+          <a href="#">TT Commander</a>
           <span class="description">Configure and control your Board</span>
         </li>
       </ul>
@@ -343,15 +350,15 @@ echo "Done! Look at the LEDs."</div>
       <h3 class="btn-icon">🛠️ FPGA Toolchains</h3>
       <ul>
         <li>
-          <a href="https://f4pga.org">F4PGA</a>
+          <a href="#">F4PGA</a>
           <span class="description">Open source Xilinx 7 toolchain</span>
         </li>
         <li>
-          <a href="https://github.com/openXC7">OpenXC7</a>
+          <a href="#">OpenXC7</a>
           <span class="description">Alternative open source toolchain</span>
         </li>
         <li>
-          <a href="https://www.xilinx.com/products/design-tools/vivado.html">AMD Vivado</a>
+          <a href="#">AMD Vivado</a>
           <span class="description">Official proprietary toolchain</span>
         </li>
       </ul>
@@ -362,11 +369,11 @@ echo "Done! Look at the LEDs."</div>
       <h3 class="btn-icon">🔌 Arty A7 Dev Board</h3>
       <ul>
         <li>
-          <a href="https://f4pga-examples.readthedocs.io/">F4PGA Examples</a>
+          <a href="#">F4PGA Examples</a>
           <span class="description">Demo projects for Arty A7</span>
         </li>
         <li>
-          <a href="https://digilent.com/reference/programmable-logic/arty-a7/start">Digilent Reference</a>
+          <a href="#">Digilent Reference</a>
           <span class="description">Official documentation</span>
         </li>
       </ul>
@@ -375,9 +382,6 @@ echo "Done! Look at the LEDs."</div>
 </footer>
 
 
-<!-- Scripts -->
-<script src="https://f4pga-examples.readthedocs.io/en/latest/_static/javascripts/f4pga.js"></script>
-<script>PiStatus("{{pi.port}}")</script>
 <script>
 function openTab(evt, tabName) {
   var i, tabcontent, tablinks;
@@ -394,12 +398,14 @@ function openTab(evt, tabName) {
   document.getElementById(tabName).classList.add("active");
   evt.currentTarget.className += " active";
 
-  // Shared Terminal Logic
+  // Shared Terminal Logic (Mock)
   var sharedTerm = document.getElementById("shared-terminal");
-  if (tabName === 'tab-local') {
-    sharedTerm.style.display = "none";
-  } else {
-    sharedTerm.style.display = "block";
+  if (sharedTerm) {
+      if (tabName === 'tab-local') {
+        sharedTerm.style.display = "none";
+      } else {
+        sharedTerm.style.display = "block";
+      }
   }
 }
 
@@ -415,7 +421,7 @@ function toggleLogs() {
   var bottomPanel = document.getElementById("bottomPanel");
   
   if (logContainer.style.display === "none") {
-    logContainer.style.display = "flex"; // Flex for full height
+    logContainer.style.display = "flex";
     bottomPanel.style.flexBasis = "180px"; /* Default height when opened */
     bottomPanel.style.minHeight = "48px"; /* Allow manual reduction below default */
     toggleBtn.innerHTML = "▼";
@@ -427,7 +433,35 @@ function toggleLogs() {
   }
 }
 </script>
-<script src="/demos.js"></script>
+
+
+<script>
+// Hardware Menu Logic
+function toggleHardwareMenu() {
+    const menu = document.getElementById('hw-menu');
+    menu.classList.toggle('active');
+}
+
+// Close on click outside
+document.addEventListener('click', function(e) {
+    const menu = document.getElementById('hw-menu');
+    const badge = document.getElementById('status-badge-21');
+    if (menu.classList.contains('active') && !menu.contains(e.target) && !badge.contains(e.target)) {
+        menu.classList.remove('active');
+    }
+});
+
+function toggleUsb() {
+    console.log('Toggling USB Power...');
+    // In prod this would trigger form submission or API call
+}
+</script>
+<script>
+// Mock PiStatus function provided by index.html/pi specific scripts usually
+function PiStatus(port) {
+  console.log("PiStatus initialized for port", port);
+}
+</script>
 <script>
 // Resizable Split Pane Logic (Horizontal & Vertical)
 document.addEventListener('DOMContentLoaded', function() {
@@ -523,23 +557,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-
-<script>
-    // Hardware Menu Logic
-    function toggleHardwareMenu() {
-        const menu = document.getElementById('hw-menu');
-        menu.classList.toggle('active');
-    }
-    
-    // Close on click outside
-    document.addEventListener('click', function(e) {
-        const menu = document.getElementById('hw-menu');
-        const badge = document.querySelector('.status-badge'); // Select by class as ID has jinja
-        if (menu && badge && menu.classList.contains('active') && !menu.contains(e.target) && !badge.contains(e.target)) {
-            menu.classList.remove('active');
-        }
-    });
-</script>
 <script>
 // Sidebar Navigation Logic
 document.addEventListener('DOMContentLoaded', function() {
@@ -553,6 +570,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Select all clickable items
     document.querySelectorAll('.menu-item').forEach(item => {
         item.addEventListener('click', function(e) {
+            
+            // 1. Handle Active State
+            // Only toggle active if it's a main navigation item (has an ID mapping)
+            // or if it's a demo execution (which stays in terminal view)
             
             const id = this.id;
             const targetViewId = views[id];
@@ -570,25 +591,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Show target
                 const target = document.getElementById(targetViewId);
                 if(target) target.style.display = 'block';
-
+                
+                // Special Case: Hello World might just need to type in terminal? 
+                // In the HTML it was assigned a view? No, usually it runs a command.
+                // If it is mapped to a view, we show it. If not, we assume it's a command.
             } else if (this.dataset.cmd) {
-                // Demo Command
+                // It's a Demo Command
+                // Switch to terminal if not there
                 document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-                this.classList.add('active');
+                this.classList.add('active'); // Highlight this demo
 
                 document.getElementById('shared-terminal').style.display = 'block';
                 document.getElementById('view-byo').style.display = 'none';
                 document.getElementById('view-contrib').style.display = 'none';
                 
-                // Try sending to iframe
+                // Execute (Mock or Real)
                 const cmd = this.dataset.cmd;
-                const iframe = document.getElementById('wssh_if');
-                if (iframe && iframe.contentWindow && iframe.contentWindow.wssh) {
-                    iframe.contentWindow.wssh.send(cmd);
+                if(window.wssh && window.wssh.send) {
+                    window.wssh.send(cmd);
                 } else {
-                    console.log("Command:", cmd, "(No wssh connection found)");
+                    console.log("Command:", cmd);
                 }
-
             } else if (this.classList.contains('category-header')) {
                 // Toggle Category
                 const children = this.nextElementSibling;
@@ -602,5 +625,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
 </body>
 </html>
+
+
