@@ -20,6 +20,7 @@ classifiers = [
 dependencies=[
     'paramiko',
     'django',
+    'mpremote',
 ]
 
 [project.optional-dependencies]
