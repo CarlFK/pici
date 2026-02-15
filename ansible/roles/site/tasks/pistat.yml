@@ -45,13 +45,6 @@
     src: pib/pistat/dnsmasq/send_stat.conf
     dest: /etc/dnsmasq.d/send_stat.conf
     mode: preserve
+  notify: restart dnsmasq
   tags:
     - pistat
-
-- name: restart dnsmasq
-  systemd:
-    name: dnsmasq
-    state: restarted
-  tags:
-    - pistat
-
