@@ -83,6 +83,7 @@
         <input id="reconnect{{pi.port}}" type="submit" value="reconnect" >
         <input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" >
         <input id="wssh-connect" type="submit" value="reset ssh" >
+        <input id="pi-ping" type="submit" value="ping" >
           </td>
 	 </tr>
 	</table>
@@ -145,14 +146,20 @@
       </div>
 
     </td><td colspan=2>
-      Use your own ssh client. user: pi, host: {{ domain_name }}, port {{o}}22, <br>
-      linux cheatsheet:
-
+      Use your own ssh client. user: pi, host: {{ domain_name }}, port {{o}}22,
+      (password is in login banner)<br>
+      click to copy:
       <div class="highlight-bash notranslate">
           <div class=highlight style="position:relative">
              <pre click-to-copy="click to copy...">ssh -p {{o}}22 pi@{{ domain_name }}</pre>
           </div>
       </div>
+      <div class="highlight-bash notranslate">
+          <div class=highlight style="position:relative">
+             <pre click-to-copy="click to copy...">scp -P {{o}}22 * pi@{{ domain_name }}:Uploads</pre>
+          </div>
+      </div>
+
 
       <br>
     </td>

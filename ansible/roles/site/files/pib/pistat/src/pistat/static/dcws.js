@@ -20,6 +20,19 @@ function PiStatus(PiID) {
         wssh_if.wssh.connect();
     };
 
+    function pi_ping(){
+
+        fetch('/pistat/ping/pi'+PiID, {
+          method: 'POST',
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+          body: JSON.stringify({ port: PiID })
+          }
+        )
+          .then((response) => response.json())
+          .then((json) => console.log(json))
+          .then((error) => console.log(error));
+    };
+
     function connect(){
 
         const logSocket = new WebSocket(
@@ -129,6 +142,10 @@ function PiStatus(PiID) {
 
     document.getElementById("wssh-connect").onclick = function(e) {
     	wssh_connect();
+    };
+
+    document.getElementById("pi-ping").onclick = function(e) {
+    	pi_ping();
     };
 
 };

@@ -1,10 +1,14 @@
+# pici pistat/views.py
+
+import json
+import subprocess
+from pprint import pprint
+
+
 from django.shortcuts import render
 from django.http import HttpResponse
 
 from django.views.decorators.csrf import csrf_exempt
-
-import json
-from pprint import pprint
 
 from channels.layers import get_channel_layer
 
@@ -39,7 +43,6 @@ def humanize(m):
 @csrf_exempt
 def status(request, pi_name, status):
 
-
     group = f"pistat_{pi_name}"
     message_type = "stat.message"
     message = humanize(status)
@@ -54,6 +57,33 @@ def status(request, pi_name, status):
     async_to_sync(channel_layer.group_send)( group, d )
 
     d['group'] = group
+
+    response = HttpResponse(content_type="application/json")
+    json.dump(d, response, indent=2)
+
+    return response
+
+@csrf_exempt
+def ping(request, pi_name):
+
+    # pi_name should be "pi{pi_no}"
+    pi_oct = 100 + int(pi_name[2:])
+    pi_ip = f"10.21.0.{pi_oct}"
+
+    cmd = ["ping",
+            "-c", "3",
+            "-w", "5",
+            pi_ip]
+
+    p = subprocess.Popen(cmd,
+        stdin=subprocess.PIPE, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    stdout, stderr = p.communicate()
+
+    for line in stdout.decode().split('\n'):
+        if line:
+            status(request, pi_name, line)
+
+    d = {"stdout": str(stdout), "stderr": str(stderr) }
 
     response = HttpResponse(content_type="application/json")
     json.dump(d, response, indent=2)
