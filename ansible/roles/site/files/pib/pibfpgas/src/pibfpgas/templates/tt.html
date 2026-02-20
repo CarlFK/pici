@@ -84,19 +84,13 @@
 
     <td colspan=2>
       Use your own ssh client<br>user: pi<br> host: {{ domain_name }}<br> port {{o}}22<br>
-      like this:
+      like this (click to copy):
 
       <div class="highlight-bash notranslate">
           <div class=highlight style="position:relative">
              <pre click-to-copy="click to copy...">ssh -p {{o}}22 pi@{{ domain_name }}</pre>
           </div>
       </div>
-      <div class="highlight-bash notranslate">
-          <div class=highlight style="position:relative">
-             <pre click-to-copy="click to copy...">scp * scp://pi@{{ domain_name }}:{{o}}22/home/pi/Uploads/</pre>
-          </div>
-      </div>
-
 
       <br>
     </td>
@@ -105,14 +99,17 @@
 
 	  <td><h2>Page Controls:</h2></td>
           <td>
+        Send messages to the debug window:
+        <input id="log-text{{pi.port}}" type="text" size="60" placeholder="WS test message">
+        <input id="log-submit{{pi.port}}" type="button" value="Send WS">
+        </p>
+
         <input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" >
         <input id="wssh-connect" type="submit" value="reset ssh" >
           </td>
 
           <td>
         <input id="reconnect{{pi.port}}" type="submit" value="reconnect WS" >
-        <input id="log-text{{pi.port}}" type="text" size="20" placeholder="WS test message">
-        <input id="log-submit{{pi.port}}" type="button" value="Send WS">
 	      <input id="status{{pi.port}}" type="submit" value="Check PoE" >
 
       <input id="usb_off" type="submit" value="Usb Power Off" >
@@ -135,29 +132,18 @@
 
 
 <h1>Useful links</h1>
-<ul>
-  <li>
-    <h2>Tiny Tapeout</h2>
 
-    <li><a href="https://tinytapeout.com">Tiny Tapeout</a> is an educational project that makes it easier and cheaper than ever to get your designs manufactured on a real chip!</li>
-    <li><a href="https://commander.tinytapeout.com/">Tiny Tapeout Commander</a>Configure your Tiny Tapeout Board
-</li>
-    <h2>Toolchains</h2>
-    <p>The Arty A7 development boards have an AMD/Xilinx Artix 7 FPGA which is supported by multiple different toolchains.</p>
+    <h2>Tiny Tapeout</h2>
     <ul>
-      <li><a href="https://f4pga.org">F4PGA open source toolchain for Xilinx 7 series (found on Arty A7 FPGAs)</a></li>
-      <li><a href="">OpenXC7 open source toolchain for Xilinx 7 series (found on Arty A7 FPGAs)</a></li>
-      <li><a href="">AMD / Xilinx official Vitis / Vivado toolchain for Xilinx 7 series.</a></li>
+      <li><a href="https://tinytapeout.com">Tiny Tapeout</a> is an educational project that makes it easier and cheaper than ever to get your designs manufactured on a real chip!</li>
+      <li><a href="https://tinytapeout.com/chips/tt06/tt_um_kianV_rv32ima_uLinux_SoC">910 : KianV uLinux SoC</a> The Tiny Tapeout project featured here.
     </ul>
-   </li>
-  <li>
-    <h2>Arty Development Board</h2>
+
+    <h2>Host:</h2>
     <ul>
-      <li><a href="https://f4pga.org">Demos for Arty A7 FPGA board using the F4PGA open source toolchain</a></li>
-      <li><a href="https://digilent.com/reference/programmable-logic/arty-a7/start">Digilent Reference for Arty A7 FPGA board</a></li>
+      <li><a href="https://pumpingstationone.org">PumpingStation One</a> Hackrspace in Chicago, IL USA</li>
+      <li><a href="https://github.com/CarlFK/pici/wiki"> github.com/CarlFK/pici</a> The server setup hosting the TT06 board</li>
     </ul>
-  </li>
-</ul>
 
 </body>
 </html>
