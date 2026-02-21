@@ -1,9 +1,9 @@
 # pici pistat/views.py
 
 import json
+import os
 import subprocess
 from pprint import pprint
-
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -75,17 +75,31 @@ def ping(request, pi_name):
             "-w", "5",
             pi_ip]
 
-    p = subprocess.Popen(cmd,
+    proc = subprocess.Popen(cmd,
         stdin=subprocess.PIPE, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    stdout, stderr = p.communicate()
 
-    for line in stdout.decode().split('\n'):
+    os.set_blocking(proc.stdout.fileno(), False)
+
+    stdouts=[]
+    while proc.poll() is None:
+        line=proc.stdout.readline()
+        line=line.decode().strip()
         if line:
             status(request, pi_name, line)
+            stdouts.append(line)
 
-    d = {"stdout": str(stdout), "stderr": str(stderr) }
+    lines=proc.stdout.read()
+    lines=lines.decode()
+    for line in lines.split('\n'):
+        line=line.strip()
+        if line:
+            status(request, pi_name, line)
+            stdouts.append(line)
+
+    d = {"stdouts": stdouts}
 
     response = HttpResponse(content_type="application/json")
     json.dump(d, response, indent=2)
 
     return response
+
