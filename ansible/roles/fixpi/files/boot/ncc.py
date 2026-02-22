@@ -22,7 +22,7 @@ from twisted.internet import reactor
 
 def log(text):
     """ make noise, dispaly the text, append to log file """
-    print( "\x07", text, )
+    print( "\x07", text, end="" )
     open('ncc.log','a').write(text)
 
 class LogUDP(DatagramProtocol):
