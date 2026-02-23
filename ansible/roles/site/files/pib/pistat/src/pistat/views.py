@@ -78,21 +78,10 @@ def ping(request, pi_name):
     proc = subprocess.Popen(cmd,
         stdin=subprocess.PIPE, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 
-    os.set_blocking(proc.stdout.fileno(), False)
-
     stdouts=[]
     while proc.poll() is None:
-        line=proc.stdout.readline()
-        line=line.decode().strip()
-        if line:
-            status(request, pi_name, line)
-            stdouts.append(line)
-
-    lines=proc.stdout.read()
-    lines=lines.decode()
-    for line in lines.split('\n'):
-        line=line.strip()
-        if line:
+        if line := proc.stdout.readline():
+            line = line.decode().strip()
             status(request, pi_name, line)
             stdouts.append(line)
 
