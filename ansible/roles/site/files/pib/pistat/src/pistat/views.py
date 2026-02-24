@@ -79,11 +79,10 @@ def ping(request, pi_name):
         stdin=subprocess.PIPE, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 
     stdouts=[]
-    while proc.poll() is None:
-        if line := proc.stdout.readline():
-            line = line.decode().strip()
-            status(request, pi_name, line)
-            stdouts.append(line)
+    while line := proc.stdout.readline():
+        line = line.decode().strip()
+        status(request, pi_name, line)
+        stdouts.append(line)
 
     d = {"stdouts": stdouts}
 
