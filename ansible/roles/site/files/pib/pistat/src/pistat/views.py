@@ -79,6 +79,11 @@ def ping(request, pi_name):
         stdin=subprocess.PIPE, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 
     stdouts=[]
+    # if the cmd closes stdout, this while loop will exit before the command has finished.
+    # the ping command does not close stdout, so no problem, but...
+    # if this code is ever repurposed, maybe figure out: proc.poll() is not None
+    # When I tried to, I was getting errors because line was either str or bytes when it shouldn't be.
+    # while (proc.poll() is not None) or (line := proc.stdout.readline()):
     while line := proc.stdout.readline():
         line = line.decode().strip()
         status(request, pi_name, line)
