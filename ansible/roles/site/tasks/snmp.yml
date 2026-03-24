@@ -1,50 +1,56 @@
 ---
 - name: populate /etc/environment
   lineinfile:
-    dest: "/etc/environment"
+    dest: "{{ item[0] }}"
     state: present
-    regexp: "^{{ item.key }}="
-    line: "{{ item.key }}={{ item.value }}"
-  with_items:
-    - key: SNMP_SWITCH_USERNAME
-      value: "{{ switch.SNMP_SWITCH_USERNAME }}"
-      hint: -u
-    - key: SNMP_SWITCH_SECURITY_LEVEL
-      value: "{{ switch.SNMP_SWITCH_SECURITY_LEVEL }}"
-      hint: -l
-    - key: SNMP_SWITCH_AUTH_PROTOCOL
-      value: "{{ switch.SNMP_SWITCH_AUTH_PROTOCOL }}"
-      hint: -a
-    - key: SNMP_SWITCH_AUTHKEY
-      value: "{{ switch.SNMP_SWITCH_AUTHKEY }}"
-      hint: -A
-    - key: SNMP_SWITCH_PRIV_PROTOCOL
-      value: "{{ switch.SNMP_SWITCH_PRIV_PROTOCOL }}"
-      hint: -x
-    - key: SNMP_SWITCH_PRIVKEY
-      value: "{{ switch.SNMP_SWITCH_PRIVKEY }}"
-      hint: -X
-    - key: SNMP_SWITCH_HOST
-      value: "{{ switch.host }}"
-    - key: SNMP_SWITCH_OID
-      value: "{{ switch.oid }}"
-    - key: mpi_port
-      value: "{{ switch.mpi_port }}"
-    - key: mpi_ip
-      value: "{{ pib_network }}.{{ 100+switch.mpi_port }}"
-    - key: pi_ports
-      value: "\"{% for pi in switch.nos %}{{pi.port}} {% endfor %}\""
-    - key: pi_dist
-      value: "{{ dist }}"
-    - key: nfs_pth
-      value: "/srv/nfs/rpi/{{ dist }}"
-    - key: nfs_boot
-      value: "/srv/nfs/rpi/{{ dist }}/boot"
-    - key: nfs_root
-      value: "/srv/nfs/rpi/{{ dist }}/root"
+    regexp: "^{{ 'export ' if 'export' in item[0] else '' }}{{ item[1].key }}="
+    line: "{{ 'export ' if 'export' in item[0] else '' }}{{ item[1].key }}={{ item[1].value }}"
+  loop: "{{ env_files | ansible.builtin.product(env_vars) }}"
+  vars:
+    env_files:
+      - "/etc/environment"
+      - "/etc/environment.exports"
+    env_vars:
+      - key: SNMP_SWITCH_USERNAME
+        value: "{{ switch.SNMP_SWITCH_USERNAME }}"
+        hint: -u
+      - key: SNMP_SWITCH_SECURITY_LEVEL
+        value: "{{ switch.SNMP_SWITCH_SECURITY_LEVEL }}"
+        hint: -l
+      - key: SNMP_SWITCH_AUTH_PROTOCOL
+        value: "{{ switch.SNMP_SWITCH_AUTH_PROTOCOL }}"
+        hint: -a
+      - key: SNMP_SWITCH_AUTHKEY
+        value: "{{ switch.SNMP_SWITCH_AUTHKEY }}"
+        hint: -A
+      - key: SNMP_SWITCH_PRIV_PROTOCOL
+        value: "{{ switch.SNMP_SWITCH_PRIV_PROTOCOL }}"
+        hint: -x
+      - key: SNMP_SWITCH_PRIVKEY
+        value: "{{ switch.SNMP_SWITCH_PRIVKEY }}"
+        hint: -X
+      - key: SNMP_SWITCH_HOST
+        value: "{{ switch.host }}"
+      - key: SNMP_SWITCH_OID
+        value: "{{ switch.oid }}"
+      - key: mpi_port
+        value: "{{ switch.mpi_port }}"
+      - key: mpi_ip
+        value: "{{ pib_network }}.{{ 100+switch.mpi_port }}"
+      - key: pi_ports
+        value: "\"{% for pi in switch.nos %}{{pi.port}} {% endfor %}\""
+      - key: pi_dist
+        value: "{{ dist }}"
+      - key: nfs_pth
+        value: "/srv/nfs/rpi/{{ dist }}"
+      - key: nfs_boot
+        value: "/srv/nfs/rpi/{{ dist }}/boot"
+      - key: nfs_root
+        value: "/srv/nfs/rpi/{{ dist }}/root"
   tags:
     - snmp
     - manage
+
 
 - name: copy poe.sh and allpoe.sh into usr/local/bin
   copy:
