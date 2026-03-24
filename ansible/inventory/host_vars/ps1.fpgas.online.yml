@@ -29,6 +29,8 @@ letsencrypt_account_email: carl@NextDayVideo.com
 
 fixture_path: ps1.fpgas.online.json
 
+tt06_dev_id: usb-MicroPython_Board_in_FS_mode_de640cb1d3975a26-if00
+
 # some netgear:
 switch_base: base
 
@@ -87,14 +89,44 @@ switch:
         model: "Raspberry_Pi_3_Model_B_Rev_1",
         loc: "front 8", cable_color: "white" }
 
+    - { port: 21, mac: "2c:cf:67:39:18:66", sn: 88f393d3,
+        model: "pi4 tt06",
+        loc: "shelf", cable_color: "glue" }
 
-    - { port: 21, mac: "b8:27:eb:5f:de:85", sn: 7d5fde85,
-        model: "",
-        loc: "back 7", cable_color: "blue" }
+          # - { port: 23, mac: "xxx", sn: 88f393d3,
+          #  model: "Raspberry_Pi_3_Model_B_Rev_1",
+          # loc: "shelf", cable_color: "glue" }
 
-    - { port: 23, mac: "b8:27:eb:0c:f8:43", sn: 9b0cf843,
-        model: "Raspberry_Pi_3_Model_B_Rev_1",
-        loc: "back 8", cable_color: "grey" }
+          #      - { port: 21, mac: "b8:27:eb:5f:de:85", sn: 7d5fde85,
+          #        model: "",
+          # loc: "back 7", cable_color: "blue" }
+
+          # - { port: 23, mac: "b8:27:eb:0c:f8:43", sn: 9b0cf843,
+          #model: "Raspberry_Pi_3_Model_B_Rev_1",
+          #loc: "back 8", cable_color: "grey" }
+
+          #     - { port: , mac: "", sn: ,
+          # model: "",
+          # loc: "", cable_color: "" }
+
+
+    - { port: 14 , mac: "2c:cf:67:37:d4:bd", sn: "d00eb762",
+        model: "CM4 Rev 1.1 4GB",
+        loc: "blade box", cable_color: "blue" }
+
+    - { port: 16, mac: "2c:cf:67:fb:91:e5", sn: "cb291e63",
+        model: "CM5 Lite Rev 1.0 8GB",
+        loc: "blade box", cable_color: "blue" }
+
+    - { port: 18, mac: "2c:cf:67:37:d5:08", sn: "4e45f174",
+        model: "CM4 Rev 1.1 4GB",
+        loc: "blade box", cable_color: "blue" }
+
+    - { port: 20, mac: "2c:cf:67:fd:1e:be", sn: "de59093d",
+        model: "CM5 Lite Rev 1.0 8GB",
+        loc: "blade box", cable_color: "blue" }
+
+
 
     # - { port: 19, mac: "b8:27:eb:69:79:a0", sn: 426979a0, loc: "back 8", cable_color: "blue" }
     # - { port: ?, mac: "b8:27:eb:5a:26:5b", sn: 035a265b }
