@@ -20,10 +20,11 @@ import datetime
 from twisted.internet.protocol import DatagramProtocol
 from twisted.internet import reactor
 
-def log(text):
+def log(text, address=None):
     """ make noise, dispaly the text, append to log file """
-    print( "\x07", text, end="" )
-    open('ncc.log','a').write(text)
+    line=f"{address} {text}"
+    print( "\x07", line, end="" )
+    open('ncc.log','a').write(line)
 
 class LogUDP(DatagramProtocol):
     def __init__(self):
@@ -43,7 +44,7 @@ class LogUDP(DatagramProtocol):
                 log("\nelasped: %s min.\n" % (elapsed.seconds/60.0))
                 # kill the clock, we don't want any more timings
                 self.start_time=None
-            log(datagram)
+            log(datagram, address)
 
 def main():
     hp=reactor.listenUDP(6666, LogUDP()).getHost()
