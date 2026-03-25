@@ -12,25 +12,35 @@
     state: link
   with_items:
     "{{ switch.nos }}"
+  tags:
+    - pibs
 
-- name: save the original config.txt and cmdline.txt
-  command: mv "{{ nfs_root }}/boot/{{ item }}" "{{ nfs_root }}/boot/{{ item }}.org"
+- name: save the original config.txt, cmdline.txt, fstab
+  command: mv "{{ nfs_root }}/{{ item }}" "{{ nfs_root }}/{{ item }}.org"
   args:
-    removes: "{{ nfs_root }}/boot/{{ item }}"
-    creates: "{{ nfs_root }}/boot/{{ item }}.org"
+    removes: "{{ nfs_root }}/{{ item }}"
+    creates: "{{ nfs_root }}/{{ item }}.org"
   with_items:
-    - config.txt
-    - cmdline.txt
+    - "boot/config.txt"
+    - "boot/cmdline.txt"
+    - "boot/user-data"
+    - "root/fstab"
 
 - name: replace config/cmdline with netbootie versions
-  copy:
-    src: "files/boot/{{ item }}"
+  template:
+    src: "templates/boot/{{ item }}.j2"
     dest: "{{ nfs_root }}/boot/{{ item }}"
   with_items:
     - config.txt
     - cmdline.txt
+  tags:
+    - cmdline
 
-- name: replace local SD card with nfs mount point
-  copy:
-    src: "files/etc/fstab"
-    dest: "{{ nfs_root }}/root/etc/fstab"
+- name: fstab - replace local fs to nfs
+  template:
+    src: "templates/etc/{{ item }}.j2"
+    dest: "{{ nfs_root }}/root/etc/{{ item }}"
+  with_items:
+    - fstab
+  tags:
+    - cmdline
