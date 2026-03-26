@@ -41,3 +41,12 @@ Name=eth-fpga
 (08:56:23 PM) clever: [350466.823809] input: Corsair CORSAIR DARK CORE RGB PRO Gaming Dongle as /devices/pci0000:00/0000:00:14.0/usb1/1-10/1-10:1.0/0003:1B1C:1B81.0030/input/input35
 (08:56:38 PM) clever: it looks like the usb2 ports are ports 1/2, on a hub i think
 (08:56:54 PM) clever: while the usb2 lanes of the usb3 ports, appear to be ports 9/10 on the root hub maybe?
+
+debug systemd.log_level=info
+
+systemd.log_level=debug systemd.log_target=kmsg log_buf_len=1M printk.devkmsg=on
+
+You reall DO NOT want systemd.log_level=debug !! it'll saturate the log
+You could try adding a delay after each message with:
+boot_delay=20
+that is milliseconds
