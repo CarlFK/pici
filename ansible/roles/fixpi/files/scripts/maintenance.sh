@@ -17,7 +17,7 @@ set -ex
 source /etc/environment.export
 
 # power off all the pi's
-allpoe.sh 2
+# allpoe.sh 2
 
 # pi overlayroot off
 # TODO: use /etc/overlayroot.conf instead of kernel parameter
@@ -34,4 +34,4 @@ sed -i "/.*/s/ro,/rw,/" /etc/exports
 systemctl restart nfs-server.service
 
 # turn on the maintenance pi
-poe.sh ${mpi_port} 1
+# poe.sh ${mpi_port} 1

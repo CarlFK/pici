@@ -5,7 +5,7 @@
 
 sleep_time=${2:-1}
 
-source /etc/environment
+source /etc/environment.export
 
 for p in ${pi_ports}
 do
