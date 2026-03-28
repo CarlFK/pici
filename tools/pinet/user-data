@@ -1,0 +1,14 @@
+# cloud-config
+---
+users:
+  - name: pi
+    groups: users,adm,dialout,netdev,plugdev,cdrom,input,gpio,spi,i2c,sudo
+    shell: /bin/bash
+    lock_passwd: false  # Set to true to disable password login entirely
+    plain_text_password: abc
+    sudo: ALL=(ALL) NOPASSWD:ALL  # Allow passwordless sudo for this user
+
+# Additional Raspberry Pi OS option (not available on generic cloud-init images)
+enable_ssh: true  # Enables the SSH server on first boot
+
+# ssh_import_id: [pi, 'gh:CarlFK', 'lp:CarlFK']

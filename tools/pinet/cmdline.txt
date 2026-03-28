@@ -1,0 +1,2 @@
+# /boot/cmdline.txt
+root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/trixie/root,nfsvers=3 ro ip=dhcp rootwait consoleblank=0 netconsole=@/,@10.21.0.1/ overlayroot= console=serial0,115200
