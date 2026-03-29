@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 # generate a random password for pi user
-# usage: pipw.sh username [password] [rootfs] [bootfs]
+# usage: pipw.sh username [password] [bootfs] [rootfs]
 
 user=${1:-pi}
 
