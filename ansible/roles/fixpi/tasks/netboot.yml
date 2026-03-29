@@ -25,16 +25,18 @@
     - "boot/cmdline.txt"
     - "boot/user-data"
     - "root/fstab"
+  tags:
+    - netboot
 
-- name: replace config/cmdline with netbootie versions
+- name: replace cmdline with netbootie versions
   template:
     src: "templates/boot/{{ item }}.j2"
     dest: "{{ nfs_root }}/boot/{{ item }}"
   with_items:
-    - config.txt
     - cmdline.txt
   tags:
     - cmdline
+    - netboot
 
 - name: fstab - replace local fs to nfs
   template:
@@ -44,3 +46,14 @@
     - fstab
   tags:
     - cmdline
+    - netboot
+
+- name: install nfs-common into pi's fs
+  command: chroot-mount-pi-fs.bash "{{ nfs_root }}" "/tmp/pi" "{{ item }}"
+  with_items:
+    - "apt install nfs-common"
+  tags:
+    - netboot
+    - qemu
+
+

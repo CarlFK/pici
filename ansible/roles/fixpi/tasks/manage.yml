@@ -1,8 +1,10 @@
 ---
-- name: create scripts dir
-  file:
-    path: /root/scripts
-    state: directory
+- name: install packages on server
+  apt:
+    name:
+      - qemu-user-static
+  tags:
+  - qemu
 
 - name: install scripts to manage pi states
   copy:
@@ -12,8 +14,10 @@
   with_items:
    - maintenance.sh
    - production.sh
+   - chroot-mount-pi-fs.bash
   tags:
-    manage
+  - manage
+  - qemu
 
 - name: put the pi boot system into maintenance mode
   command: maintenance.sh

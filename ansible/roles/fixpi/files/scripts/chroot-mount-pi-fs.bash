@@ -1,30 +1,38 @@
 #!/usr/bin/env bash
 
-# 
+# chroot-mount-pi-fs.bash [nfs-base] [chroot-root] [cmd]
+# nfs-base: the pi's fs (about the sd card files)
+# chroot-root: where the root fs will hang out
+# cmd: if passed, run it and unmount, else leave the mounts in place.
+# example: sudo ./chroot-mount-pi-fs.bash /srv/nfs/rpi/trixie /tmp/pi "apt update"
+
+
+# handle error
 set -e
 # want to see what is happening
 set -x
 
-release="${release:-trixie}"
-target="${target:-${1}}"
-target="${target:-/mnt/target}"
+nfs_base="${1:-/srv/nfs/rpi/trixie}"
+target="${2:-/tmp/pi}"
+cmd="${3}"
+
 rootfs_name="${rootfs_name:-root}"
 firmwarefs_name="${firmwarefs_name:-boot}"
-nfs_base="${nfs_base:-/srv/nfs/rpi/${release}}"
+
 rootfs="${rootfs:-${nfs_base}/${rootfs_name}}"
 firmwarefs="${firmwarefs:-${nfs_base}/${firmwarefs_name}}"
 
-error_cleanup()
+cleanup()
 {
   umount --recursive --lazy "${target}"
 }
 
-trap error_cleanup ERR
+trap cleanup ERR
 
 log_error()
 {
   printf "Error: %s\n" "${*}"
-  error_cleanup
+  cleanup
   exit 1
 } >&2
 
@@ -35,6 +43,9 @@ if ! [[ -d "${firmwarefs}" ]]; then
   log_error "No such firmware-fs ${firmwarefs}"
 fi
 
+if ! [[ -d "${target}" ]]; then
+  mkdir -p "${target}"
+fi
 
 if ! mount | grep -q "${target} "; then
   mount --bind "${rootfs}" "${target}"
@@ -66,3 +77,8 @@ touch "${target}/run/systemd/resolve/stub-resolv.conf"
 mount --bind /etc/resolv.conf "${target}/etc/resolv.conf"
 
 mount -t tmpfs -o rw,nosuid,nodev,relatime,mode=777 tmpfs "${target}/tmp"
+
+if ${cmd}; then
+  chroot ${target} ${cmd}
+  cleanup
+fi

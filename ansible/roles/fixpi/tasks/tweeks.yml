@@ -35,30 +35,40 @@
     state: absent
   tags:
   - hostname
+  - fixpi
 
-- name: pi etc/hosts
-  lineinfile:
-    path: "{{ nfs_root }}/root/etc/hosts"
-    line: "127.0.1.1 pi{{ item.port }}"
-  with_items: "{{ switch.nos }}"
-  tags:
-  - hostname
+#- name: pi etc/hosts
+#  lineinfile:
+#    path: "{{ nfs_root }}/root/etc/hosts"
+#    line: "127.0.1.1 pi{{ item.port }}"
+#  with_items: "{{ switch.nos }}"
+#  tags:
+#  - hostname
+#  - fixpi
 
 - name: set pistat_host in /etc/environment
   lineinfile:
     dest: "{{ nfs_root }}/root/etc/environment"
     state: present
+    create: true
     line: "pistat_host={{domain_name}}"
+  tags:
+  - hostname
+  - fixpi
 
 - name: etc overrides
   copy:
     src: "files/etc/"
     dest: "{{ nfs_root }}/root/etc/"
+  tags:
+  - fixpi
 
 - name: resolve.conf
   template:
     src: templates/resolve.conf.j2
     dest: "{{ nfs_root }}/root/etc/resolve.conf"
+  tags:
+  - fixpi
 
 - name: add time to bash prompt
   lineinfile:
@@ -67,7 +77,8 @@
     line: '{% raw %}PS1="\D{%T} $PS1"{% endraw %}'
   when: true
   tags:
-    - bashrc
+  - bashrc
+  - fixpi
 
 # the rest of these tasks config the server to monitor client boot spew
 
