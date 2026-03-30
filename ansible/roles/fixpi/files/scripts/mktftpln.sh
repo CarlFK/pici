@@ -13,8 +13,11 @@ if [ $# -ne 1 ]; then
 fi
 
 id=$1
+source /etc/environment.export
+ln -s ${nfs_boot} /srv/tftp/${id}
 
-dist=bookworm
-d=/srv/nfs/rpi/${dist}
+# not used
+# dist=trixie
+# d=/srv/nfs/rpi/${dist}
+# ln -s ${d}/boot /srv/tftp/${id}
 
-ln -s ${d}/boot /srv/tftp/${id}
