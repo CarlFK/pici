@@ -81,4 +81,6 @@ mount -t tmpfs -o rw,nosuid,nodev,relatime,mode=777 tmpfs "${target}/tmp"
 if ${cmd}; then
   chroot ${target} ${cmd}
   cleanup
+else
+  echo chroot ${target}
 fi
