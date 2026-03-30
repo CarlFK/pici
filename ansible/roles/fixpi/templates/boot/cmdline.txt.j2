@@ -1,2 +1,3 @@
 # /boot/cmdline.txt
-root=/dev/nfs nfsroot=10.21.0.1:{{ nfs_root }}/root,nfsvers=3 ro ip=dhcp rootwait consoleblank=0 netconsole=@/,@10.21.0.1/ overlayroot=tmpfs console=serial0,115200
+root=/dev/nfs nfsroot=10.21.0.1:{{ nfs_root }}/root,nfsvers=3 ro ip=dhcp rootwait consoleblank=0 netconsole=@/,@10.21.0.1/ overlayroot=tmpfs console=serial0,115200 systemd.log_level=debug systemd.log_target=kmsg log_buf_len=1M printk.devkmsg=on
+
