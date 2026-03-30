@@ -1,0 +1,4 @@
+$ echo "MODULES=most" | sudo dd of=/mnt/target/etc/initramfs-tools/conf.d/chroot.conf
+echo "MODULES=most" > /etc/initramfs-tools/conf.d/chroot.conf
+sudo chroot /mnt/target apt install -y nfs-common
+
