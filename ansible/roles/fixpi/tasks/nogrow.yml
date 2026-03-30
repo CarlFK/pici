@@ -1,0 +1,39 @@
+---
+- name: don't helper resize the root fs
+  command: chroot "{{ nfs_root }}/root" dpkg-divert --divert "{{ item }}.diverted" --rename "{{ item }}"
+  with_items:
+    - "/var/lib/systemd/deb-systemd-helper-enabled/rpi-resize.service.dsh-also"
+    - "/usr/lib/systemd/zram-generator.conf.d/20-rpi-swap-zram0-ctrl.conf"
+    - "/usr/lib/systemd/system-generators/rpi-swap-generator"
+  tags:
+    - nogrow
+
+- name: don't resize the root fs
+  command: systemctl --root "{{ nfs_root }}/root" mask "{{ item }}"
+  with_items:
+    - "systemd-growfs@.service"
+    - "systemd-growfs-root.service"
+    - "rpi-remove-swap-file@.service"
+    - "rpi-resize-swap-file.service"
+    - "swap.target"
+    - "rpi-resize.service"
+    - "systemd-networkd-persistent-storage.service"
+  tags:
+    - nogrow
+
+#     ./usr/lib/systemd/system/systemd-networkd-persistent-storage.service
+- name: don't manage a swap file
+  file:
+    path: "{{ nfs_root }}/root/{{ item }}"
+    state: absent
+  with_items:
+    - "etc/systemd/system/multi-user.target.wants/dphys-swapfile.service"
+    - "etc/systemd/system/dphys-swapfile.service"
+  tags:
+    - nogrow
+
+- name: don't resize the root fs
+  file:
+    path: "{{ nfs_root }}/root/etc/init.d/resize2fs_once"
+    state: absent
+
