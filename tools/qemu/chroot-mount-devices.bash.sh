@@ -2,6 +2,9 @@
 
 # All you need is to mount a fake /dev/ with null/zero/full/random/urandom in, include procfs and sysfs, ensure your boot-fs is mounted at /boot/firmware/ inside it, add a link for resolv.conf so it has network DNS resolver, then chroot /mnt/target and you should be able to install packages, run mkinitramfs (to create a new initramfs8), and move it into place (after backing-up the original!). Do exit to leave the chroot, than umount --lazy --recursive /mnt/target to unload everything you've set up.
 
+#  so you might want to alter the -nfs script default for firmwarefs to be /srv/nfs/rpi/trixie/boot rather than the TFTP server's MAC-address path
+# firmwarefs="${firmwarefs:-/srv/nfs/rpi/trixie/boot}"
+
 #
 set -e
 # want to see what is happening
@@ -9,6 +12,7 @@ set -x
 
 target="${target:-${1}}"
 device="${device:-${2}}"
+pt_rootfs="${pt_rootfs:-${3}}"
 target="${target:-/mnt/target}"
 device="${device:-/dev/sdg}"
 pt_rootfs="${pt_rootfs:-3}"

@@ -1,5 +1,7 @@
 #!/bin/bash -ex
 
+# mount -o remount,rw /
+# passwd pi
 # `exec /sbin/init` should pass control off to systemd, and it will boot as before
 #
 poe.sh 21 2
