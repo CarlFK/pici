@@ -1,17 +1,4 @@
 ---
-- name: don't resize the root fs
-  file:
-    path: "{{ nfs_root }}/root/etc/init.d/resize2fs_once"
-    state: absent
-
-- name: don't manage a swap file
-  file:
-    path: "{{ nfs_root }}/{{ item }}"
-    state: absent
-  with_items:
-    - etc/systemd/system/multi-user.target.wants/dphys-swapfile.service
-    - etc/systemd/system/dphys-swapfile.service
-
 - name: avoid [FAILED] Failed to start Set console font and keymap.
   file:
     path: "{{ nfs_root }}/root/etc/systemd/system/multi-user.target.wants/console-setup.service"
@@ -78,6 +65,17 @@
   when: true
   tags:
   - bashrc
+  - fixpi
+
+- name: config.txt disable bluetooth, ensable uart
+  ansible.builtin.lineinfile:
+    dest: "{{ nfs_root }}/boot/config.txt"
+    line: "{{ item }}"
+  with_items:
+    - dtoverlay=disable-bt
+    - enable_uart=1
+    - uart_2ndstage=1
+  tags:
   - fixpi
 
 # the rest of these tasks config the server to monitor client boot spew

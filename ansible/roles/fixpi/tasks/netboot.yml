@@ -21,7 +21,7 @@
     removes: "{{ nfs_root }}/{{ item }}"
     creates: "{{ nfs_root }}/{{ item }}.org"
   with_items:
-    - "boot/config.txt"
+#    - "boot/config.txt"
     - "boot/cmdline.txt"
     - "boot/user-data"
     - "root/fstab"
@@ -51,7 +51,7 @@
 - name: install nfs-common into pi's fs
   command: chroot-mount-pi-fs.bash "{{ nfs_root }}" "/tmp/pi" "{{ item }}"
   with_items:
-    - "apt install nfs-common"
+    - "apt install -y nfs-common"
   tags:
     - netboot
     - qemu
