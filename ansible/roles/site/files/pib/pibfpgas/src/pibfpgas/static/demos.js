@@ -8,38 +8,52 @@ function wssh_run(e,cmd) {
     wssh_if.wssh.send(cmd);
 };
 
-document.getElementById('blink_leds').onclick = function(e) {
+
+function button_click(button_id,fn) {
+    btn = document.getElementById(button_id);
+    if (btn) {
+      btn.onclick = fn
+    }
+};
+
+button_click('blink_leds',
+ function(e) {
     wssh_run(e,'cd ~/Demos/counter_test')
     wssh_run(e,'./run_demo.sh')
-};
+});
 
-document.getElementById('boot_micro_python').onclick = function(e) {
+button_click('boot_micro_python',
+  function(e) {
     wssh_run(e,'cd ~/Demos/micro_python')
     wssh_run(e,'./run_demo.sh')
-};
+});
 
-document.getElementById('boot_linux').onclick = function(e) {
+button_click('boot_linux',
+  function(e) {
     wssh_run(e,'cd ~/Demos/linux_litex')
     wssh_run(e,'./run_demo.sh')
-};
+});
 
-document.getElementById('check_wire').onclick = function(e) {
+button_click('check_wire',
+  function(e) {
     wssh_run(e,'cd ~/ci/t1')
     wssh_run(e,'openFPGALoader -b arty top.bit')
     wssh_run(e,'python3 t1.py')
     wssh_run(e,'echo $?')
-};
+});
 
-document.getElementById('tt910').onclick = function(e) {
-    wssh_run(e,'cd ~/tt-commander-app/src/ttcontrol/cli')
-    wssh_run(e,'./boot_kianv_ulinux.sh')
-};
+button_click('tt910',
+  function(e) {
+    wssh_run(e,'mpremote')
+});
 
-document.getElementById('usb_off').onclick = function(e) {
+button_click('usb_off',
+  function(e) {
     wssh_run(e,'/sbin/uhubctl -S --ports 2 --action off')
-};
+});
 
-document.getElementById('usb_on').onclick = function(e) {
+button_click('usb_on',
+  function(e) {
     wssh_run(e,'/sbin/uhubctl -S --ports 2 --action on')
-};
+});
 
