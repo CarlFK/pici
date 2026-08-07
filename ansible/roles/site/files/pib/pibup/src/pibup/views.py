@@ -18,8 +18,7 @@ def pibup(request):
     if request.method == "POST":
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            run = form.cleaned_data['run']
-            handle_uploaded_file(request.FILES["file"], pino, run)
+            handle_uploaded_file(request.FILES["file"], pino)
             return HttpResponseRedirect(f"success?pino={pino}")
     else:
         form = UploadFileForm()
@@ -29,12 +28,12 @@ def pibup(request):
                 "form": form,
                 })
 
-def handle_uploaded_file(f, pino, run):
+def handle_uploaded_file(f, pino):
 
     o=100+int(pino)
     ip=f'10.21.0.{o}'
 
-    print(f"{o=}, {ip=}, {run=}")
+    # print(f"{o=}, {ip=}")
 
     client = paramiko.SSHClient()
     client.load_system_host_keys()
@@ -51,7 +50,6 @@ def handle_uploaded_file(f, pino, run):
 
 def success(request):
     pino=request.GET['pino']
-    print(f"{pino=}")
     return render(request, "success.html",
             {
                 "pino": pino,
