@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}fpgas.online{% endblock %}</title>
+
+  <link rel="icon" href="{% static 'fpga.png' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link href="https://vjs.zencdn.net/8.4.0/video-js.min.css" rel="stylesheet">
+  <script src="https://vjs.zencdn.net/8.4.0/video.min.js"></script>
+
+  <link rel="stylesheet" href="{% static 'pib.css' %}">
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+<div class="site-container">
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/fpgas/" class="site-header__logo">fpgas.online</a>
+      <nav>
+        <ul class="site-nav">
+          <li><a href="/fpgas/">Boards</a></li>
+          <li><a href="https://github.com/CarlFK/pici/wiki/Getting-Started">Get Started</a></li>
+          <li><a href="https://github.com/CarlFK/pici/wiki">Wiki</a></li>
+          <li><a href="https://github.com/CarlFK/pici">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; fpgas.online</span>
+      <ul class="footer-links">
+        <li><a href="https://github.com/CarlFK/pici">GitHub</a></li>
+        <li><a href="https://github.com/CarlFK/pici/wiki">Wiki</a></li>
+        <li><a href="mailto:me@mith.ro,carl@NextDayVideo.com?subject=Helping with Arty FPGA access system">Help Out</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</div>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

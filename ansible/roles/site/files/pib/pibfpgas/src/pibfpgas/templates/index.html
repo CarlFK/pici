@@ -1,82 +1,68 @@
-<html>
-<head>
+{% extends "base.html" %}
+{% load static %}
 
-  <link rel="icon" href="/fpga.png">
+{% block title %}fpgas.online - Access an FPGA right now!{% endblock %}
 
-  <link href="//vjs.zencdn.net/8.4.0/video-js.min.css" rel="stylesheet">
-  <script src="//vjs.zencdn.net/8.4.0/video.min.js"></script>
+{% block content %}
 
-<style>
+<section class="hero">
+  <div class="container">
+    <div class="hero__content">
+      <h1 class="hero__title">Access an FPGA right now!</h1>
+      <p class="hero__text">
+        On this page anyone (including you!) can remotely access and control
+        an FPGA development board! There is even a camera to see the LEDs.
+        There are multiple boards connected to this system, so there should
+        always be one free and ready for you to use!
+      </p>
+      <div class="hero__actions">
+        <a href="https://github.com/CarlFK/pici/wiki/Getting-Started" class="btn btn--primary">Get Started</a>
+        <a href="https://github.com/CarlFK/pici/wiki" class="btn btn--outline">Behind the Scenes</a>
+        <a href="mailto:me@mith.ro,carl@NextDayVideo.com?subject=Helping with Arty FPGA access system" class="btn btn--outline">Help Out</a>
+      </div>
+    </div>
+    <div class="hero__image">
+      <img src="{% static 'intro.png' %}" alt="FPGA access system overview">
+    </div>
+  </div>
+</section>
 
-table.button td {
- border: 1px solid black;
- text-align: center;
- padding: 10px;
-}
+<section class="section">
+  <div class="container">
 
-table.button {
- margin-left: auto;
- margin-right: auto;
-}
-</style>
+    {% for group in board_groups %}
+    <h2 class="section__title">{{ group.label }}</h2>
+    <div class="board-grid">
 
-</head>
+      {% for pi in group.pis %}
+      <div class="board-card">
+        <div class="board-card__video">
+          <video
+            id="video-player{{ pi.port }}"
+            class="video-js"
+            autoplay muted
+            controls
+            preload="auto"
+            data-setup="{}"
+          >
+            <source
+              src="https://{{ domain_name }}/live/pi{{ pi.port }}.m3u8"
+              type="application/x-mpegURL"
+            />
+          </video>
+        </div>
+        <div class="board-card__body">
+          <span class="board-card__badge">{{ group.label }}</span>
+          <h3 class="board-card__name">pi{{ pi.port }}</h3>
+          <a href="pi{{ pi.port }}.html" class="board-card__link">Use this board</a>
+        </div>
+      </div>
+      {% endfor %}
 
-<body>
+    </div>
+    {% endfor %}
 
-<div style="float: right;"> <a href="https://github.com/CarlFK/pici/blob/main/ansible/roles/site/files/pib/pibfpgas/src/pibfpgas/templates/index.html">Edit this page</a>on GitHub.</div>
+  </div>
+</section>
 
-<table width="100%" style="height: 100px; text-align: center;">
-  <tr>
-    <td colspan=2 style="text-align: center;"><h1>Access an FPGA right now!</h1></td>
-  </tr><tr>
-    <td>
-      <p>On this page anyone (including you!) can remotely access and control an FPGA development board! There is even a camera to see the LEDs.</p>
-      <table class="button">
-        <tr>
-	  <td><a href="https://github.com/CarlFK/pici/wiki/Getting-Started">Get Started</a>
-    </td>
-	  <td><a href="https://github.com/CarlFK/pici/wiki">Behind the scenes</a></td>
-	  <td><a href="mailto:me@mith.ro,carl@NextDayVideo.com?subject=Helping with Arty FPGA access system" target="_blank">Help out!</a></td>
-	</tr>
-      </table>
-      <p>There are ~10 FPGAs boards connected to this system, so there should always be one free and ready for you to use!</p>
-    </td><td>
-      <img src="/intro.png" style="height:150px;">
-    </td>
-  </tr>
-</table>
-
-<div style="width: 100%;">
-
-{% for pi in pis %}
-
-<table style="width: 100px; float: left;">
- <tr><td><h1>FPGA pi{{pi.port}}</h1></td></tr>
- <tr><td><a href="pi{{pi.port}}.html">Use this FPGA</a></td></tr>
- <tr>
-  <td>
-    <video
-      id="video-player{{pi.port}}"
-      class="video-js"
-      wicth=32 height=200
-      autoplay muted
-      controls
-      preload="auto"
-      data-setup="{}"
-    >
-      <source
-          src="https://{{ domain_name }}/live/pi{{pi.port}}.m3u8"
-          type='application/x-mpegURL'
-      />
-    </video>
-  </td>
- </tr>
-</table>
-
-{% endfor %}
-
-</div>
-
-</body>
-</html>
+{% endblock %}

@@ -1,149 +1,139 @@
-<html>
-<head>
+{% extends "base.html" %}
+{% load static %}
 
-  <link rel="icon" href="/fpga.png">
+{% block title %}pi{{ pi.port }} - Tiny Tapeout - fpgas.online{% endblock %}
 
-  <link href="https://vjs.zencdn.net/8.4.0/video-js.min.css" rel="stylesheet">
-  <script src="https://vjs.zencdn.net/8.4.0/video.min.js"></script>
+{% block extra_head %}
+<script src="/dcws.js"></script>
+{% endblock %}
 
-  <script src="/dcws.js"></script>
-  <link rel="stylesheet" href="/pib.css"/>
+{% block content %}
 
-  <script src="https://f4pga-examples.readthedocs.io/en/latest/_static/jquery.js"></script>
-  <link rel="stylesheet" href="https://f4pga-examples.readthedocs.io/en/latest/_static/stylesheets/f4pga.css"/>
+<section class="detail-header">
+  <div class="container">
+    <h1 class="detail-header__title">
+      pi{{ pi.port }}
+      <span class="detail-header__badge">{{ pi.get_board_type_display }}</span>
+    </h1>
+  </div>
+</section>
 
-</head>
+<div class="detail-toolbar">
+  <div class="container">
+    <div class="toolbar-group">
+      <span class="toolbar-group__label">Controls</span>
+      <input id="reset{{ pi.port }}" type="submit" value="Reset" class="toolbar-btn">
+    </div>
+    <div class="toolbar-group">
+      <span class="toolbar-group__label">Demos</span>
+      <input id="tt910" type="submit" value="Linux on KianV RISC-V" class="toolbar-btn">
+    </div>
+    <div class="toolbar-group">
+      <span class="toolbar-group__label">USB Power</span>
+      <input id="usb_off" type="submit" value="USB Off" class="toolbar-btn">
+      <input id="usb_on" type="submit" value="USB On" class="toolbar-btn">
+    </div>
+  </div>
+</div>
 
-<body>
-  <a href="/">Home</a>
-
-<div style="float: right;"> <a href="https://github.com/CarlFK/pici/blob/main/ansible/roles/site/files/pib/pibfpgas/src/pibfpgas/templates/tt.html">Edit this page</a> on GitHub.</div>
-
-<table>
-  <tr>
-    <td colspan=2>
-      <h1>Accessing pi{{pi.port}}</h1>
-    </td>
-  </tr><tr>
-  <td colspan=3>
-
-  <table class="buttons">
-	 <tr>
-	  <td><h2>Pi Controls:</h2></td>
-          <td>
-            Turn it off and on again: <input id="reset{{pi.port}}" type="submit" value="Reset" >
-          </td>
-	 </tr>
-	</table>
-  <table class="buttons">
-	 <tr>
-	  <td><h2>Demos:</h2></td>
-     <td>
-      <input id="tt910" type="submit" value="Linux on KianV RISC-V" >
-     </td>
-	 </tr>
-	</table>
-    </td>
-  </tr>
-
-  <tr height="80%">
-
-    <td style="width:20%" >
-      <video
-        id="video-player{{pi.port}}"
-        class="video-js"
-        width=320
-        controls
-        autoplay
-        muted
-        preload="auto"
-        data-setup="{}"
-      >
-        <source
-            src="https://{{ domain_name }}/live/pi{{pi.port}}.m3u8"
-            type='application/x-mpegURL'
-        />
-      </video>
-    </td>
-
-    <td style="width:80%" >
-      <iframe id="wssh_if" style="width: 100%; height: 100%;" src="https://{{ domain_name }}/wssh/?hostname={{ip}}&username=pi&title=pi{{pi.port}}&password={{pw}}">
-      </iframe>
-    </td>
-  </tr>
-
-  <tr>
-    <td colspan=3>
-      <div>
-        <textarea id="log{{pi.port}}" cols="85" rows="4" placeholder="pi status" readonly style="width:100%;"></textarea><br>
+<section class="section">
+  <div class="container">
+    <div class="detail-panels detail-panels--tt">
+      <div class="panel panel--video">
+        <video
+          id="video-player{{ pi.port }}"
+          class="video-js"
+          width="320"
+          controls
+          autoplay
+          muted
+          preload="auto"
+          data-setup="{}"
+        >
+          <source
+            src="https://{{ domain_name }}/live/pi{{ pi.port }}.m3u8"
+            type="application/x-mpegURL"
+          />
+        </video>
       </div>
-
-
-    </td>
-  </tr><tr>
-
-    <td colspan=2>
-      Use your own ssh client<br>user: pi<br> host: {{ domain_name }}<br> port {{o}}22<br>
-      like this (click to copy):
-
-      <div class="highlight-bash notranslate">
-          <div class=highlight style="position:relative">
-             <pre click-to-copy="click to copy...">ssh -p {{o}}22 pi@{{ domain_name }}</pre>
-          </div>
+      <div class="panel panel--terminal">
+        <iframe id="wssh_if" src="https://{{ domain_name }}/wssh/?hostname={{ ip }}&username=pi&title=pi{{ pi.port }}&password={{ pw }}"></iframe>
       </div>
+    </div>
+  </div>
+</section>
 
-      <br>
-    </td>
-  </tr>
-</table>
+<section class="status-bar">
+  <div class="container">
+    <div class="status-bar__log">
+      <textarea id="log{{ pi.port }}" cols="85" rows="4" placeholder="pi status" readonly></textarea>
+    </div>
+    <div class="status-bar__controls">
+      <input id="log-text{{ pi.port }}" type="text" size="20" placeholder="WS test message">
+      <input id="log-submit{{ pi.port }}" type="button" value="Send" class="toolbar-btn">
+      <input id="reconnect{{ pi.port }}" type="submit" value="Reconnect WS" class="toolbar-btn">
+      <input id="status{{ pi.port }}" type="submit" value="Check PoE" class="toolbar-btn">
+      <input id="refresh-video-player{{ pi.port }}" type="submit" value="Reset Video" class="toolbar-btn">
+      <input id="wssh-connect" type="submit" value="Reset SSH" class="toolbar-btn">
+    </div>
+  </div>
+</section>
 
-	  <td><h2>Page Controls:</h2></td>
-          <td>
-        Send messages to the debug window:
-        <input id="log-text{{pi.port}}" type="text" size="60" placeholder="WS test message">
-        <input id="log-submit{{pi.port}}" type="button" value="Send WS">
-        </p>
+<section class="section">
+  <div class="container">
+    <h2 class="section__title">Direct Access</h2>
 
-        <input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" >
-        <input id="wssh-connect" type="submit" value="reset ssh" >
-          </td>
+    <p>Pi patch cable color: {{ pi.location }} {{ pi.cable_color }}</p>
 
-          <td>
-        <input id="reconnect{{pi.port}}" type="submit" value="reconnect WS" >
-	      <input id="status{{pi.port}}" type="submit" value="Check PoE" >
+    <p>Use your own SSH client. User: pi, host: {{ domain_name }}, port {{ o }}22 (password is in login banner):</p>
 
-      <input id="usb_off" type="submit" value="Usb Power Off" >
-      <input id="usb_on" type="submit" value="Usb Power On" >
-          </td>
+    <div class="code-block">
+      <pre id="code-ssh">ssh -p {{ o }}22 pi@{{ domain_name }}</pre>
+      <button class="code-block__copy" onclick="copyCode('code-ssh', this)">Copy</button>
+    </div>
+  </div>
+</section>
 
-    <td>
-      Pi patch cable color: {{pi.loc}} {{pi.cable_color}} <br>
-    </td>
-	 </tr>
+<section class="section">
+  <div class="container">
+    <h2 class="section__title">Useful Links</h2>
+    <div class="links-grid">
+      <div class="links-card">
+        <h3>Tiny Tapeout</h3>
+        <ul>
+          <li><a href="https://tinytapeout.com">Tiny Tapeout</a> &mdash; get your designs manufactured on a real chip!</li>
+          <li><a href="https://tinytapeout.com/chips/tt06/tt_um_kianV_rv32ima_uLinux_SoC">910 : KianV uLinux SoC</a> &mdash; the project featured here</li>
+        </ul>
+      </div>
+      <div class="links-card">
+        <h3>Host</h3>
+        <ul>
+          <li><a href="https://pumpingstationone.org">PumpingStation One</a> &mdash; hackerspace in Chicago, IL USA</li>
+          <li><a href="https://github.com/CarlFK/pici/wiki">github.com/CarlFK/pici</a> &mdash; server setup hosting the TT06 board</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <input id="blink_leds" type="hidden" value="Blink LEDs" >
-      <input id="boot_micro_python" type="hidden" value="Load MicroPython">
-      <input id="boot_linux" type="hidden" value="Boot Linux" >
-      <input id="check_wire" type="hidden" value="Check Wire" >
+<!-- Hidden inputs for demos.js compatibility (prevents JS errors for unused button IDs) -->
+<input id="blink_leds" type="hidden" value="Blink LEDs">
+<input id="boot_micro_python" type="hidden" value="Load MicroPython">
+<input id="boot_linux" type="hidden" value="Boot Linux">
+<input id="check_wire" type="hidden" value="Check Wire">
 
-<script src="https://f4pga-examples.readthedocs.io/en/latest/_static/javascripts/f4pga.js"></script>
-<script>PiStatus("{{pi.port}}")</script>
-<script src="/demos.js"></script>
+{% endblock %}
 
-
-<h1>Useful links</h1>
-
-    <h2>Tiny Tapeout</h2>
-    <ul>
-      <li><a href="https://tinytapeout.com">Tiny Tapeout</a> is an educational project that makes it easier and cheaper than ever to get your designs manufactured on a real chip!</li>
-      <li><a href="https://tinytapeout.com/chips/tt06/tt_um_kianV_rv32ima_uLinux_SoC">910 : KianV uLinux SoC</a> The Tiny Tapeout project featured here.
-    </ul>
-
-    <h2>Host:</h2>
-    <ul>
-      <li><a href="https://pumpingstationone.org">PumpingStation One</a> Hackrspace in Chicago, IL USA</li>
-      <li><a href="https://github.com/CarlFK/pici/wiki"> github.com/CarlFK/pici</a> The server setup hosting the TT06 board</li>
-    </ul>
-
-</body>
-</html>
+{% block extra_scripts %}
+<script>
+function copyCode(id, btn) {
+  var text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+  });
+}
+</script>
+<script>PiStatus("{{ pi.port }}")</script>
+<script src="{% static 'demos.js' %}"></script>
+{% endblock %}
