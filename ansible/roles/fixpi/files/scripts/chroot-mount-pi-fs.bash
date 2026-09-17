@@ -78,8 +78,9 @@ mount --bind /etc/resolv.conf "${target}/etc/resolv.conf"
 
 mount -t tmpfs -o rw,nosuid,nodev,relatime,mode=777 tmpfs "${target}/tmp"
 
-if ${cmd}; then
-  chroot ${target} ${cmd}
+# test for a non-empty cmd, `if ${cmd}` would run cmd on the host
+if [[ -n "${cmd}" ]]; then
+  chroot "${target}" ${cmd}
   cleanup
 else
   echo chroot ${target}
