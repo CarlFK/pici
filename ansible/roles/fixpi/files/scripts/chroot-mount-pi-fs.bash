@@ -71,6 +71,12 @@ mknod "${target}/dev/full" c 1 7
 mknod "${target}/dev/random" c 1 8
 mknod "${target}/dev/urandom" c 1 9
 
+# private devpts instance so apt/dpkg can allocate pseudo-terminals, avoids:
+# Can not write log (Is /dev/pts mounted?) - posix_openpt (19: No such device)
+mkdir "${target}/dev/pts"
+mount -t devpts -o newinstance,ptmxmode=0666,mode=0620,gid=5 devpts "${target}/dev/pts"
+ln --symbolic pts/ptmx "${target}/dev/ptmx"
+
 mount -t tmpfs -o nodev,nosuid tmpfs "${target}/run"
 mkdir --parents "${target}/run/systemd/resolve/"
 touch "${target}/run/systemd/resolve/stub-resolv.conf"

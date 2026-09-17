@@ -1,0 +1,9 @@
+# Raspberry Pi OS sets MODULES=dep in initramfs.conf (pi-gen export-image).
+# dep picks modules by inspecting the running system's root block device
+# and /sys, which fails when the initramfs is built:
+#  - in a chroot on the server:
+#      mkinitramfs: MODULES dep requires mounted sysfs on /sys
+#      mkinitramfs: failed to determine device for /
+#  - on a netbooted pi, where / is NFS, not a block device.
+# conf.d is read after initramfs.conf, so this wins.
+MODULES=most
