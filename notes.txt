@@ -1,25 +1,4 @@
 
-Production.sh: ro nfs, rw tmpfs, /boot not mounted.
-etc/overlayroot.conf: overlayroot="tmpfs"
-
-Maitance: rw nfs, /boot mounted
-etc/overlayroot.conf: overlayroot=""
-
-common:
-cmdline.txt
-root=/dev/nfs nfsroot=10.21.0.1:/srv/nfs/rpi/impish/root/merged rw
-fstab
-10.21.0.1:/srv/nfs/rpi/impish/boot/merged /boot nfs defaults,noauto,rw
-
-pi@raspberrypi:~ $ time sudo apt upgrade --assume-yes
-...
-real	12m50.374s
-user	2m11.070s
-sys	1m26.465s
-
-export http_proxy=http://192.168.86.70:8000/
-export http_proxy=http://10.1.10.148:8000/
-
 To keep net boot server negk laptop on when lid closed
 /etc/systemd/logind.conf
 HandleLidSwitch=ignore
