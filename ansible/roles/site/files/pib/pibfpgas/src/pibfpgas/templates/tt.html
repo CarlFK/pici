@@ -17,8 +17,7 @@
 <body>
   <a href="/">Home</a>
 
-<div style="float: right;"> <a href="https://github.com/CarlFK/pici/blob/main/ansible/roles/site/files/pib/pibfpgas/src/pibfpgas/templates/tt.html">Edit this page</a> on GitHub.</div>
-
+<div style="float: right;"> <a href="https://github.com/CarlFK/pici/blob/main/ansible/roles/site/files/pib/pibfpgas/src/pibfpgas/templates/tt.html">Edit this page</a> on <a href="https://github.com/CarlFK/pici">GitHub</a>.</div>
 <table>
   <tr>
     <td colspan=2>
@@ -48,11 +47,11 @@
 
   <tr height="80%">
 
-    <td style="width:20%" >
+    <td style="width:12%" >
       <video
         id="video-player{{pi.port}}"
         class="video-js"
-        width=320
+        width=240
         controls
         autoplay
         muted
@@ -66,7 +65,7 @@
       </video>
     </td>
 
-    <td style="width:80%" >
+    <td style="width:88%" >
       <iframe id="wssh_if" style="width: 100%; height: 100%;" src="https://{{ domain_name }}/wssh/?hostname={{ip}}&username=pi&title=pi{{pi.port}}&password={{pw}}">
       </iframe>
     </td>
@@ -75,17 +74,17 @@
   <tr>
     <td colspan=3>
       <div>
-        <textarea id="log{{pi.port}}" cols="85" rows="4" placeholder="pi status" readonly style="width:100%;"></textarea><br>
+        <textarea id="log{{pi.port}}" cols="85" rows="6"
+          placeholder="pi status"
+          readonly style="width:100%;">
+        </textarea><br>
       </div>
-
-
     </td>
   </tr><tr>
 
     <td colspan=2>
       Use your own ssh client<br>user: pi<br> host: {{ domain_name }}<br> port {{o}}22<br>
       like this (click to copy):
-
       <div class="highlight-bash notranslate">
           <div class=highlight style="position:relative">
              <pre click-to-copy="click to copy...">ssh -p {{o}}22 pi@{{ domain_name }}</pre>
@@ -97,39 +96,39 @@
   </tr>
 </table>
 
-	  <td><h2>Page Controls:</h2></td>
-          <td>
-        Send messages to the debug window:
-        <input id="log-text{{pi.port}}" type="text" size="60" placeholder="WS test message">
-        <input id="log-submit{{pi.port}}" type="button" value="Send WS">
-        </p>
+<h2>Page Controls:</h2>
+Send messages to the debug window:
+<input id="log-text{{pi.port}}" type="text" size="60" placeholder="WS test message">
+<input id="log-submit{{pi.port}}" type="button" value="Send WS">
+</p>
 
-        <input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" >
-        <input id="wssh-connect" type="submit" value="reset ssh" >
-          </td>
+<input id="refresh-video-player{{pi.port}}" type="submit" value="reset video player" >
+<input id="wssh-connect" type="submit" value="reset ssh" >
+  </td>
 
-          <td>
-        <input id="reconnect{{pi.port}}" type="submit" value="reconnect WS" >
-	      <input id="status{{pi.port}}" type="submit" value="Check PoE" >
+  <td>
+<input id="reconnect{{pi.port}}" type="submit" value="reconnect WS" >
+<input id="status{{pi.port}}" type="submit" value="Check PoE" >
 
-      <input id="usb_off" type="submit" value="Usb Power Off" >
-      <input id="usb_on" type="submit" value="Usb Power On" >
-          </td>
+<input id="usb_off" type="submit" value="Usb Power Off" >
+<input id="usb_on" type="submit" value="Usb Power On" >
+  </td>
 
-    <td>
-      Pi patch cable color: {{pi.loc}} {{pi.cable_color}} <br>
-    </td>
-	 </tr>
+<td><h2>Term tips: </h2></td>
+<ul>
+  <li> Demo Button: Linux on KianV RISC-V - sends "mpremote" keystrokes to wssh </li>
+  <li> tmux: ^ad - Disconnect (drops ssh connection)</li>
+  <li> ^c^c - KeyboardInterrupt little_term.py drops to MicroPython REPL </li>
+  <li> MicroPython ^D - Resets TinyTapeout board. </li>
+  <li> mpremote: ^x - exit (drops to bash shell on Pi)
+  <li> tio: ^tq - quit (drops to bash shell on Pi)
+</ul>
 
-      <input id="blink_leds" type="hidden" value="Blink LEDs" >
-      <input id="boot_micro_python" type="hidden" value="Load MicroPython">
-      <input id="boot_linux" type="hidden" value="Boot Linux" >
-      <input id="check_wire" type="hidden" value="Check Wire" >
+Pi patch cable color: {{pi.loc}} {{pi.cable_color}} <br>
 
 <script src="https://f4pga-examples.readthedocs.io/en/latest/_static/javascripts/f4pga.js"></script>
 <script>PiStatus("{{pi.port}}")</script>
 <script src="/demos.js"></script>
-
 
 <h1>Useful links</h1>
 
