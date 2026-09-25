@@ -1,0 +1,15 @@
+---
+usb_hubs:
+
+  - name: hub1-1
+    description: "Microchip Technology, Inc. (formerly SMSC) SMC9514 Hub"
+    subsystem: "usb"
+    idVendor: "0424"
+    idProduct: "9514"
+
+  - name: hub1
+    description: "Linux Foundation 2.0 root hub"
+    subsystem: "usb"
+    idVendor: "1d6b"
+    idProduct: "0002
+

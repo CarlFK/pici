@@ -25,7 +25,6 @@
   tags:
     - le
 
-
 - name: create certificate
   command: "certbot --nginx -d {{ domain_name }} --email {{ letsencrypt_account_email }} --agree-tos --non-interactive"
   when: not privkey_path.stat.exists and not fullchain_path.stat.exists

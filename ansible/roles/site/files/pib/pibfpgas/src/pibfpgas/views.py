@@ -24,7 +24,7 @@ def home(request):
                 })
 
 
-def one(request, pino, template='fpga.html'):
+def one(request, pino, template):
 
     # pino: Pi Number (the port on the network switch the Pi is plugged into.)
     # template: the template to render (used to hack in the tt board page.)
@@ -48,6 +48,9 @@ def one(request, pino, template='fpga.html'):
                 })
 
 
-def tt(request):
-    return one(request, 21, 'tt.html')
+def arty(request, pino):
+    return one(request, pino, 'fpga.html')
+
+def tt(request, ttno):
+    return one(request, ttno, 'tt.html')
 

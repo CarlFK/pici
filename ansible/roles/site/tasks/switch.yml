@@ -1,0 +1,9 @@
+---
+- name: nginx/switch.conf
+  template:
+    src: templates/switch.conf.j2
+    dest: "/etc/nginx/includes/{{ conference_name }}-switch.conf"
+  notify: reload nginx
+  tags:
+    - switch
+

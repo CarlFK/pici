@@ -5,28 +5,30 @@
     name:
     - gunicorn
     virtualenv: "{{ django_dir }}/venv"
-
-- name: copy gunicorn socket file to /etc/systemd/system/gunicorn.socket
-  template:
-    src: templates/gunicorn.socket.j2
-    dest: /etc/systemd/system/gunicorn.socket
-
-- name: copy gunicorn systemd file to /etc/systemd/system/gunicorn.service
-  template:
-    src: templates/gunicorn.service.j2
-    dest: /etc/systemd/system/gunicorn.service
   tags:
-    - django
+    - pibsite
+
+- name: copy gunicorn socket/service files to /etc/systemd/system/
+  template:
+    src: "templates/gunicorn.{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ django_project_name }}-gunicorn.{{ item }}"
+  with_items:
+    - socket
+    - service
+  tags:
+    - pibsite
 
 - name: Enable services
   systemd:
-    service: "{{ item }}"
+    service: "{{ django_project_name }}-gunicorn.{{ item }}"
     daemon_reload: yes
     enabled: yes
     state: started
   with_items:
-    - gunicorn.socket
-    - gunicorn.service
+    - socket
+    - service
+  tags:
+    - pibsite
 
 # Ensure gunicorn socket and system service is running
 # Not sure what needs to be started.  start both above fine?
@@ -35,5 +37,7 @@
     daemon_reload: yes
 - name: Start/Make sure the gunicorn.socket systemd service is running
   systemd:
-    name: gunicorn.socket
+    name: "{{ django_project_name }}-gunicorn.socket"
     state: started
+  tags:
+    - pibsite

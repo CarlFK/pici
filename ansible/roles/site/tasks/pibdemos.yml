@@ -6,10 +6,13 @@
     state: forcereinstall
   tags:
     - pibdemos
+    - pibsite
+
 
 - name: Install nginx conf
-  ansible.builtin.copy:
-    src: files/pib/pibdemos/nginx/pibdemos.conf
+  ansible.builtin.template:
+    src: files/pib/pibdemos/nginx/pibdemos.conf.j2
     dest: "/etc/nginx/includes/{{ conference_name }}-pibdemos.conf"
   tags:
     - pibdemos
+    - pibsite

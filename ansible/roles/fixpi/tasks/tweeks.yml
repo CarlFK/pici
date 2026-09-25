@@ -59,10 +59,11 @@
 
 - name: add time to bash prompt
   lineinfile:
-    dest: "{{ nfs_root }}/root/home/pi/.bashrc"
-    insertafter: '^unset color_prompt force_color_prompt'
+    # dest: "{{ nfs_root }}/root/home/pi/.bashrc"
+    # insertafter: '^unset color_prompt force_color_prompt'
+    dest: "{{ nfs_root }}/root/etc/profile"
     line: '{% raw %}PS1="\D{%T} $PS1"{% endraw %}'
-  when: true
+  when: true # home/pi/.bashrc might not exist yet
   tags:
   - bashrc
   - fixpi

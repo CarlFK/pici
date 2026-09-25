@@ -4,6 +4,7 @@
     name:
     - redis
   tags:
+    - pibsite
     - pistat
 
 - name: PIP install pistat site app
@@ -13,6 +14,7 @@
     state: forcereinstall
   tags:
     - pistat
+    - pibsite
 
 - name: status chat js
   copy:
@@ -21,13 +23,15 @@
   tags:
     - pistat
     - index.html
+    - pibsite
 
 - name: Install nginx pistat conf
-  ansible.builtin.copy:
-    src: files/pib/pistat/nginx/pistat.conf
+  ansible.builtin.template:
+    src: files/pib/pistat/nginx/pistat.conf.j2
     dest: "/etc/nginx/includes/{{ conference_name }}-pistat.conf"
   tags:
     - pistat
+    - pibsite
 
 - name: copy scripts into usr/local/bin
   copy:
@@ -39,6 +43,7 @@
     - send_stat.py
   tags:
     - pistat
+    - pibsite
 
 - name: copy conf into /etc/dnsmasq.d
   copy:
@@ -48,3 +53,4 @@
   notify: restart dnsmasq
   tags:
     - pistat
+    - pibsite

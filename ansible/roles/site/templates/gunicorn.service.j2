@@ -1,6 +1,6 @@
 [Unit]
 Description=gunicorn daemon
-Requires=gunicorn.socket
+Requires={{ django_project_name }}-gunicorn.socket
 After=network.target
 
 [Service]
@@ -11,7 +11,7 @@ WorkingDirectory={{ django_dir }}
 ExecStart={{ django_dir }}/venv/bin/gunicorn \
           --access-logfile - \
           --workers 3 \
-          --bind unix:/run/gunicorn.sock \
+          --bind unix:/run/{{ django_project_name }}-gunicorn.sock \
           {{ django_project_name }}.asgi:application \
           -k uvicorn.workers.UvicornWorker
 

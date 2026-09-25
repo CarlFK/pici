@@ -1,5 +1,4 @@
 ---
-
 - name: apt update/upgrade
   apt:
     # name: "*"
@@ -56,6 +55,7 @@
       - libfreetype6-dev
       - libjpeg-dev
       - build-essential
+      - lm-sensors
     install_recommends: yes
   tags:
     - img
@@ -70,7 +70,19 @@
   apt:
     autoremove: yes
 
-- name: set shell to zsh
+- name: install some python things
   command: "pipx install mpremote uv"
   tags:
   - mp
+
+- name: add above python things to path
+  lineinfile:
+    path: /home/pi/.bashrc"
+#    path: {{ nfs_root }}/root/home/pi/.bashrc"
+# root/etc/bash.bashrc
+    line: "export PATH=/home/pi/.local/bin/:$PATH"
+  tags:
+  - bashrc
+
+
+

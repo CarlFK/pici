@@ -4,6 +4,8 @@
     src: files/rpi.conf
     dest: /etc/dnsmasq.d/
   notify: restart dnsmasq
+  tags:
+    - dnsmasq
 
 - name: create dnsmasq.d pib.conf
   template:
@@ -11,6 +13,7 @@
     dest: /etc/dnsmasq.d/pibs.conf
   notify: restart dnsmasq
   tags:
+    - dnsmasq
     - pibs
 
 - name: create dnsmasq.d switch.conf
@@ -18,4 +21,6 @@
     src: templates/switch.conf.j2
     dest: /etc/dnsmasq.d/switch.conf
   notify: restart dnsmasq
+  tags:
+    - dnsmasq
 

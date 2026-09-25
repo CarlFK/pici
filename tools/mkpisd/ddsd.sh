@@ -2,6 +2,8 @@
 
 # mkpi.sh - flashes and configs an SD card for pi
 
+# https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2026-06-19/2026-06-18-raspios-trixie-armhf.img.xz
+#
 img_host=http://downloads.raspberrypi.org
 
 img_path=raspios_lite_arm64/images/raspios_lite_arm64-2023-12-11

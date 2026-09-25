@@ -6,8 +6,14 @@
   with_items:
     - sites-enabled/default
     - sites-enabled/pxe
+  tags:
+    - nginx
+    - pibsite
 
 - name: Create etc/nginx/includes dir
   ansible.builtin.file:
     path: /etc/nginx/includes
     state: directory
+  tags:
+    - nginx
+    - pibsite

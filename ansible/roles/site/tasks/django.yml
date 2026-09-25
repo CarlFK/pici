@@ -19,6 +19,7 @@
     - local_settings.py
   tags:
     - django
+    - pibsite
 
 # Change allowed hosts to include the server IP address
 - name: add server IP address to allowed hosts
@@ -29,6 +30,7 @@
     line: "ALLOWED_HOSTS = ['{{ eth_uplink_static_address }}','{{ domain_name }}']"
   tags:
     - django
+    - pibsite
 
 # set CSRF_TRUSTED_ORIGINS
 - name: add server IP address to allowed hosts
@@ -38,6 +40,7 @@
     regexp: '^CSRF_TRUSTED_ORIGINS = '
     line: "CSRF_TRUSTED_ORIGINS = ['https://{{ domain_name }}']"
   tags:
+    - pibsite
     - django
 
 - name: pass the pi's user pw
@@ -48,6 +51,7 @@
     line: "PI_PW = '{{pi_pw|b64encode}}'"
   tags:
     - django
+    - pibsite
 
 - name: sites's domain name
   lineinfile:
@@ -56,6 +60,7 @@
     regexp: '^DOMAIN_NAME = '
     line: "DOMAIN_NAME = '{{ domain_name }}'"
   tags:
+    - pibsite
     - django
 
 - name: set static dir
@@ -65,6 +70,7 @@
     regexp: '^STATIC_ROOT = '
     line: "STATIC_ROOT = '{{ static_dir }}'"
   tags:
+    - pibsite
     - django
 
 - name: copy manage.py into site dir
@@ -73,6 +79,7 @@
     dest: "{{ django_dir }}"
   tags:
     - django
+    - pibsite
 
 - name: chmod u+x manage.py
   file:
@@ -80,6 +87,7 @@
     mode: 'u+x'
   tags:
     - django
+    - pibsite
 
 # Run Django collectstatic
 - name: Run manage.py collectstatic
@@ -89,6 +97,7 @@
     virtualenv: "{{ django_dir }}/venv"
   tags:
     - django
+    - pibsite
 
 # Run Django manage.py migrate
 - name: Run manage.py migrate
@@ -98,6 +107,7 @@
     virtualenv: "{{ django_dir }}/venv"
   tags:
     - django
+    - pibsite
 
 - name: copy fixtures to remote box
   copy:
@@ -106,6 +116,7 @@
   when: fixture_path is defined
   tags:
     - django
+    - pibsite
 
 - name: Load the initial_data fixture into the application
   community.general.django_manage:
@@ -116,4 +127,5 @@
   when: fixture_path is defined
   tags:
     - django
+    - pibsite
 

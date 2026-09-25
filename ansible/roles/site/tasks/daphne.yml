@@ -6,24 +6,24 @@
     - daphne
     virtualenv: "{{ django_dir }}/venv"
 
-- name: copy daphne socket file to /etc/systemd/system/daphne.socket
+- name: copy daphne socket file to /etc/systemd/system/pib-daphne.sock/serv
   template:
-    src: templates/daphne.socket.j2
-    dest: /etc/systemd/system/daphne.socket
-
-- name: copy daphne systemd file to /etc/systemd/system/daphne.service
-  template:
-    src: templates/daphne.service.j2
-    dest: /etc/systemd/system/daphne.service
+    src: "templates/daphne.{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ django_project_name }}-daphne.{{ item }}"
+  with_items:
+    - socket
+    - service
   tags:
-    - django
+    - pibsite
 
 - name: Enable services
   systemd:
-    service: "{{ item }}"
+    service: "{{ django_project_name }}-daphne.{{ item }}"
     daemon_reload: yes
     enabled: yes
     state: started
   with_items:
-    - daphne.socket
-    - daphne.service
+    - socket
+    - service
+  tags:
+    - pibsite

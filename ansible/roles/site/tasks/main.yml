@@ -1,21 +1,21 @@
 ---
 - {include_tasks: apt.yml, tags: django}
 
-- {include_tasks: nginx.yml, tags: le}
+- {include_tasks: nginx.yml, tags: [nginx, pibsite] }
 - {include_tasks: certbot.yml, tags: le}
-- {include_tasks: index.yml, tags: index.html}
-- {include_tasks: js_player.yml, tags: django}
+- {include_tasks: index.yml, tags: [index.html, pibsite]}
+- {include_tasks: js_player.yml, tags: [django, pibsite]}
 
-- {include_tasks: snmp.yml, tags: [snmp, django, manage] }
-- {include_tasks: pistat.yml, tags: [pistat, django, index.html] }
-- {include_tasks: pibdemos.yml, tags: [pibdemos, django, index.html] }
-- {include_tasks: pibup.yml, tags: [pibup, django, index.html] }
-- {include_tasks: pibfpgas.yml, tags: [pifpgas, django, demos] }
+- {include_tasks: snmp.yml, tags: [snmp, django, manage, dist, pibsite] }
+- {include_tasks: pistat.yml, tags: [pistat, django, index.html, pibsite] }
+- {include_tasks: pibdemos.yml, tags: [pibdemos, django, index.html, pibsite] }
+- {include_tasks: pibup.yml, tags: [pibup, django, index.html, pibsite] }
+- {include_tasks: pibfpgas.yml, tags: [pifpgas, django, demos, pibsite] }
 
 - {include_tasks: django.yml, tags: [snmp, django] }
 
-- {include_tasks: gunicorn.yml, tags: django}
-- {include_tasks: uvicorn.yml, tags: django}
-- {include_tasks: daphne.yml, tags: django}
+- {include_tasks: gunicorn.yml, tags: [django, pibsite]}
+- {include_tasks: uvicorn.yml, tags: [django, pibsite]}
+- {include_tasks: daphne.yml, tags: [django, pibsite]}
 
-- {include_tasks: switch.yml, tags: [switch,] }
+- {include_tasks: switch.yml, tags: [switch, pibsite] }

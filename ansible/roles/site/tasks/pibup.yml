@@ -7,13 +7,13 @@
   tags:
     - pibup
     - django
+    - pibsite
 
 - name: nginx/pibup.conf
-  copy:
-    src: files/pib/pibup/nginx/pibup.conf
+  ansible.builtin.template:
+    src: files/pib/pibup/nginx/pibup.conf.j2
     dest: "/etc/nginx/includes/{{ conference_name }}-pibup.conf"
   tags:
     - pibup
     - django
-
-
+    - pibsite

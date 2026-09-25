@@ -6,5 +6,5 @@
 
   location /fpgas/ {
     include proxy_params;
-    proxy_pass http://unix:/run/gunicorn.sock;
+    proxy_pass http://unix:/run/{{ django_project_name }}-gunicorn.sock;
   }

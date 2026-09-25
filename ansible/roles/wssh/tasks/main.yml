@@ -13,28 +13,19 @@
   pip:
     name:
       - webssh
-    virtualenv: "/usr/local/venv/wssh"
+    virtualenv: "/usr/local/venv/{{ project_name}}"
     # virtualenv_site_packages: True
     virtualenv_command: "python3 -m venv --system-site-packages"
 
 - name: systemd files
-  copy:
-    src: "files/etc/systemd/system/{{ item }}"
+  ansible.builtin.template:
+    src: "templates/etc/systemd/system/{{ item }}.j2"
     dest: "/etc/systemd/system/{{ item }}"
   with_items:
     - wssh.socket
+    - wssh.service
   notify:
    - reload systemd
-  tags:
-    - wssh
-
-- name: systemd files
-  template:
-    src: templates/wssh.service.j2
-    dest: /etc/systemd/system/wssh.service
-  notify:
-   - reload systemd
-   - restart wssh
   tags:
     - wssh
 
@@ -47,6 +38,8 @@
   with_items:
     - wssh.socket
     - wssh.service
+  tags:
+    - wssh
 
 - name: Create etc/nginx/includes dir
   ansible.builtin.file:
@@ -59,6 +52,7 @@
     dest: "/etc/nginx/includes/{{ conference_name }}-wssh.conf"
   tags:
     - pibsite
+    - wssh
   notify:
     - reload nginx
 

@@ -1,0 +1,6 @@
+    location /{{switch_base}}/ {
+        proxy_pass http://{{ pib_network }}.200;
+        proxy_intercept_errors on;
+        proxy_hide_header userStatus;
+        add_header userStatus "ok;" always;
+    }

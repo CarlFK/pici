@@ -1,6 +1,6 @@
 [Unit]
 Description=gunicorn daemon
-Requires=gunicorn.socket
+Requires={{ project_name }}-gunicorn.socket
 After=network.target
 
 [Service]
@@ -10,7 +10,7 @@ WorkingDirectory=/usr/local/venv/wssh/bin
 ExecStart=/usr/local/venv/wssh/bin/gunicorn \
           --access-logfile - \
           --workers 3 \
-          --bind unix:/run/gunicorn.sock \
+          --bind unix:/run/{{ project_name }}-gunicorn.sock \
           pib.wsgi:application
 
 [Install]

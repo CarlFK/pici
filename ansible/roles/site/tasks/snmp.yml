@@ -3,13 +3,14 @@
   lineinfile:
     dest: "{{ item[0] }}"
     state: present
+    create: true
     regexp: "^{{ 'export ' if 'export' in item[0] else '' }}{{ item[1].key }}="
     line: "{{ 'export ' if 'export' in item[0] else '' }}{{ item[1].key }}={{ item[1].value }}"
   loop: "{{ env_files | ansible.builtin.product(env_vars) }}"
   vars:
     env_files:
       - "/etc/environment"
-      - "/etc/environment.exports"
+      - "/etc/environment.export"
     env_vars:
       - key: SNMP_SWITCH_USERNAME
         value: "{{ switch.SNMP_SWITCH_USERNAME }}"
@@ -50,6 +51,7 @@
   tags:
     - snmp
     - manage
+    - dist
 
 
 - name: copy poe.sh and allpoe.sh into usr/local/bin
@@ -72,12 +74,12 @@
     state: forcereinstall
   tags:
     - snmp
+    - pibsite
 
 - name: nginx/snmp_switch.conf
-  copy:
-    src: files/pib/snmp_switch/nginx/snmp_switch.conf
+  ansible.builtin.template:
+    src: files/pib/snmp_switch/nginx/snmp_switch.conf.j2
     dest: "/etc/nginx/includes/{{ conference_name }}-snmp_switch.conf"
   tags:
     - snmp
-
-
+    - pibsite

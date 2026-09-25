@@ -1,6 +1,6 @@
 [Unit]
 Description=daphne daemon
-Requires=daphne.socket
+Requires={{ django_project_name }}-daphne.socket
 # Requires=redis.service
 After=network.target
 

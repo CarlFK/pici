@@ -5,14 +5,16 @@
     virtualenv: "{{ django_dir }}/venv"
     state: forcereinstall
   tags:
+    - pibsite
     - pibfpgas
     - django
 
 - name: Install nginx conf
-  ansible.builtin.copy:
-    src: files/pib/pibfpgas/nginx/pibfpgas.conf
+  ansible.builtin.template:
+    src: files/pib/pibfpgas/nginx/pibfpgas.conf.j2
     dest: "/etc/nginx/includes/{{ conference_name }}-pibfpgas.conf"
   tags:
+    - pibsite
     - pibfpgas
     - django
 

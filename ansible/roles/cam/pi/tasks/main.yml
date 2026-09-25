@@ -18,10 +18,11 @@
       - gstreamer1.0-plugins-ugly
       - gstreamer1.0-plugins-base-apps
       - gstreamer1.0-libcamera
-        # - libcamera0
       - rpicam-apps-lite
+        # - libcamera0
         # - rpicam-apps
-      - lm-sensors
+      - libcamera-tools
+      - libcamera-v4l2
 # Tenkawa: this combination seems to work   rpicam-apps  libcamera-ipa libcamera0.3 gstreamer1.0-libcamera
   tags:
     - streaming

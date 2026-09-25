@@ -6,28 +6,31 @@
     - uvicorn
     virtualenv: "{{ django_dir }}/venv"
 
-- name: copy uvicorn systemd file to /etc/systemd/system/uvicorn.service
+- name: copy uvicorn systemd file to /etc/systemd/system/pib-uvicorn.service
   template:
     src: templates/uvicorn.service.j2
-    dest: /etc/systemd/system/uvicorn.service
+    dest: "/etc/systemd/system/{{ django_project_name }}-uvicorn.service"
   tags:
     - django
+    - pibsite
 
 - name: Enable services
   systemd:
-    service: "{{ item }}"
+    service: "{{ django_project_name }}-uvicorn.{{ item }}"
     daemon_reload: yes
     enabled: yes
     state: started
   with_items:
-    - uvicorn.service
+    - service
   tags:
     - django
+    - pibsite
 
 - name: Start/Make sure uvicorn.service systemd service is running
   systemd:
     daemon_reload: yes
     state: started
-    name: uvicorn.service
+    name: "{{ django_project_name }}-uvicorn.service"
   tags:
     - django
+    - pibsite
