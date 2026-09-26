@@ -75,6 +75,9 @@ function PiStatus(PiID) {
         logSocket = socket;
 
         socket.onopen = function(e) {
+            if (socket !== logSocket) {
+                return;
+            }
             stableTimer = setTimeout(function() { retryDelay = 1000; }, 30000);
             addTextAndScrollToBottom("socket connected");
             // show PoE on/off status on page (re)load.
