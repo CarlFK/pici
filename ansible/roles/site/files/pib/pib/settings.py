@@ -139,7 +139,11 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            # socket_timeout must be None (or longer than the layer's 5 s
+            # blocking receive): redis-py >= 8 defaults it to 5 s, which
+            # kills every idle websocket consumer with "Timeout reading from
+            # 127.0.0.1:6379". See django/channels_redis#422.
+            "hosts": [{"address": "redis://127.0.0.1:6379", "socket_timeout": None}],
         },
     },
 }
