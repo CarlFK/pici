@@ -69,7 +69,9 @@ disable_overscan=1
 # Enable host mode on the 2711 built-in XHCI USB controller.
 # This line should be removed if the legacy DWC2 controller is required
 # (e.g. for USB device mode) or if USB support is not required.
-otg_mode=1
+# pici: otg_mode=1 hangs the firmware on netbooted CM4s (9 h boot).
+# USB host through the DWC2 controller instead.
+dtoverlay=dwc2,dr_mode=host
 
 [all]
 
