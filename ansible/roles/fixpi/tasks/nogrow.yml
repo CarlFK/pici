@@ -37,3 +37,25 @@
     path: "{{ nfs_root }}/root/etc/init.d/resize2fs_once"
     state: absent
 
+# The Pis boot with root on NFS (ip=dhcp) under overlayroot=tmpfs.
+# If systemd-networkd runs, it takes over the NIC that carries the NFS root:
+# systemd-network-generator turns ip=dhcp into
+# /run/systemd/network/71-default.network, and because / is an overlay (not
+# NFS) networkd's KeepConfiguration= defaults to "no", so the address the
+# kernel configured stops working ~18 s into boot.  The root fs vanishes,
+# PID 1 hangs, and the hardware watchdog resets the Pi about a minute later,
+# forever.  NetworkManager already looks after the interface, so networkd is
+# not needed.
+# mask (not disable): a first boot with no machine-id runs "preset-all", and
+# the upstream systemd preset enables networkd again.
+- name: don't let systemd-networkd take over the NFS root NIC
+  command: systemctl --root "{{ nfs_root }}/root" mask "{{ item }}"
+  with_items:
+    - "systemd-networkd.service"
+    - "systemd-networkd.socket"
+    - "systemd-network-generator.service"
+    - "systemd-networkd-wait-online.service"
+  tags:
+    - nogrow
+    - fixpi
+
