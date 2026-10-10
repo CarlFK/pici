@@ -79,6 +79,27 @@
   tags:
   - fixpi
 
+# The stock config.txt has "otg_mode=1" in its [cm4] section: USB host on the
+# 2711's built-in xHCI controller.  On our netbooted CM4s (bootloader
+# 2023-01-11) the firmware never answers the kernel's "set power state"
+# request for that controller.  Every later firmware call queues behind it
+# and boot takes about 33070 s (9.2 hours) before reaching userspace.
+# The DWC2 controller in host mode gives USB without that; the CM4s then
+# boot in seconds.
+# "replace", not "lineinfile": when the line is already gone this must do
+# nothing.  lineinfile would append the overlay at the end of the file, in
+# the [all] section, and switch every Pi to DWC2.
+- name: config.txt CM4 - USB host via dwc2, otg_mode=1 hangs the firmware
+  ansible.builtin.replace:
+    path: "{{ nfs_root }}/boot/config.txt"
+    regexp: '^otg_mode=1$'
+    replace: |-
+      # pici: otg_mode=1 hangs the firmware on netbooted CM4s (9 h boot).
+      # USB host through the DWC2 controller instead.
+      dtoverlay=dwc2,dr_mode=host
+  tags:
+  - fixpi
+
 # the rest of these tasks config the server to monitor client boot spew
 
 - name: is server pi
