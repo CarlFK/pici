@@ -50,6 +50,23 @@
   tags:
   - fixpi
 
+# #66's KeepConfiguration=yes drop-in is replaced by systemd/system/systemd-networkd.service.d/netdev-root.conf,
+# which marks the root mount _netdev (systemd/systemd#44156). The copy above never deletes, so remove it from
+# images built before. The directory goes only if nothing else is in it.
+- name: remove the KeepConfiguration drop-in that netdev-root.conf replaces
+  file:
+    path: "{{ nfs_root }}/root/etc/systemd/network/71-default.network.d/keep.conf"
+    state: absent
+  tags:
+  - fixpi
+
+- name: remove its directory if it is now empty
+  command: rmdir --ignore-fail-on-non-empty "{{ nfs_root }}/root/etc/systemd/network/71-default.network.d"
+  args:
+    removes: "{{ nfs_root }}/root/etc/systemd/network/71-default.network.d"
+  tags:
+  - fixpi
+
 - name: resolve.conf
   template:
     src: templates/resolve.conf.j2
