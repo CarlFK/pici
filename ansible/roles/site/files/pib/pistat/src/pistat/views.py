@@ -2,11 +2,12 @@
 
 import json
 import os
+import re
 import subprocess
 from pprint import pprint
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -66,8 +67,15 @@ def status(request, pi_name, status):
 @csrf_exempt
 def ping(request, pi_name):
 
-    # pi_name should be "pi{pi_no}"
-    pi_oct = 100 + int(pi_name[2:])
+    # pi_name must be "pi" followed by 1-3 digits, e.g. "pi12"
+    if not re.fullmatch(r"pi\d{1,3}", pi_name):
+        return HttpResponseBadRequest("invalid pi_name")
+
+    pi_no = int(pi_name[2:])
+    if not (0 <= pi_no <= 155):
+        return HttpResponseBadRequest("invalid pi_name")
+
+    pi_oct = 100 + pi_no
     pi_ip = f"10.21.0.{pi_oct}"
 
     cmd = ["ping",
