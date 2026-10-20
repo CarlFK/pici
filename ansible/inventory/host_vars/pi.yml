@@ -11,5 +11,5 @@ usb_hubs:
     description: "Linux Foundation 2.0 root hub"
     subsystem: "usb"
     idVendor: "1d6b"
-    idProduct: "0002
+    idProduct: "0002"
 
