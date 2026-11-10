@@ -56,6 +56,7 @@
       - libjpeg-dev
       - build-essential
       - lm-sensors
+      - micropython-mpremote
     install_recommends: yes
   tags:
     - img
@@ -77,7 +78,9 @@
 
 - name: add above python things to path
   lineinfile:
-    path: /home/pi/.bashrc"
+    path: "/etc/profile.d/home_path"
+    create: true
+    # path: /home/pi/.bashrc"
 #    path: {{ nfs_root }}/root/home/pi/.bashrc"
 # root/etc/bash.bashrc
     line: "export PATH=/home/pi/.local/bin/:$PATH"

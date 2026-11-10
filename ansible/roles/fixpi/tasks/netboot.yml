@@ -53,10 +53,38 @@
   with_items:
     - "apt -y update"
     - "apt -y upgrade"
-    - "apt install -y nfs-common"
+    - "apt install -y nfs-common systemd-journal-remote"
   tags:
     - netboot
     - qemu
 
+- name: create systemd-journal-remote drop-in dir
+  file:
+    path: "{{ nfs_root }}/etc/systemd/journal-upload.conf.d"
+    state: directory
 
+
+- name: send pi logs to server
+  ansible.builtin.lineinfile:
+    # path: "{{ nfs_root }}/etc/systemd/journal-upload.conf.d/server.conf"
+    path: "{{ nfs_root }}/etc/systemd/journal-upload.conf"
+    state: present
+    create: yes
+    insertafter: "[Upload]"
+    line: URL=http://10.21.0.1:19532
+
+- name: systemd-journal-remote server
+  ansible.builtin.apt:
+    name:
+    - systemd-journal-remote
+
+- name: No password for sudo group
+  ansible.builtin.lineinfile:
+    path: "{{ nfs_root }}/etc/sudoers.d/nopass.conf"
+    state: present
+    create: yes
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: /usr/sbin/visudo -cf %s
+  tags:
+    - sudoers
 
