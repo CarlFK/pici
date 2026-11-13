@@ -1,0 +1,6 @@
+[Match]
+Name=eth1 eth-fpga
+
+[Network]
+Address=192.168.100.100/24
+
